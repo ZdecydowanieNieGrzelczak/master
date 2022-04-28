@@ -1,0 +1,3 @@
+D:/Users/48534/maciek/inf/master/cmake-build-debug/CMakeFiles/master.dir
+D:/Users/48534/maciek/inf/master/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Users/48534/maciek/inf/master/cmake-build-debug/CMakeFiles/rebuild_cache.dir

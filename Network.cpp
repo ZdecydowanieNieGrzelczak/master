@@ -10,8 +10,16 @@ Network::Network(int inputCount, int outputCount) {
 
     for (int x = 0; x < inputCount; ++x) {
         for (int y = 0; y < outputCount; ++y) {
-            this->connections.emplace_back(&this->inputs[x], &this->outputs[y]);
+
+            auto connection = new Connection(this->inputs[x], this->outputs[y]);
+            this->connections.push_back(connection);
+            this->inputs[x]->addOutgoing(connection);
+            this->outputs[y]->addIncoming(connection);
         }
     }
 
+}
+
+std::vector<float> Network::passThroughNetwork(const std::vector<float> &state) {
+    return std::vector<float>();
 }

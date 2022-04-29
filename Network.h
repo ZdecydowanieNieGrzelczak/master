@@ -2,14 +2,15 @@
 #define MASTER_NETWORK_H
 
 #include <vector>
-#include "Neuron.h"
+
 #include "Connection.h"
+#include "Neuron.h"
 
 class Network {
 public:
     Network(int inputCount, int outputCount);
 
-
+    std::vector<float> passThroughNetwork(const std::vector<float>& state);
 private:
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;

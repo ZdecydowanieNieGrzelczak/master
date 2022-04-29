@@ -3,7 +3,7 @@
 
 
 Neuron::Neuron() {
-    this->bias += (rand() - 0.5f) * 2;
+    this->bias += ((rand() % 100) / 100.f - 0.5f) * 2;
 }
 
 
@@ -16,7 +16,7 @@ void Neuron::addIncoming(Connection *conn) {
 }
 
 void Neuron::mutate() {
-    this->bias += (rand() - 0.5f) / 10;
+    this->bias += ((rand() % 100) / 100.f - 0.5f) * NEURON_MUTATION_FACTOR;
 }
 
 void Neuron::passValue() {

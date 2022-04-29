@@ -1,11 +1,14 @@
 #ifndef MASTER_NEURON_H
 #define MASTER_NEURON_H
 
-#pragma once
-
 #include <vector>
+
+
+#pragma once
 #include "Connection.fwd.h"
 #include "Neuron.fwd.h"
+
+#define NEURON_MUTATION_FACTOR 0.2f
 
 class Neuron {
 

@@ -20,6 +20,6 @@ Network::Network(int inputCount, int outputCount) {
 
 }
 
-std::vector<float> Network::passThroughNetwork(const std::vector<float> &state) {
-    return std::vector<float>();
+int Network::passThroughNetwork(const std::vector<float> &state) {
+    return 0;
 }

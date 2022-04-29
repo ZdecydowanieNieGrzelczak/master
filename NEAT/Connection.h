@@ -5,12 +5,15 @@
 #include "Neuron.fwd.h"
 #include "Connection.fwd.h"
 
+#define CONN_MUTATION_FACTOR
 
 class Connection {
 public:
     Connection(Neuron* source, Neuron* destination);
 
     void passValue(float val);
+
+    void mutate();
 
 private:
     Neuron* source;

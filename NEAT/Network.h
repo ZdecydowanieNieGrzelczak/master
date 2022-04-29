@@ -10,13 +10,14 @@ class Network {
 public:
     Network(int inputCount, int outputCount);
 
-    std::vector<float> passThroughNetwork(const std::vector<float>& state);
+    int passThroughNetwork(const std::vector<float>& state);
 private:
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;
     std::vector<Neuron*> outputs;
 
     std::vector<Connection*> connections;
+
 };
 
 #endif //MASTER_NETWORK_H

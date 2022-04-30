@@ -3,3 +3,7 @@ cmake-build-debug/
 .idea/
 
 packages/
+
+cmake_install.cmake
+CMakeFiles
+

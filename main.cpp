@@ -4,7 +4,7 @@
 #include "games/tictactoe/TicTacToe.h"
 
 // How many children we will have
-#define POPULATION_COUNT 5000
+#define POPULATION_COUNT 20
 
 #define GENERATION_COUNT 1000
 #define TEST_BATTLES_COUNT 10000

@@ -30,28 +30,7 @@ Network::Network(int inputCount, int outputCount) {
 Network::Network(const Network &other) {
     std::unordered_set<int> createdNeurons;
     for(auto conn : other.connections) {
-        auto id = conn->source->getId();
-        if (!createdNeurons.contains(id)) {
-            createdNeurons.insert(id);
-            auto originalNeuron = conn->source;
-            auto neuron = new Neuron(*originalNeuron);
-            neuronMap[neuron->getId()] = neuron;
-            switch(neuron->getLayer()) {
-                case Layer::Hidden:
-                    hidden.push_back(neuron);
-                    std::cout << "Hidden! " << std::endl;
-                    break;
-                case Layer::Input:
-                    inputs.push_back(neuron);
-                    break;
-                case Layer::Output:
-                    outputs.push_back(neuron);
-                    break;
-                default:
-                    std::cout << "This is fuckeeed" << std::endl;
-            }
-            neuron->addOutgoing(conn);
-        }
+        getOrCreateNeuron( *conn->source, createdNeurons);
         id = conn->destination->getId();
         if (!createdNeurons.contains(id)) {
             createdNeurons.insert(id);
@@ -84,7 +63,6 @@ Network::Network(const Network &other) {
 //    std::cout << "Size of outputs: " << outputs.size() << std::endl;
 //    std::cout << "Size of connections: " << connections.size() << std::endl;
 //    std::cout << "______________________" << std::endl;
-////
 //    std::cout << "Other network!" << std::endl;
 //    std::cout << "Size of inputs: " << other.inputs.size() << std::endl;
 //    std::cout << "Size of outputs: " << other.outputs.size() << std::endl;
@@ -159,6 +137,34 @@ void Network::mutate() {
     for (auto conn : connections) {
         if (rand() % 100 / 100 > CONNECTION_MUTATION_RATE) {
             conn->mutate();
+        }
+    }
+}
+
+void Network::createIfNeeded(const Neuron& originalNeuron, std::unordered_set<int> &createdNeurons, const Connection& conn) {
+    auto id = originalNeuron.getId();
+    if (!createdNeurons.contains(id)) {
+        createdNeurons.insert(id);
+        neuron = new Neuron(originalNeuron);
+        neuronMap[neuron->getId()] = neuron;
+        switch(neuron->getLayer()) {
+            case Layer::Hidden:
+                hidden.push_back(neuron);
+                std::cout << "Hidden! " << std::endl;
+                break;
+            case Layer::Input:
+                inputs.push_back(neuron);
+                break;
+            case Layer::Output:
+                outputs.push_back(neuron);
+                break;
+            default:
+                std::cout << "This is fuckeeed" << std::endl;
+        }
+        if (outgoing) {
+            neuron->addOutgoing(conn);
+        } else {
+            neuron->addIcoming(conn);
         }
     }
 }

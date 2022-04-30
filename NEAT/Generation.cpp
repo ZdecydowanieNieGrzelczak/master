@@ -96,9 +96,9 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         newMembers.push_back(newMember);
     }
 
-//    for (auto member : members) {
-//        delete member;
-//    }
+    for (auto member : members) {
+        delete member;
+    }
 
     std::cout << "Created generation: " << generationCounter << std::endl;
 

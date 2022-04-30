@@ -1,4 +1,4 @@
-#include <cassert>
+
 #include "Network.h"
 
 
@@ -66,10 +66,13 @@ Network::Network(const Network &other) {
         auto connection = new Connection(neuronMap[conn->source->getId()], neuronMap[conn->source->getId()], conn->getWeight());
         this->connections.push_back(connection);
     }
+
+    std::cout
 }
 
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
+    std::cout << inputs.size() << std::endl;
     assert(state.size() == inputs.size());
 
     for (int x = 0; x < state.size(); ++x) {
@@ -110,6 +113,7 @@ Network::~Network() {
 }
 
 void Network::mutate() {
+    std::cout << "mutating" << std::endl;
     for (auto neuron : inputs) {
         if (rand() % 100 / 100 > NEURON_MUTATION_RATE) {
             neuron->mutate();

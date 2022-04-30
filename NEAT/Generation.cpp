@@ -11,6 +11,8 @@ Generation::Generation(int generationCount, Game* game): game{game} {
 }
 
 Network Generation::iterateFor(int iterationCount) {
+    std::cout << "Beginning iteration!" << std::endl;
+
     for(int i = 0; i < iterationCount; ++i) {
         runThroughGeneration();
     }
@@ -19,8 +21,8 @@ Network Generation::iterateFor(int iterationCount) {
 
 void Generation::runThroughGeneration() {
     const auto initialVector = game->getInitialState();
-    float bestScore{0};
-    int bestIndex{-1};
+    float bestScore{GAMES_PER_ITER * LOSE - 10  };
+    int bestIndex;
 
     for(int x = 0; x < members.size(); ++x) {
         auto member = members[x];
@@ -53,15 +55,14 @@ void Generation::runThroughGeneration() {
             bestIndex = x;
         }
         std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
-        members = createNewGeneration();
+        members = createNewGeneration(bestIndex);
     }
 
 }
 
-std::vector<Network *> Generation::createNewGeneration() {
+std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     auto newMembers = std::vector<Network*>();
-    auto index = std::distance(memberScores.begin(), std::max_element(memberScores.begin(), memberScores.end()));
-    auto bestNetwork = members[index];
+    auto bestNetwork = members[bestIndex];
     newMembers.push_back(bestNetwork);
 
     for (int i = 1; i < members.size(); ++i) {
@@ -72,6 +73,9 @@ std::vector<Network *> Generation::createNewGeneration() {
         int index = first * (memberScores[first] > memberScores[second]) + second * (memberScores[first] <= memberScores[second]);
 
         auto newMember = new Network(*members[index]);
+        if (rand() % 100 / 100 > NETWORK_MUTATION_CHANCE) {
+            newMember->mutate();
+        }
         newMembers.push_back(newMember);
     }
 

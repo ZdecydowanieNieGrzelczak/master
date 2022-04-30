@@ -17,9 +17,9 @@ public:
 
     virtual std::vector<float> getState() = 0;
 
-    int getStateSize() const { return stateSize; }
+    virtual int getStateSize() const = 0;
 
-    int getActionSize() const { return actionSize; }
+    virtual int getActionSize() const = 0;
 
     virtual std::vector<float> getInitialState() = 0;
 

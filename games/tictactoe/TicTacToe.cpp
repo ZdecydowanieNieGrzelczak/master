@@ -1,11 +1,12 @@
 #include <stdexcept>
 #include <cassert>
+#include <iostream>
 #include "TicTacToe.h"
 
 GameEval TicTacToe::moveWhite(short actionCode) {
     assert(isWhiteMoving);
-    assert((whiteState & actionCode) != whiteState);
-    whiteState = whiteState & actionCode;
+    assert((whiteState | actionCode) != whiteState);
+    whiteState = whiteState | actionCode;
     for(const short winCombination : winCombinations) {
         if ((whiteState & winCombination) == winCombination) {
             return std::pair<bool, Result>{true, isPlayerWhite ? Result::PlayerWin : Result::PlayerLost};
@@ -22,8 +23,8 @@ GameEval TicTacToe::moveWhite(short actionCode) {
 
 GameEval TicTacToe::moveBlack(short actionCode) {
     assert(!isWhiteMoving);
-    assert((blackState & actionCode) != blackState);
-    blackState = blackState & actionCode;
+    assert((blackState | actionCode) != blackState);
+    blackState = blackState | actionCode;
     for(const short winCombination : winCombinations) {
         if ((blackState & winCombination) == winCombination) {
             return std::pair<bool, Result>{true, !isPlayerWhite ? Result::PlayerWin : Result::PlayerLost};

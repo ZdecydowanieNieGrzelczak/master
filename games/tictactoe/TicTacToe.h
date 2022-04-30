@@ -6,6 +6,9 @@
 #include "../Game.h"
 
 
+#define TIC_TAC_TOE_ACTION_SIZE 9
+#define TIC_TAC_TOE_STATE_SIZE 18
+
 class TicTacToe : public Game {
 public:
     GameEval moveWhite(short actionCode);
@@ -16,6 +19,10 @@ public:
 
     std::vector<float> getInitialState() override;
     virtual std::vector<float> getState();
+
+    [[nodiscard]] int getStateSize() const override { return TIC_TAC_TOE_STATE_SIZE; }
+
+    [[nodiscard]] int getActionSize() const override { return TIC_TAC_TOE_ACTION_SIZE; };
 
 private:
     short counter{0};
@@ -35,7 +42,7 @@ private:
             0b100010001,
             0b001010100
     };
-    constexpr const static short actions[9] = {
+    constexpr const static short actions[TIC_TAC_TOE_ACTION_SIZE] = {
             0b000000001,
             0b000000010,
             0b000000100,

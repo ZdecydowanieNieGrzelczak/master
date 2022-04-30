@@ -5,6 +5,7 @@
 #include "../games/Game.h"
 
 #define GAMES_PER_ITER 10
+#define NETWORK_MUTATION_CHANCE 0.02
 
 #define WIN 1.0
 #define DRAW 0.0
@@ -20,7 +21,7 @@ public:
 private:
 
     void runThroughGeneration();
-    std::vector<Network*> createNewGeneration();
+    std::vector<Network*> createNewGeneration(int bestIndex);
 
     std::vector<Network*> members;
     std::vector<float> memberScores;

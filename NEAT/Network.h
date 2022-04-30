@@ -4,6 +4,8 @@
 #include <vector>
 #include <unordered_set>
 #include <map>
+#include <cassert>
+#include <iostream>
 
 
 #include "Connection.h"
@@ -24,6 +26,9 @@ public:
     ~Network();
 
     int passThroughNetwork(const std::vector<float>& state);
+
+    void mutate();
+
 private:
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;
@@ -33,7 +38,6 @@ private:
 
     std::vector<Connection*> connections;
 
-    void mutate();
 
 };
 

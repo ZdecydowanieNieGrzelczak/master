@@ -2,13 +2,14 @@
 #define MASTER_NEURON_H
 
 #include <vector>
+#include <ostream>
 
 
 #pragma once
 #include "Connection.fwd.h"
 #include "Neuron.fwd.h"
 
-#define NEURON_MUTATION_FACTOR 0.2f
+#define NEURON_MUTATION_FACTOR 0.02f
 
 enum Layer {
     Input,
@@ -35,6 +36,9 @@ public:
     Layer getLayer();
 
     float getFinalValue();
+
+    friend std::ostream& operator<<(std::ostream& os, const Neuron& conn);
+
 
 private:
     std::vector<Connection*> incoming;

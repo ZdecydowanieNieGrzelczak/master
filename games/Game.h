@@ -11,7 +11,7 @@ enum Result {
     InvalidMove
 };
 
-typedef std::pair<bool, Result> GameEval;
+typedef std::pair<bool, float> GameEval;
 
 class Game {
 public:

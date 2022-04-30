@@ -91,6 +91,12 @@ build CMakeFiles/master.dir/utils/JsonHelper.cpp.obj: CXX_COMPILER__master_Relea
   OBJECT_DIR = CMakeFiles\master.dir
   OBJECT_FILE_DIR = CMakeFiles\master.dir\utils
 
+build CMakeFiles/master.dir/utils/HelperMethods.cpp.obj: CXX_COMPILER__master_Release D$:/Users/48534/maciek/inf/master/utils/HelperMethods.cpp || cmake_object_order_depends_target_master
+  DEP_FILE = CMakeFiles\master.dir\utils\HelperMethods.cpp.obj.d
+  FLAGS = -O3 -DNDEBUG -std=gnu++20
+  OBJECT_DIR = CMakeFiles\master.dir
+  OBJECT_FILE_DIR = CMakeFiles\master.dir\utils
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target master
@@ -99,7 +105,7 @@ build CMakeFiles/master.dir/utils/JsonHelper.cpp.obj: CXX_COMPILER__master_Relea
 #############################################
 # Link the executable master.exe
 
-build master.exe: CXX_EXECUTABLE_LINKER__master_Release CMakeFiles/master.dir/main.cpp.obj CMakeFiles/master.dir/NEAT/Network.cpp.obj CMakeFiles/master.dir/NEAT/Connection.cpp.obj CMakeFiles/master.dir/NEAT/Neuron.cpp.obj CMakeFiles/master.dir/games/tictactoe/TicTacToe.cpp.obj CMakeFiles/master.dir/NEAT/Generation.cpp.obj CMakeFiles/master.dir/utils/JsonHelper.cpp.obj
+build master.exe: CXX_EXECUTABLE_LINKER__master_Release CMakeFiles/master.dir/main.cpp.obj CMakeFiles/master.dir/NEAT/Network.cpp.obj CMakeFiles/master.dir/NEAT/Connection.cpp.obj CMakeFiles/master.dir/NEAT/Neuron.cpp.obj CMakeFiles/master.dir/games/tictactoe/TicTacToe.cpp.obj CMakeFiles/master.dir/NEAT/Generation.cpp.obj CMakeFiles/master.dir/utils/JsonHelper.cpp.obj CMakeFiles/master.dir/utils/HelperMethods.cpp.obj
   FLAGS = -O3 -DNDEBUG
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\master.dir

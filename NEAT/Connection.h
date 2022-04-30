@@ -5,7 +5,11 @@
 #include "Neuron.fwd.h"
 #include "Connection.fwd.h"
 
-#define CONN_MUTATION_FACTOR 0.2
+#include <iostream>
+#include <random>
+
+
+#define CONN_MUTATION_FACTOR 0.02
 
 class Connection {
 public:
@@ -18,13 +22,16 @@ public:
     Neuron* source;
     Neuron* destination;
 
-    double getWeight();
+    [[nodiscard]] double getWeight() const;
+
+    friend std::ostream& operator<<(std::ostream& os, const Connection& conn);
 
 private:
 
     double weight;
 
 };
+
 
 
 #endif //MASTER_CONNECTION_H

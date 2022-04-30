@@ -1,5 +1,6 @@
 
 #include "Network.h"
+#include "../utils/HelperMethods.h"
 
 
 Network::Network(int inputCount, int outputCount) {
@@ -48,6 +49,10 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
+    }
+
+
+    for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->passValue();
     }
 
@@ -88,25 +93,25 @@ Network::~Network() {
 
 void Network::mutate() {
     for (auto neuron : inputs) {
-        if (rand() % 100 / 100 > NEURON_MUTATION_RATE) {
+        if (rand() % 100 <= NEURON_MUTATION_RATE * 100) {
             neuron->mutate();
         }
     }
 
     for (auto neuron : hidden) {
-        if (rand() % 100 / 100 > NEURON_MUTATION_RATE) {
+        if (rand() % 100 <= 100 * NEURON_MUTATION_RATE) {
             neuron->mutate();
         }
     }
 
     for (auto neuron : outputs) {
-        if (rand() % 100 / 100 > NEURON_MUTATION_RATE) {
+        if (rand() % 100 <= 100 * NEURON_MUTATION_RATE) {
             neuron->mutate();
         }
     }
 
     for (auto conn : connections) {
-        if (rand() % 100 / 100 > CONNECTION_MUTATION_RATE) {
+        if (rand() % 100 <= 100 * CONNECTION_MUTATION_RATE) {
             conn->mutate();
         }
     }

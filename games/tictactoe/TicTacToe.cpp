@@ -9,14 +9,14 @@ GameEval TicTacToe::moveWhite(short actionCode) {
     whiteState = whiteState | actionCode;
     for(const short winCombination : winCombinations) {
         if ((whiteState & winCombination) == winCombination) {
-            return std::pair<bool, Result>{true, isPlayerWhite ? Result::PlayerWin : Result::PlayerLost};
+            return std::pair<bool, float>{true, isPlayerWhite ? WIN : LOSE};
         }
     }
     if (++counter == 9) {
-        return std::pair<bool, Result>{true, Result::Draw};
+        return std::pair<bool, float>{true, DRAW};
     }
     isWhiteMoving = false;
-    return std::pair<bool, Result>{false, Result::Nothing};
+    return std::pair<bool, float>{false, 0};
 
 
 }
@@ -27,15 +27,15 @@ GameEval TicTacToe::moveBlack(short actionCode) {
     blackState = blackState | actionCode;
     for(const short winCombination : winCombinations) {
         if ((blackState & winCombination) == winCombination) {
-            return std::pair<bool, Result>{true, !isPlayerWhite ? Result::PlayerWin : Result::PlayerLost};
+            return std::pair<bool, float>{true, !isPlayerWhite ? WIN : LOSE};
 
         }
     }
     if (++counter == 9) {
-        return std::pair<bool, Result>{true, Result::Draw};
+        return std::pair<bool, float>{true, DRAW};
     }
     isWhiteMoving = true;
-    return std::pair<bool, Result>{false, Result::Nothing};
+    return std::pair<bool, float>{false, 0};
 }
 
 GameEval TicTacToe::reset() {
@@ -43,13 +43,13 @@ GameEval TicTacToe::reset() {
     blackState = 0;
     counter = 0;
     isWhiteMoving = true;
-    isPlayerWhite = rand() % 100 >= 50;
+    isPlayerWhite = true;
     if (!isPlayerWhite) {
         int enemyAction = rand() % 9;
         auto actionCode = actions[enemyAction];
         moveWhite(actionCode);
     }
-    return std::pair<bool, Result>{false, Result::Nothing};
+    return std::pair<bool, float>{false, 0};
 }
 
 GameEval TicTacToe::doAction(int i) {
@@ -57,7 +57,7 @@ GameEval TicTacToe::doAction(int i) {
     int nextState = currState | actions[i];
     if (currState == nextState) {
         // Do not tolerate invalid moves.
-        return std::pair<bool, Result>{true, Result::InvalidMove};
+        return std::pair<bool, float>{true, INVALID_PENALTY / (counter + 1.0)};
     }
     GameEval ret;
     if(isPlayerWhite) {

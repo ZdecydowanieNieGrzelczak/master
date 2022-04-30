@@ -9,6 +9,11 @@
 #define TIC_TAC_TOE_ACTION_SIZE 9
 #define TIC_TAC_TOE_STATE_SIZE 18
 
+#define WIN 1.0
+#define DRAW 0.0
+#define LOSE -1
+#define INVALID_PENALTY -10
+
 class TicTacToe : public Game {
 public:
     GameEval moveWhite(short actionCode);

@@ -4,13 +4,10 @@
 #include "Network.h"
 #include "../games/Game.h"
 
-#define GAMES_PER_ITER 10
-#define NETWORK_MUTATION_CHANCE 0.02
+#define GAMES_PER_ITER 100
+#define NETWORK_MUTATION_CHANCE 100
 
-#define WIN 1.0
-#define DRAW 0.0
-#define LOSE -1.5
-#define INVALID_PENALTY -5
+
 
 class Generation {
 public:

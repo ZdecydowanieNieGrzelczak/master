@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Generation.h"
-
+#include "../utils/HelperMethods.h"
+#include "../games/tictactoe/TicTacToe.h"
 
 
 Generation::Generation(int generationCount, Game* game): game{game} {
@@ -20,7 +21,6 @@ Network Generation::iterateFor(int iterationCount) {
 }
 
 void Generation::runThroughGeneration() {
-    const auto initialVector = game->getInitialState();
     float bestScore{GAMES_PER_ITER * INVALID_PENALTY - 10  };
     int bestIndex;
 
@@ -30,28 +30,13 @@ void Generation::runThroughGeneration() {
         for(int x = 0; x < GAMES_PER_ITER; ++x) {
             auto res = game->reset();
             while(!res.first) {
-                auto bestAction = member->passThroughNetwork(initialVector);
+                auto currentState = game->getState();
+                auto bestAction = member->passThroughNetwork(currentState);
                 res = game->doAction(bestAction);
             }
-
-            switch (res.second) {
-                case Result::PlayerWin:
-                    score += WIN;
-                    break;
-                case Result::PlayerLost:
-                    score += LOSE;
-                    break;
-                case Result::Draw:
-                    score += DRAW;
-                    break;
-                case Result::InvalidMove:
-                    score += INVALID_PENALTY;
-                    break;
-                case Nothing:
-                    std::cout << "Should not have happen!" << std::endl;
-                    break;
-            }
+            score += res.second;
         }
+        std::cout << std::endl;
         memberScores.push_back(score);
         if (score > bestScore) {
             bestScore = score;
@@ -90,7 +75,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         assert(index >= 0);
         assert(index < members.size());
         auto newMember = new Network(*members.at(index));
-        if (rand() % 100 / 100 > NETWORK_MUTATION_CHANCE) {
+        if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
             newMember->mutate();
         }
         newMembers.push_back(newMember);
@@ -115,20 +100,7 @@ double Generation::testFor(int iterationCount, Network network) {
             res = game->doAction(bestAction);
         }
 
-        switch (res.second) {
-            case Result::PlayerWin:
-                score += WIN;
-                break;
-            case Result::PlayerLost:
-                score += LOSE;
-                break;
-            case Result::Draw:
-                score += DRAW;
-                break;
-            case Nothing:
-                std::cout << "Should not have happen!" << std::endl;
-                break;
-        }
+        score += res.second;
     }
     return score;
 }

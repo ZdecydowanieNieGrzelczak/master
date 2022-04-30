@@ -1,9 +1,6 @@
 #include <stdexcept>
 #include <cassert>
-#include <random>
 #include "TicTacToe.h"
-
-
 
 GameEval TicTacToe::moveWhite(short actionCode) {
     assert(isWhiteMoving);
@@ -46,6 +43,11 @@ GameEval TicTacToe::reset() {
     counter = 0;
     isWhiteMoving = true;
     isPlayerWhite = rand() % 100 >= 50;
+    if (!isPlayerWhite) {
+        int enemyAction = rand() % 9;
+        auto actionCode = actions[enemyAction];
+        moveWhite(actionCode);
+    }
     return std::pair<bool, Result>{false, Result::Nothing};
 }
 
@@ -64,7 +66,7 @@ GameEval TicTacToe::doAction(int i) {
             int enemyAction;
             while(invalid) {
                 enemyAction = rand() % 9;
-                auto actionCode = actions[i];
+                auto actionCode = actions[enemyAction];
                 invalid = (actionCode & nextState) == actionCode;
             }
             ret = moveBlack(enemyAction);
@@ -77,7 +79,7 @@ GameEval TicTacToe::doAction(int i) {
             int enemyAction;
             while(invalid) {
                 enemyAction = rand() % 9;
-                auto actionCode = actions[i];
+                auto actionCode = actions[enemyAction];
                 invalid = (actionCode & nextState) == actionCode;
             }
             ret = moveWhite(enemyAction);
@@ -85,5 +87,22 @@ GameEval TicTacToe::doAction(int i) {
     }
     return ret;
 }
+
+std::vector<float> TicTacToe::getInitialState() {
+    return initialVector;
+}
+
+std::vector<float> TicTacToe::getState() {
+    std::vector<float> state;
+    for (auto action : actions) {
+        state.push_back((action & whiteState) == action);
+    }
+    for (auto action : actions) {
+        state.push_back((action & blackState) == action);
+    }
+    return state;
+}
+
+
 
 

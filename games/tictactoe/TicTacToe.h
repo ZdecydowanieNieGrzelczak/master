@@ -5,19 +5,17 @@
 #include <utility>
 #include "../Game.h"
 
-std::random_device dev;
 
-
-
-class TicTacToe : Game {
+class TicTacToe : public Game {
 public:
-    TicTacToe();
-
     GameEval moveWhite(short actionCode);
     GameEval moveBlack(short actionCode);
 
     GameEval reset() override;
     GameEval doAction(int i) override;
+
+    std::vector<float> getInitialState() override;
+    virtual std::vector<float> getState();
 
 private:
     short counter{0};
@@ -48,6 +46,8 @@ private:
             0b010000000,
             0b100000000,
     };
+    std::vector<float> initialVector =  {0, 0, 0, 0, 0, 0, 0, 0, 0,
+                0, 0, 0, 0, 0, 0, 0, 0, 0};
 };
 
 

@@ -15,4 +15,11 @@ void Connection::mutate() {
     this->weight += ((rand() % 100) / 100.f - 0.5) * CONN_MUTATION_FACTOR;
 }
 
+Connection::Connection(Neuron *source, Neuron *destination, double weight): source{source}, destination{destination}, weight{weight} {
+}
+
+double Connection::getWeight() {
+    return weight;
+}
+
 

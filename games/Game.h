@@ -15,17 +15,17 @@ typedef std::pair<bool, Result> GameEval;
 class Game {
 public:
 
-    virtual std::vector<float> getState();
+    virtual std::vector<float> getState() = 0;
 
     int getStateSize() const { return stateSize; }
 
     int getActionSize() const { return actionSize; }
 
-    virtual std::vector<float> getInitialState();
+    virtual std::vector<float> getInitialState() = 0;
 
-    virtual GameEval doAction(int i);
+    virtual GameEval doAction(int i) = 0;
 
-    virtual GameEval reset();
+    virtual GameEval reset() = 0;
 
 
 private:

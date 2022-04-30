@@ -14,9 +14,13 @@ class Generation {
 public:
     Generation(int generationCount, Game *game);
     Network iterateFor(int iterationCount);
+
+    double testFor(int iterationCount, Network network);
+
 private:
 
     void runThroughGeneration();
+    std::vector<Network*> createNewGeneration();
 
     std::vector<Network*> members;
     std::vector<float> memberScores;

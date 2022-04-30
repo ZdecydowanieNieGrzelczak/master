@@ -7,7 +7,8 @@ enum Result {
     Draw,
     PlayerWin,
     PlayerLost,
-    Nothing
+    Nothing,
+    InvalidMove
 };
 
 typedef std::pair<bool, Result> GameEval;

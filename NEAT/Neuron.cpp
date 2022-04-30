@@ -8,7 +8,7 @@ Neuron::Neuron(int id, Layer layer): id{id}, layer{layer} {
 }
 
 // Do not copy connections
-Neuron::Neuron(const Neuron &other): bias{other.bias} {
+Neuron::Neuron(const Neuron &other): bias{other.bias}, layer{other.layer}, id{other.id} {
 
 }
 

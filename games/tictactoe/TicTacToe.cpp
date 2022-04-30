@@ -53,11 +53,11 @@ GameEval TicTacToe::reset() {
 }
 
 GameEval TicTacToe::doAction(int i) {
-    int currState = whiteState & blackState;
-    int nextState = currState & actions[i];
+    int currState = whiteState | blackState;
+    int nextState = currState | actions[i];
     if (currState == nextState) {
         // Do not tolerate invalid moves.
-        return std::pair<bool, Result>{true, Result::PlayerLost};
+        return std::pair<bool, Result>{true, Result::InvalidMove};
     }
     GameEval ret;
     if(isPlayerWhite) {
@@ -68,9 +68,9 @@ GameEval TicTacToe::doAction(int i) {
             while(invalid) {
                 enemyAction = rand() % 9;
                 auto actionCode = actions[enemyAction];
-                invalid = (actionCode & nextState) == actionCode;
+                invalid = (actionCode | nextState) == nextState;
             }
-            ret = moveBlack(enemyAction);
+            ret = moveBlack(actions[enemyAction]);
         }
 
     } else {
@@ -81,9 +81,9 @@ GameEval TicTacToe::doAction(int i) {
             while(invalid) {
                 enemyAction = rand() % 9;
                 auto actionCode = actions[enemyAction];
-                invalid = (actionCode & nextState) == actionCode;
+                invalid = (actionCode | nextState) == nextState;
             }
-            ret = moveWhite(enemyAction);
+            ret = moveWhite(actions[enemyAction]);
         }
     }
     return ret;

@@ -19,7 +19,7 @@ enum Layer {
 class Neuron {
 
 public:
-    explicit Neuron(int id, Layer layer);
+    Neuron(int id, Layer layer);
     Neuron(const Neuron &other);
 
     void addOutgoing(Connection *conn);

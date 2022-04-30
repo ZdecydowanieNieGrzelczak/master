@@ -3,6 +3,7 @@
 
 
 Network::Network(int inputCount, int outputCount) {
+    int neuronCount = 0;
     for (int x = 0; x < inputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Input);
         neuronMap[neuron->getId()] = neuron;
@@ -19,7 +20,7 @@ Network::Network(int inputCount, int outputCount) {
 
             auto connection = new Connection(this->inputs[x], this->outputs[y]);
             this->connections.push_back(connection);
-            this->inputs[x]->addOutgoing(connection);
+            this->inputs.at(x)->addOutgoing(connection);
             this->outputs[y]->addIncoming(connection);
         }
     }
@@ -32,11 +33,13 @@ Network::Network(const Network &other) {
         auto id = conn->source->getId();
         if (!createdNeurons.contains(id)) {
             createdNeurons.insert(id);
-            auto neuron = new Neuron(*conn->source);
+            auto originalNeuron = conn->source;
+            auto neuron = new Neuron(*originalNeuron);
             neuronMap[neuron->getId()] = neuron;
             switch(neuron->getLayer()) {
                 case Layer::Hidden:
                     hidden.push_back(neuron);
+                    std::cout << "Hidden! " << std::endl;
                     break;
                 case Layer::Input:
                     inputs.push_back(neuron);
@@ -44,12 +47,16 @@ Network::Network(const Network &other) {
                 case Layer::Output:
                     outputs.push_back(neuron);
                     break;
+                default:
+                    std::cout << "This is fuckeeed" << std::endl;
             }
+            neuron->addOutgoing(conn);
         }
-        id = conn->source->getId();
+        id = conn->destination->getId();
         if (!createdNeurons.contains(id)) {
             createdNeurons.insert(id);
-            auto neuron = new Neuron(*conn->source);
+            auto originalNeuron = conn->destination;
+            auto neuron = new Neuron(*originalNeuron);
             neuronMap[neuron->getId()] = neuron;
             switch(neuron->getLayer()) {
                 case Layer::Hidden:
@@ -61,18 +68,32 @@ Network::Network(const Network &other) {
                 case Layer::Output:
                     outputs.push_back(neuron);
                     break;
+                default:
+                    std::cout << "This is fuckeeed" << std::endl;
             }
+            neuron->addIncoming(conn);
+
         }
-        auto connection = new Connection(neuronMap[conn->source->getId()], neuronMap[conn->source->getId()], conn->getWeight());
+        auto connection = new Connection(neuronMap[conn->source->getId()], neuronMap[conn->destination->getId()], conn->getWeight());
         this->connections.push_back(connection);
     }
 
-    std::cout
+//    std::cout << "Copying network!" << std::endl;
+//    std::cout << "set: " << createdNeurons.size() << std::endl;
+//    std::cout << "Size of inputs: " << inputs.size() << std::endl;
+//    std::cout << "Size of outputs: " << outputs.size() << std::endl;
+//    std::cout << "Size of connections: " << connections.size() << std::endl;
+//    std::cout << "______________________" << std::endl;
+////
+//    std::cout << "Other network!" << std::endl;
+//    std::cout << "Size of inputs: " << other.inputs.size() << std::endl;
+//    std::cout << "Size of outputs: " << other.outputs.size() << std::endl;
+//    std::cout << "Size of connections: " << other.connections.size() << std::endl;
+//    std::cout << "______________________" << std::endl;
 }
 
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
-    std::cout << inputs.size() << std::endl;
     assert(state.size() == inputs.size());
 
     for (int x = 0; x < state.size(); ++x) {
@@ -83,7 +104,10 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
     for (auto neuron : hidden) {
         neuron->passValue();
     }
-    double highestValue = -1000;
+
+    assert(!outputs.empty());
+
+    double highestValue = -999999999999;
     int highestIndex = -1;
     for (int x = 0; x < outputs.size(); ++x) {
         auto val = outputs.at(x)->getFinalValue();

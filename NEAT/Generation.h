@@ -10,6 +10,7 @@
 #define WIN 1.0
 #define DRAW 0.0
 #define LOSE -1.5
+#define INVALID_PENALTY -5
 
 class Generation {
 public:

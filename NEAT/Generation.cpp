@@ -21,7 +21,7 @@ Network Generation::iterateFor(int iterationCount) {
 
 void Generation::runThroughGeneration() {
     const auto initialVector = game->getInitialState();
-    float bestScore{GAMES_PER_ITER * LOSE - 10  };
+    float bestScore{GAMES_PER_ITER * INVALID_PENALTY - 10  };
     int bestIndex;
 
     for(int x = 0; x < members.size(); ++x) {
@@ -44,6 +44,9 @@ void Generation::runThroughGeneration() {
                 case Result::Draw:
                     score += DRAW;
                     break;
+                case Result::InvalidMove:
+                    score += INVALID_PENALTY;
+                    break;
                 case Nothing:
                     std::cout << "Should not have happen!" << std::endl;
                     break;
@@ -54,34 +57,50 @@ void Generation::runThroughGeneration() {
             bestScore = score;
             bestIndex = x;
         }
-        std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
-        members = createNewGeneration(bestIndex);
     }
+    std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
+    members = createNewGeneration(bestIndex);
+
 
 }
 
 std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     auto newMembers = std::vector<Network*>();
-    auto bestNetwork = members[bestIndex];
-    newMembers.push_back(bestNetwork);
+    auto bestNetwork = members.at(bestIndex);
+
+    newMembers.push_back(new Network(*bestNetwork));
+
+    std::cout << "Created best member for!: " << generationCounter << std::endl;
+
 
     for (int i = 1; i < members.size(); ++i) {
         int first = rand() % members.size();
         int second = rand() % members.size();
-        second = (second == first) * 1 + second % members.size();
+        int index;
+        assert(first >= 0);
+        assert(first < memberScores.size());
+        assert(second >= 0);
+        assert(second < memberScores.size());
+        if (memberScores.at(first) > memberScores.at(second)) {
+            index = first;
+        } else {
+            index = second;
+        }
 
-        int index = first * (memberScores[first] > memberScores[second]) + second * (memberScores[first] <= memberScores[second]);
-
-        auto newMember = new Network(*members[index]);
+        assert(index >= 0);
+        assert(index < members.size());
+        auto newMember = new Network(*members.at(index));
         if (rand() % 100 / 100 > NETWORK_MUTATION_CHANCE) {
             newMember->mutate();
         }
         newMembers.push_back(newMember);
     }
 
-    for (auto member : members) {
-        delete member;
-    }
+//    for (auto member : members) {
+//        delete member;
+//    }
+
+    std::cout << "Created generation: " << generationCounter << std::endl;
 
     return newMembers;
 }

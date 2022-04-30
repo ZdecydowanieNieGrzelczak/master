@@ -15,8 +15,6 @@
 #define NEURON_MUTATION_RATE 0.2
 
 
-static int neuronCount{0};
-
 class Network {
 public:
     Network(int inputCount, int outputCount);

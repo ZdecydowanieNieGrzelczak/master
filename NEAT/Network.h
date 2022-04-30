@@ -28,6 +28,9 @@ public:
     void mutate();
 
 private:
+    Neuron *getOrCreateNeuron(const Neuron &originalNeuron, std::unordered_set<int> &createdNeurons);
+
+
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;
     std::vector<Neuron*> outputs;
@@ -36,12 +39,6 @@ private:
 
     std::vector<Connection*> connections;
 
-
-    Neuron *getOrCreateNeuron(int id);
-
-    Neuron *getOrCreateNeuron(int id, const std::unordered_set<int>);
-
-    Neuron *getOrCreateNeuron(int id, std::unordered_set<int> &createdNeurons);
 };
 
 #endif //MASTER_NETWORK_H

@@ -6,7 +6,7 @@
 #define HIDDEN_LAYER_COUNT 4
 
 Network::Network(int inputCount, int outputCount) {
-    int neuronCount = 0;
+    int neuronCount = 1;
     for (int x = 0; x < inputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Input);
         neuronMap[neuron->getId()] = neuron;
@@ -33,10 +33,10 @@ Network::Network(int inputCount, int outputCount) {
 
 
 Network::Network(const Network &other) {
-    std::unordered_set<int> createdNeurons;
+    neuronMap.clear();
     for(auto conn : other.connections) {
-        auto inNeuron = getOrCreateNeuron(*conn->source, createdNeurons);
-        auto outNeuron = getOrCreateNeuron(*conn->destination, createdNeurons);
+        auto inNeuron = getOrCreateNeuron(*conn->source);
+        auto outNeuron = getOrCreateNeuron(*conn->destination);
         auto connection = new Connection(inNeuron, outNeuron, conn->getWeight());
 
 //        outNeuron->addIncoming(conn);
@@ -126,12 +126,11 @@ void Network::mutate() {
     }
 }
 
-Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron, std::unordered_set<int> &createdNeurons) {
+Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
     auto id = originalNeuron.getId();
-    if (!createdNeurons.contains(id)) {
-        createdNeurons.insert(id);
+    if (!neuronMap.contains(id)) {
         auto neuron = new Neuron(originalNeuron);
-        neuronMap[neuron->getId()] = neuron;
+        neuronMap[id] = neuron;
         switch (neuron->getLayer()) {
             case Layer::Hidden:
                 hidden.push_back(neuron);

@@ -28,7 +28,8 @@ public:
     void mutate();
 
 private:
-    Neuron *getOrCreateNeuron(const Neuron &originalNeuron, std::unordered_set<int> &createdNeurons);
+    Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
+    void connectLayers(std::vector<Neuron *> in, const std::vector<Neuron *>& out);
 
 
     std::vector<Neuron*> inputs;
@@ -39,7 +40,6 @@ private:
 
     std::vector<Connection*> connections;
 
-    void connectLayers(std::vector<Neuron *> in, const std::vector<Neuron *>& out);
 };
 
 #endif //MASTER_NETWORK_H

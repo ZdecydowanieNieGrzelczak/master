@@ -27,7 +27,7 @@ void Generation::runThroughGeneration() {
     for(int x = 0; x < members.size(); ++x) {
         auto member = members[x];
         float score = 0;
-        for(int x = 0; x < GAMES_PER_ITER; ++x) {
+        for(int y = 0; y < GAMES_PER_ITER; ++y) {
             auto res = game->reset();
             while(!res.first) {
                 auto currentState = game->getState();

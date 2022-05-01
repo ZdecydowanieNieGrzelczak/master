@@ -27,11 +27,15 @@ void Neuron::mutate() {
 }
 
 void Neuron::passValue() {
-    std::cout << "before passing value" << std::endl;
     for (const auto out : outgoing) {
-        out->destination->receiveValue((currentValue + bias) * out->getWeight());
+        std::cout << "Before calling connection" << std::endl;
+        out ->getWeight();
+        std::cout << "After calling connection" << std::endl;
+        auto val = (currentValue + bias) * out->getWeight();
+        std::cout << "Before calling receive in dest" << std::endl;
+        out->destination->receiveValue(val);
+        std::cout << "After calling receive in dest" << std::endl;
     }
-    std::cout << "passed valie!" << std::endl;
     currentValue = 0.0;
 }
 

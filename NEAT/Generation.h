@@ -4,7 +4,7 @@
 #include "Network.h"
 #include "../games/Game.h"
 
-#define GAMES_PER_ITER 100
+#define GAMES_PER_ITER 2
 #define NETWORK_MUTATION_CHANCE 100
 
 

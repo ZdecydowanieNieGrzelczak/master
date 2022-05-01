@@ -36,7 +36,6 @@ void Generation::runThroughGeneration() {
             }
             score += res.second;
         }
-        std::cout << std::endl;
         memberScores.push_back(score);
         if (score > bestScore) {
             bestScore = score;

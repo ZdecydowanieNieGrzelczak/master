@@ -3,6 +3,8 @@
 #include "../utils/HelperMethods.h"
 
 
+#define HIDDEN_LAYER_COUNT 4
+
 Network::Network(int inputCount, int outputCount) {
     int neuronCount = 0;
     for (int x = 0; x < inputCount; ++x) {
@@ -10,23 +12,25 @@ Network::Network(int inputCount, int outputCount) {
         neuronMap[neuron->getId()] = neuron;
         this->inputs.push_back(neuron);
     }
+
+    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
+        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
+        neuronMap[neuron->getId()] = neuron;
+        this->hidden.push_back(neuron);
+    }
+
     for (int x = 0; x < outputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Output);
         neuronMap[neuron->getId()] = neuron;
         this->outputs.push_back(neuron);
     }
 
-    for (int x = 0; x < inputCount; ++x) {
-        for (int y = 0; y < outputCount; ++y) {
-
-            auto connection = new Connection(this->inputs[x], this->outputs[y]);
-            this->connections.push_back(connection);
-            this->inputs.at(x)->addOutgoing(connection);
-            this->outputs[y]->addIncoming(connection);
-        }
-    }
+    connectLayers(inputs, hidden);
+    connectLayers(outputs, hidden);
 
 }
+
+
 
 Network::Network(const Network &other) {
     std::unordered_set<int> createdNeurons;
@@ -35,8 +39,8 @@ Network::Network(const Network &other) {
         auto outNeuron = getOrCreateNeuron(*conn->destination, createdNeurons);
         auto connection = new Connection(inNeuron, outNeuron, conn->getWeight());
 
-        outNeuron->addIncoming(conn);
-        inNeuron->addIncoming(conn);
+//        outNeuron->addIncoming(conn);
+        inNeuron->addOutgoing(conn);
 
         this->connections.push_back(connection);
     }
@@ -46,15 +50,20 @@ Network::Network(const Network &other) {
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
     assert(state.size() == inputs.size());
+    std::cout << "running" << std::endl;
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
     }
+    std::cout << "running 2" << std::endl;
 
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->passValue();
     }
+
+    std::cout << "running 3" << std::endl;
+
 
     for (auto neuron : hidden) {
         neuron->passValue();
@@ -126,7 +135,6 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron, std::unordered_
         switch (neuron->getLayer()) {
             case Layer::Hidden:
                 hidden.push_back(neuron);
-                std::cout << "Hidden! " << std::endl;
                 break;
             case Layer::Input:
                 inputs.push_back(neuron);
@@ -140,6 +148,17 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron, std::unordered_
         return neuron;
     } else {
         return neuronMap[id];
+    }
+}
+
+void Network::connectLayers(std::vector<Neuron *> in, const std::vector<Neuron *>& out) {
+    for (auto & x : in) {
+        for (auto & y : out) {
+            auto connection = new Connection(x, y);
+            connections.push_back(connection);
+            x->addOutgoing(connection);
+//            y->addIncoming(connection);
+        }
     }
 }
 

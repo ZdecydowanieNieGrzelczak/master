@@ -9,7 +9,7 @@
 #include <random>
 
 
-#define CONN_MUTATION_FACTOR 0.02
+#define CONN_MUTATION_FACTOR 0.05f
 
 class Connection {
 public:

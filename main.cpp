@@ -2,9 +2,9 @@
 
 #include "NEAT/Generation.h"
 #include "games/tictactoe/TicTacToe.h"
-
+#include <time.h>
 // How many children we will have
-#define POPULATION_COUNT 2000
+#define POPULATION_COUNT 20
 
 #define GENERATION_COUNT 1000
 #define TEST_BATTLES_COUNT 10000
@@ -12,7 +12,7 @@
 int main() {
 
     auto game = new TicTacToe();
-
+    srand (time(nullptr));
     auto generation = new Generation(POPULATION_COUNT, game);
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
 

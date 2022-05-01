@@ -10,6 +10,7 @@ Neuron::Neuron(int id, Layer layer): id{id}, layer{layer} {
 // Do not copy connections
 Neuron::Neuron(const Neuron &other): bias{other.bias}, layer{other.layer}, id{other.id} {
     currentValue = 0.0;
+    outgoing.clear();
 }
 
 
@@ -17,18 +18,20 @@ void Neuron::addOutgoing(Connection *conn) {
     outgoing.push_back(conn);
 }
 
-void Neuron::addIncoming(Connection *conn) {
-    incoming.push_back(conn);
-}
+//void Neuron::addIncoming(Connection *conn) {
+//    incoming.push_back(conn);
+//}
 
 void Neuron::mutate() {
-    bias += ((rand() % 100) / 100.f - 0.5f) * NEURON_MUTATION_FACTOR;
+    bias += (((rand() % 100) / 100.f) - 0.5f) * NEURON_MUTATION_FACTOR;
 }
 
 void Neuron::passValue() {
+    std::cout << "before passing value" << std::endl;
     for (const auto out : outgoing) {
-        out->destination->receiveValue(currentValue + bias);
+        out->destination->receiveValue((currentValue + bias) * out->getWeight());
     }
+    std::cout << "passed valie!" << std::endl;
     currentValue = 0.0;
 }
 
@@ -52,6 +55,9 @@ std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
     os << "Neuron with bias: " << neuron.bias << std::endl;
     os << " And current value: " << neuron.currentValue << std::endl;
     return os;
+}
+
+Neuron::~Neuron() {
 }
 
 

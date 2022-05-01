@@ -9,7 +9,7 @@
 #include "Connection.fwd.h"
 #include "Neuron.fwd.h"
 
-#define NEURON_MUTATION_FACTOR 0.02f
+#define NEURON_MUTATION_FACTOR 0.05f
 
 enum Layer {
     Input,
@@ -22,9 +22,10 @@ class Neuron {
 public:
     Neuron(int id, Layer layer);
     Neuron(const Neuron &other);
+    ~Neuron();
 
     void addOutgoing(Connection *conn);
-    void addIncoming(Connection *conn);
+//    void addIncoming(Connection *conn);
 
     void mutate();
 
@@ -41,11 +42,11 @@ public:
 
 
 private:
-    std::vector<Connection*> incoming;
+//    std::vector<Connection*> incoming;
     std::vector<Connection*> outgoing;
 
     float currentValue{0.0};
-    float bias;
+    float bias{0.0};
     int id;
     Layer layer;
 

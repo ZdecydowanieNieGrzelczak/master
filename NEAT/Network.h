@@ -39,6 +39,7 @@ private:
 
     std::vector<Connection*> connections;
 
+    void connectLayers(std::vector<Neuron *> in, const std::vector<Neuron *>& out);
 };
 
 #endif //MASTER_NETWORK_H

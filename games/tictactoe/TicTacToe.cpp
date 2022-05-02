@@ -43,7 +43,7 @@ GameEval TicTacToe::reset() {
     blackState = 0;
     counter = 0;
     isWhiteMoving = true;
-    isPlayerWhite = true;
+    isPlayerWhite = rand() % 100 >= 50;
     if (!isPlayerWhite) {
         int enemyAction = rand() % 9;
         auto actionCode = actions[enemyAction];

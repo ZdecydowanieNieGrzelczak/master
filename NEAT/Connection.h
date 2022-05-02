@@ -4,12 +4,12 @@
 #pragma once
 #include "Neuron.fwd.h"
 #include "Connection.fwd.h"
+#include "../utils/SharedDefinitions.h"
 
 #include <iostream>
 #include <random>
 
 
-#define CONN_MUTATION_FACTOR 0.05f
 
 class Connection {
 public:

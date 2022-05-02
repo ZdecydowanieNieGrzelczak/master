@@ -3,11 +3,7 @@
 #include "NEAT/Generation.h"
 #include "games/tictactoe/TicTacToe.h"
 #include <time.h>
-// How many children we will have
-#define POPULATION_COUNT 1
 
-#define GENERATION_COUNT 1000
-#define TEST_BATTLES_COUNT 10000
 
 int main() {
 

@@ -9,7 +9,7 @@
 #include "Connection.fwd.h"
 #include "Neuron.fwd.h"
 
-#define NEURON_MUTATION_FACTOR 0.05f
+#define NEURON_MUTATION_FACTOR 0.02f
 
 enum Layer {
     Input,

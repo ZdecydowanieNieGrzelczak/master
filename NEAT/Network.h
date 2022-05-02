@@ -7,12 +7,11 @@
 #include <cassert>
 #include <iostream>
 
-
 #include "Connection.h"
 #include "Neuron.h"
+#include "../utils/SharedDefinitions.h"
 
-#define CONNECTION_MUTATION_RATE 0.2
-#define NEURON_MUTATION_RATE 0.2
+
 
 
 class Network {

@@ -42,7 +42,7 @@ Network::Network(const Network &other) {
         auto connection = new Connection(inNeuron, outNeuron, conn->getWeight());
 
 //        outNeuron->addIncoming(conn);
-        inNeuron->addOutgoing(conn);
+        inNeuron->addOutgoing(connection);
 
         this->connections.push_back(connection);
     }

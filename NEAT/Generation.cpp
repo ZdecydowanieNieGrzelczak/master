@@ -74,9 +74,9 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         assert(index >= 0);
         assert(index < members.size());
         auto newMember = new Network(*members.at(index));
-        if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
-            newMember->mutate();
-        }
+//        if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
+//            newMember->mutate();
+//        }
         newMembers.push_back(newMember);
     }
 

@@ -13,11 +13,11 @@ Network::Network(int inputCount, int outputCount) {
         this->inputs.push_back(neuron);
     }
 
-    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
-        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
-        neuronMap[neuron->getId()] = neuron;
-        this->hidden.push_back(neuron);
-    }
+//    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
+//        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
+//        neuronMap[neuron->getId()] = neuron;
+//        this->hidden.push_back(neuron);
+//    }
 
     for (int x = 0; x < outputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Output);
@@ -25,8 +25,10 @@ Network::Network(int inputCount, int outputCount) {
         this->outputs.push_back(neuron);
     }
 
-    connectLayers(inputs, hidden);
-    connectLayers(outputs, hidden);
+    connectLayers(inputs, outputs);
+
+//    connectLayers(inputs, hidden);
+//    connectLayers(hidden, outputs);
 
 }
 
@@ -50,20 +52,14 @@ Network::Network(const Network &other) {
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
     assert(state.size() == inputs.size());
-    std::cout << "running" << std::endl;
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
     }
-    std::cout << "running 2" << std::endl;
-
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->passValue();
     }
-
-    std::cout << "running 3" << std::endl;
-
 
     for (auto neuron : hidden) {
         neuron->passValue();
@@ -150,13 +146,12 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
     }
 }
 
-void Network::connectLayers(std::vector<Neuron *> in, const std::vector<Neuron *>& out) {
-    for (auto & x : in) {
-        for (auto & y : out) {
-            auto connection = new Connection(x, y);
+void Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out) {
+    for (auto & srcNeuron : in) {
+        for (auto & destNeuron : out) {
+            auto connection = new Connection(srcNeuron, destNeuron);
             connections.push_back(connection);
-            x->addOutgoing(connection);
-//            y->addIncoming(connection);
+            srcNeuron->addOutgoing(connection);
         }
     }
 }

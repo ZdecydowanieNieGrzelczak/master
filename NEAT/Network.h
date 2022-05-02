@@ -29,7 +29,7 @@ public:
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    void connectLayers(std::vector<Neuron *> in, const std::vector<Neuron *>& out);
+    void connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out);
 
 
     std::vector<Neuron*> inputs;

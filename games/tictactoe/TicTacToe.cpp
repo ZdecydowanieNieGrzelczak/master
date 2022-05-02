@@ -1,7 +1,5 @@
-#include <stdexcept>
-#include <cassert>
-#include <iostream>
 #include "TicTacToe.h"
+
 
 GameEval TicTacToe::moveWhite(short actionCode) {
     assert(isWhiteMoving);
@@ -43,7 +41,7 @@ GameEval TicTacToe::reset() {
     blackState = 0;
     counter = 0;
     isWhiteMoving = true;
-    isPlayerWhite = rand() % 100 >= 50;
+    isPlayerWhite = HelperMethods::getCoinFlip();
     if (!isPlayerWhite) {
         int enemyAction = rand() % 9;
         auto actionCode = actions[enemyAction];

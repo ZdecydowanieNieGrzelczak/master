@@ -5,6 +5,7 @@
 #include "Neuron.fwd.h"
 #include "Connection.fwd.h"
 #include "../utils/SharedDefinitions.h"
+#include "../utils/HelperMethods.h"
 
 #include <iostream>
 #include <random>
@@ -15,8 +16,6 @@ class Connection {
 public:
     Connection(Neuron* source, Neuron* destination);
     Connection(Neuron* source, Neuron* destination, double weight);
-
-    void passValue(float val);
 
     void mutate();
     Neuron* source;

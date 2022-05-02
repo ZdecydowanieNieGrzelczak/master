@@ -3,16 +3,12 @@
 #define MASTER_TICTACTOE_H
 
 #include <utility>
+#include <cassert>
+
 #include "../Game.h"
+#include "../../utils/HelperMethods.h"
+#include "../../utils/SharedDefinitions.h"
 
-
-#define TIC_TAC_TOE_ACTION_SIZE 9
-#define TIC_TAC_TOE_STATE_SIZE 18
-
-#define WIN 1.0
-#define DRAW 0.0
-#define LOSE -1
-#define INVALID_PENALTY -10
 
 class TicTacToe : public Game {
 public:

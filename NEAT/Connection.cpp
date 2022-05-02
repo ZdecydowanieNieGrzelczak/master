@@ -3,18 +3,14 @@
 
 Connection::Connection(Neuron *source, Neuron *destination): source{source}, destination{destination} {
     std::random_device dev;
-    this->weight = (rand() % 100) / 100.0f;
+    this->weight = (float)HelperMethods::getRandomInt(-50, 50) / 100.0f;
 }
 
 Connection::Connection(Neuron *source, Neuron *destination, double weight): source{source}, destination{destination}, weight{weight} {
 }
 
-void Connection::passValue(float val) {
-    this->destination->receiveValue(val);
-}
-
 void Connection::mutate() {
-    this->weight += (((rand() % 100) / 100.f) - 0.5) * CONN_MUTATION_FACTOR;
+    this->weight += ((float)HelperMethods::getRandomInt(-50, 50) / 100.0f) * CONN_MUTATION_FACTOR;
 }
 
 

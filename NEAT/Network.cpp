@@ -3,14 +3,17 @@
 #include "../utils/HelperMethods.h"
 
 
-#define HIDDEN_LAYER_COUNT 4
 
 Network::Network(int inputCount, int outputCount) {
     int neuronCount = 1;
+    for (auto layer : layers) {
+        neurons[layer] = std::vector<Neuron>();
+    }
     for (int x = 0; x < inputCount; ++x) {
-        auto neuron = new Neuron(neuronCount++, Layer::Input);
-        neuronMap[neuron->getId()] = neuron;
-        this->inputs.push_back(neuron);
+        auto neuron = Neuron(neuronCount++, Layer::Input);
+
+        neuronMap[neuron.getId()] = &neuron;
+        neurons.at(Layer::Input).push_back(neuron);
     }
 
 //    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
@@ -20,12 +23,12 @@ Network::Network(int inputCount, int outputCount) {
 //    }
 
     for (int x = 0; x < outputCount; ++x) {
-        auto neuron = new Neuron(neuronCount++, Layer::Output);
-        neuronMap[neuron->getId()] = neuron;
-        this->outputs.push_back(neuron);
+        auto neuron = Neuron(neuronCount++, Layer::Output);
+        neuronMap[neuron.getId()] = &neuron;
+        neurons.at(Layer::Output).push_back(neuron);
     }
-
-    connectLayers(inputs, outputs);
+    int connectionCount = 0;
+    connectLayers(neurons.at(Layer::Input), neurons.at(Layer::Output), connectionCount);
 
 //    connectLayers(inputs, hidden);
 //    connectLayers(hidden, outputs);
@@ -37,87 +40,66 @@ Network::Network(int inputCount, int outputCount) {
 Network::Network(const Network &other) {
     neuronMap.clear();
     for(auto conn : other.connections) {
-        auto inNeuron = getOrCreateNeuron(*conn->source);
-        auto outNeuron = getOrCreateNeuron(*conn->destination);
-        auto connection = new Connection(inNeuron, outNeuron, conn->getWeight());
+        auto inNeuron = getOrCreateNeuron(*other.neuronMap.at(conn.sourceId));
+        auto outNeuron = getOrCreateNeuron(*other.neuronMap.at(conn.destinationId));
 
-//        outNeuron->addIncoming(conn);
-        inNeuron->addOutgoing(connection);
+        this->connections.emplace_back(conn);
+        inNeuron->addOutgoing(connections.back().getId());
 
-        this->connections.push_back(connection);
     }
 
 }
 
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
-    assert(state.size() == inputs.size());
+    assert(state.size() == neurons.at(Layer::Input).size());
 
     for (int x = 0; x < state.size(); ++x) {
-        inputs.at(x)->receiveValue(state.at(x));
+        neurons.at(Layer::Input).at(x).receiveValue(state.at(x));
     }
 
     for (int x = 0; x < state.size(); ++x) {
-        inputs.at(x)->passValue();
+        passNeuronValue(neurons.at(Layer::Input).at(x));
     }
 
-    for (auto neuron : hidden) {
-        neuron->passValue();
+    for (auto& neuron : neurons.at(Layer::Hidden)) {
+        passNeuronValue(neuron);
     }
 
-    assert(!outputs.empty());
+    assert(!neurons.at(Layer::Output).empty());
 
-    double highestValue = -999999999999;
-    int highestIndex = -1;
-    for (int x = 0; x < outputs.size(); ++x) {
-        auto val = outputs.at(x)->getFinalValue();
+    double highestValue{-999999999999};
+    int highestIndex{-1};
+    for (int x{0}; x < neurons.at(Layer::Output).size(); ++x) {
+        auto val = neurons.at(Layer::Output).at(x).getFinalValue();
         if (val > highestValue) {
             highestValue = val;
             highestIndex = x;
         }
     }
     assert(highestIndex >= 0);
-    assert(highestIndex < outputs.size());
+    assert(highestIndex < neurons.at(Layer::Output).size());
     return highestIndex;
 }
 
-Network::~Network() {
-    for (auto neuron : inputs) {
-        delete neuron;
-    }
-    for (auto neuron : hidden) {
-        delete neuron;
-    }
-    for (auto neuron : outputs) {
-        delete neuron;
-    }
-    for (auto conn : connections) {
-        delete conn;
+Network::~Network() = default;
+
+void Network::passNeuronValue(Neuron& neuron) {
+    const auto val = neuron.getFinalValue();
+    for (auto conn : neuron.getOutputs()) {
+        const auto destId = connectionMap.at(conn)->destinationId;
+        neuronMap.at(destId)->receiveValue(val);
     }
 }
 
 void Network::mutate() {
-    for (auto neuron : inputs) {
-        if (rand() % 100 <= NEURON_MUTATION_RATE * 100) {
-            neuron->mutate();
-        }
+    for (auto pair: neuronMap) {
+        pair.second->mutate();
     }
 
-    for (auto neuron : hidden) {
-        if (rand() % 100 <= 100 * NEURON_MUTATION_RATE) {
-            neuron->mutate();
-        }
-    }
-
-    for (auto neuron : outputs) {
-        if (rand() % 100 <= 100 * NEURON_MUTATION_RATE) {
-            neuron->mutate();
-        }
-    }
-
-    for (auto conn : connections) {
+    for (auto& conn : connections) {
         if (rand() % 100 <= 100 * CONNECTION_MUTATION_RATE) {
-            conn->mutate();
+            conn.mutate();
         }
     }
 }
@@ -125,33 +107,22 @@ void Network::mutate() {
 Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
     auto id = originalNeuron.getId();
     if (!neuronMap.contains(id)) {
-        auto neuron = new Neuron(originalNeuron);
-        neuronMap[id] = neuron;
-        switch (neuron->getLayer()) {
-            case Layer::Hidden:
-                hidden.push_back(neuron);
-                break;
-            case Layer::Input:
-                inputs.push_back(neuron);
-                break;
-            case Layer::Output:
-                outputs.push_back(neuron);
-                break;
-            default:
-                std::cout << "This is fuckeeed" << std::endl;
-        }
-        return neuron;
+        auto neuron = Neuron(originalNeuron);
+        neuronMap[id] = &neuron;
+        neurons.at(neuron.getLayer()).push_back(neuron);
+        return &neuron;
     } else {
         return neuronMap[id];
     }
 }
 
-void Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out) {
-    for (auto & srcNeuron : in) {
-        for (auto & destNeuron : out) {
-            auto connection = new Connection(srcNeuron, destNeuron);
-            connections.push_back(connection);
-            srcNeuron->addOutgoing(connection);
+void Network::connectLayers(std::vector<Neuron>& in, const std::vector<Neuron>& out, int& connectionCount) {
+    for (auto &srcNeuron : in) {
+        for (auto &destNeuron : out) {
+            auto newConn = new Connection(srcNeuron.getId(), destNeuron.getId(), ++connectionCount);
+            connections.push_back(*newConn);
+            connectionMap[connectionCount] = newConn;
+            srcNeuron.addOutgoing(connectionCount);
         }
     }
 }

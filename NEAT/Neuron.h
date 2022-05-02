@@ -12,9 +12,9 @@
 #define NEURON_MUTATION_FACTOR 0.02f
 
 enum Layer {
-    Input,
-    Hidden,
-    Output
+    Input = 0,
+    Hidden = 1,
+    Output = 2
 };
 
 class Neuron {
@@ -24,15 +24,15 @@ public:
     Neuron(const Neuron &other);
     ~Neuron();
 
-    void addOutgoing(Connection *conn);
+    void addOutgoing(int connId);
 //    void addIncoming(Connection *conn);
 
     void mutate();
 
     void receiveValue(float val) { this->currentValue += val; }
-    void passValue();
+//    void passValue();
 
-    int getId() const;
+    [[nodiscard]] int getId() const;
 
     Layer getLayer();
 
@@ -40,10 +40,11 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Neuron& conn);
 
+    std::vector<int> getOutputs();
 
 private:
 //    std::vector<Connection*> incoming;
-    std::vector<Connection*> outgoing;
+    std::vector<int> outgoing;
 
     float currentValue{0.0};
     float bias{0.0};

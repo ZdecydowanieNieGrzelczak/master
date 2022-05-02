@@ -28,17 +28,21 @@ public:
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    void connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out);
+    void connectLayers(std::vector<Neuron>& in, const std::vector<Neuron>& out, int& connectionCoubt);
 
 
-    std::vector<Neuron*> inputs;
-    std::vector<Neuron*> hidden;
-    std::vector<Neuron*> outputs;
+    std::map<Layer, std::vector<Neuron>> neurons;
+//    std::vector<Neuron> hidden;
+//    std::vector<Neuron> outputs;
 
     std::map<int, Neuron*> neuronMap;
+    std::map<int, Connection*> connectionMap;
 
-    std::vector<Connection*> connections;
+    std::vector<Connection> connections;
 
+    constexpr static const Layer layers[3] = {Layer::Input, Layer::Hidden, Layer::Output};
+
+    void passNeuronValue(Neuron &neuron);
 };
 
 #endif //MASTER_NETWORK_H

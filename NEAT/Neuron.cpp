@@ -14,8 +14,8 @@ Neuron::Neuron(const Neuron &other): bias{other.bias}, layer{other.layer}, id{ot
 }
 
 
-void Neuron::addOutgoing(Connection *conn) {
-    outgoing.push_back(conn);
+void Neuron::addOutgoing(int connId) {
+    outgoing.push_back(connId);
 }
 
 //void Neuron::addIncoming(Connection *conn) {
@@ -26,13 +26,13 @@ void Neuron::mutate() {
     bias += (((rand() % 100) / 100.f) - 0.5f) * NEURON_MUTATION_FACTOR;
 }
 
-void Neuron::passValue() {
-    for (const auto out : outgoing) {
-        auto val = (currentValue + bias) * out->getWeight();
-        out->destination->receiveValue(val);
-    }
-    currentValue = 0.0;
-}
+//void Neuron::passValue() {
+//    for (const auto out : outgoing) {
+//        auto val = (currentValue + bias) * out->getWeight();
+//        out->destination->receiveValue(val);
+//    }
+//    currentValue = 0.0;
+//}
 
 int Neuron::getId() const {
     return id;
@@ -44,7 +44,7 @@ Layer Neuron::getLayer() {
 
 float Neuron::getFinalValue() {
     // Only for outputs
-    assert(layer == Layer::Output);
+//    assert(layer == Layer::Output);
     auto value = currentValue + bias;
     currentValue = 0;
     return value;
@@ -57,6 +57,10 @@ std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
 }
 
 Neuron::~Neuron() {
+}
+
+std::vector<int> Neuron::getOutputs() {
+    return outgoing;
 }
 
 

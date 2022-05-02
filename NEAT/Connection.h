@@ -14,21 +14,25 @@
 
 class Connection {
 public:
-    Connection(Neuron* source, Neuron* destination);
-    Connection(Neuron* source, Neuron* destination, double weight);
+    Connection(int sourceId, int destinationId, int id);
+//    Connection(Neuron* source, Neuron* destination, double weight);
+    Connection(const Connection& other) = default;
 
     void mutate();
-    Neuron* source;
-    Neuron* destination;
+    int sourceId;
+    int destinationId;
 
     [[nodiscard]] double getWeight() const;
 
     friend std::ostream& operator<<(std::ostream& os, const Connection& conn);
 
+    int getId();
+
 private:
 
     double weight;
 
+    int id;
 };
 
 

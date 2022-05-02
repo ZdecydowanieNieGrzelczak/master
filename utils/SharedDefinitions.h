@@ -21,4 +21,7 @@
 #define LOSE -1
 #define INVALID_PENALTY -10
 
+#define HIDDEN_LAYER_COUNT 4
+
+
 #endif //MASTER_SHAREDDEFINITIONS_H

@@ -9,13 +9,13 @@
 Network::Network(int inputCount, int hiddenCount, int outputCount) {
     int neuronCount = 0;
     for ( ; neuronCount < inputCount; ++neuronCount) {
-        neuronMap[neuronCount] = std::make_unique<Neuron>(neuronCount, Layer::Input);
+        neuronMap[neuronCount] = new Neuron(neuronCount, Layer::Input);
     }
     for ( ; neuronCount < inputCount + hiddenCount; ++neuronCount) {
-        neuronMap[neuronCount] = std::make_unique<Neuron>(neuronCount, Layer::Hidden);
+        neuronMap[neuronCount] = new Neuron(neuronCount, Layer::Hidden);
     }
     for ( ; neuronCount < inputCount + hiddenCount + outputCount; ++neuronCount) {
-        neuronMap[neuronCount] = std::make_unique<Neuron>(neuronCount, Layer::Output);
+        neuronMap[neuronCount] = new Neuron(neuronCount, Layer::Output);
     }
 
     auto fromInputs = std::vector<Connection *>();
@@ -52,7 +52,7 @@ Network::Network(const Network &other) {
     connections = std::make_pair(first, second);
 
     for (auto const& [id, pNeuron] : other.neuronMap) {
-        neuronMap[id] = std::make_unique<Neuron>(*pNeuron);
+        neuronMap[id] = new Neuron(*pNeuron);
     }
 
 }
@@ -96,6 +96,9 @@ Network::~Network() {
     }
     for (auto pConn : connections.second) {
         delete pConn;
+    }
+    for (auto &[_, pNeur] : neuronMap) {
+        delete pNeur;
     }
 }
 

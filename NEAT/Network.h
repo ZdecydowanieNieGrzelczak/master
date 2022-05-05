@@ -28,11 +28,8 @@ public:
     void mutate();
 
 private:
-    Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
 
-
-
-    std::map<int, std::unique_ptr<Neuron>> neuronMap;
+    std::map<int, Neuron* > neuronMap;
     std::pair<std::vector<Connection *>, std::vector<Connection *>> connections;
 
 

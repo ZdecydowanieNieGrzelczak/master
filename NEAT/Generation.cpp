@@ -52,12 +52,14 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     auto newMembers = std::vector<Network*>();
     auto bestNetwork = members.at(bestIndex);
 
-    newMembers.push_back(new Network(*bestNetwork));
+    for (int x = 0; x < BEST_COPY_COUNT; ++x) {
+        newMembers.push_back(new Network(*bestNetwork));
+    }
 
-    std::cout << "Created best member for!: " << generationCounter << std::endl;
+    std::cout << "Created best member for: " << generationCounter << std::endl;
 
 
-    for (int i = 1; i < members.size(); ++i) {
+    for (int i = BEST_COPY_COUNT; i < members.size(); ++i) {
         int first = rand() % members.size();
         int second = rand() % members.size();
         int index;

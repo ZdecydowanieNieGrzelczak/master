@@ -3,35 +3,16 @@
 #include "Connection.h"
 
 
-Neuron::Neuron(int id, Layer layer): id{id}, layer{layer} {
-    bias = (((rand() % 100) / 100.f) - 0.5f) * 2;
+Neuron::Neuron(int id, Layer layer): id{id}, layer{layer}, currentValue{0.0} {
+     bias += HelperMethods::getRandomInt(-10, 10) * NEURON_INITIAL_FACTOR;
 }
 
-// Do not copy connections
-Neuron::Neuron(const Neuron &other): bias{other.bias}, layer{other.layer}, id{other.id} {
-    currentValue = 0.0;
-    outgoing.clear();
+Neuron::Neuron(const Neuron &other): id{other.id}, layer{other.layer}, bias{other.bias}, currentValue{0.0}  {
+
 }
-
-
-void Neuron::addOutgoing(Connection *conn) {
-    outgoing.push_back(conn);
-}
-
-//void Neuron::addIncoming(Connection *conn) {
-//    incoming.push_back(conn);
-//}
 
 void Neuron::mutate() {
-    bias += (((rand() % 100) / 100.f) - 0.5f) * NEURON_MUTATION_FACTOR;
-}
-
-void Neuron::passValue() {
-    for (const auto out : outgoing) {
-        auto val = (currentValue + bias) * out->getWeight();
-        out->destination->receiveValue(val);
-    }
-    currentValue = 0.0;
+    bias += HelperMethods::getRandomInt(-10, 10) * NEURON_MUTATION_FACTOR;
 }
 
 int Neuron::getId() const {
@@ -42,12 +23,8 @@ Layer Neuron::getLayer() {
     return layer;
 }
 
-float Neuron::getFinalValue() {
-    // Only for outputs
-    assert(layer == Layer::Output);
-    auto value = currentValue + bias;
-    currentValue = 0;
-    return value;
+float Neuron::getFinalValue() const {
+    return currentValue + bias;
 }
 
 std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
@@ -56,8 +33,6 @@ std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
     return os;
 }
 
-Neuron::~Neuron() {
-}
 
 
 

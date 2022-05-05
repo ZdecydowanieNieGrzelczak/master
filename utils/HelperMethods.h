@@ -13,6 +13,7 @@ public:
 
     static bool getCoinFlip();
     static int getRandomInt(int lower, int upper);
+    static int getRandomChance();
 };
 
 template<typename T>

@@ -7,7 +7,7 @@
 Generation::Generation(int generationCount, Game* game): game{game} {
     members.reserve(generationCount);
     for(int i = 0; i < generationCount; ++i) {
-        members.push_back(new Network(game->getStateSize(), game->getActionSize()));
+        members.push_back(new Network(game->getStateSize(), HIDDEN_LAYER_COUNT, game->getActionSize()));
     }
 }
 
@@ -74,7 +74,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         assert(index >= 0);
         assert(index < members.size());
         auto newMember = new Network(*members.at(index));
-        if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
+        if (rand() % 100 <= NETWORK_MUTATION_PERCENTAGE_CHANCE) {
             newMember->mutate();
         }
         newMembers.push_back(newMember);

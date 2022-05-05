@@ -1,13 +1,13 @@
 #include "Connection.h"
 #include "Neuron.h"
 
-Connection::Connection(Neuron *source, Neuron *destination): source{source}, destination{destination} {
-    std::random_device dev;
+Connection::Connection(u_int8_t source, u_int8_t destination, u_int16_t innovationId): sourceId{source}, destinationId{destination}, innovationId{innovationId} {
     this->weight = (float)HelperMethods::getRandomInt(-50, 50) / 100.0f;
 }
 
-Connection::Connection(Neuron *source, Neuron *destination, double weight): source{source}, destination{destination}, weight{weight} {
-}
+//Connection::Connection(const Connection &other): sourceId{other.sourceId},
+//destinationId{other.destinationId}, innovationId{other.innovationId}, weight{other.weight} {
+//}
 
 void Connection::mutate() {
     this->weight += ((float)HelperMethods::getRandomInt(-50, 50) / 100.0f) * CONN_MUTATION_FACTOR;
@@ -21,8 +21,8 @@ double Connection::getWeight() const {
 
 std::ostream& operator<<(std::ostream& os, const Connection& conn)
 {
-    os << "Connection with from: " << conn.source->getId() << " to: " << conn.destination->getId() << std::endl;
-    os << "Has weight: " << conn.getWeight() << std::endl;
+    os << "Connection with from: " << conn.sourceId << " to: " << conn.destinationId << std::endl;
+    os << "Has weight: " << conn.getWeight() << " and innovation ID: " << conn.innovationId << std::endl;
     return os;
 }
 

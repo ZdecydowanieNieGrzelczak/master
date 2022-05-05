@@ -6,6 +6,7 @@
 #include <map>
 #include <cassert>
 #include <iostream>
+#include <memory>
 
 #include "Connection.h"
 #include "Neuron.h"
@@ -16,7 +17,7 @@
 
 class Network {
 public:
-    Network(int inputCount, int outputCount);
+    Network(int inputCount, int hiddenCount, int outputCount);
 
     Network(const Network &other);
 
@@ -28,16 +29,12 @@ public:
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    void connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out);
 
 
-    std::vector<Neuron*> inputs;
-    std::vector<Neuron*> hidden;
-    std::vector<Neuron*> outputs;
 
-    std::map<int, Neuron*> neuronMap;
+    std::map<int, std::unique_ptr<Neuron>> neuronMap;
+    std::pair<std::vector<Connection *>, std::vector<Connection *>> connections;
 
-    std::vector<Connection*> connections;
 
 };
 

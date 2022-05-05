@@ -3,7 +3,6 @@
 #include "../utils/HelperMethods.h"
 
 
-#define HIDDEN_LAYER_COUNT 4
 
 Network::Network(int inputCount, int outputCount) {
     int neuronCount = 1;
@@ -13,11 +12,11 @@ Network::Network(int inputCount, int outputCount) {
         this->inputs.push_back(neuron);
     }
 
-//    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
-//        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
-//        neuronMap[neuron->getId()] = neuron;
-//        this->hidden.push_back(neuron);
-//    }
+    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
+        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
+        neuronMap[neuron->getId()] = neuron;
+        this->hidden.push_back(neuron);
+    }
 
     for (int x = 0; x < outputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Output);
@@ -25,10 +24,10 @@ Network::Network(int inputCount, int outputCount) {
         this->outputs.push_back(neuron);
     }
 
-    connectLayers(inputs, outputs);
-
-//    connectLayers(inputs, hidden);
-//    connectLayers(hidden, outputs);
+//    connectLayers(inputs, outputs);
+//
+    connectLayers(inputs, hidden);
+    connectLayers(hidden, outputs);
 
 }
 

@@ -14,6 +14,9 @@ int main() {
 
     generation->testFor(TEST_BATTLES_COUNT, bestRes);
 
+    generation->saveTheScore(FILENAME_BASE);
+    generation->saveTheNetwork(FILENAME_BASE);
+
     std::cout << "Hello, World!" << std::endl;
     return 0;
 }

@@ -16,6 +16,10 @@ public:
 
     double testFor(int iterationCount, Network network);
 
+
+    void saveTheScore(const std::string &filename) const;
+    void saveTheNetwork(const std::string &filename) const;
+
 private:
 
     void runThroughGeneration();
@@ -27,6 +31,9 @@ private:
     float prevBest{0.0f};
 
     Game* game;
+
+    std::vector<float> generationScores;
+
 
 };
 

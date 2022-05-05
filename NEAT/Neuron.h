@@ -40,6 +40,8 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Neuron& conn);
 
+    float getBias() { return bias; }
+
 
 private:
 //    std::vector<Connection*> incoming;

@@ -155,3 +155,21 @@ void Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron 
     }
 }
 
+std::string Network::getSaveData() {
+    std::string data = "Network:";
+    for (auto input : inputs) {
+        data += std::to_string(input->getBias()) + ";" +  std::to_string(input->getId()) + "\n";
+    }
+    for (auto hidd : hidden) {
+        data += std::to_string(hidd->getBias()) + ";" + std::to_string(hidd->getId()) + "\n";
+    }
+    for (auto output : outputs) {
+        data += std::to_string(output->getBias()) + ";" + std::to_string(output->getId()) + "\n";
+    }
+    for (auto conn : connections) {
+        data += std::to_string(conn->getWeight()) + ";" + std::to_string(conn->source->getId()) + ";" +
+                std::to_string(conn->destination->getId()) + "\n";
+    }
+    return data;
+}
+

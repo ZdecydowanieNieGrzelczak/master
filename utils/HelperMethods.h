@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <io.h>
 
 class HelperMethods {
 public:
@@ -13,6 +14,7 @@ public:
 
     static bool getCoinFlip();
     static int getRandomInt(int lower, int upper);
+    static bool nameTest(const std::string &name);
 };
 
 template<typename T>
@@ -30,7 +32,6 @@ void HelperMethods::printPointerVector(const std::vector<T*> &vec) {
     }
     std::cout << std::endl;
 }
-
 
 
 #endif //MASTER_HELPERMETHODS_H

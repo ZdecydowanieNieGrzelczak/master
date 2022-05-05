@@ -14,3 +14,7 @@ int HelperMethods::getRandomInt(int lower, int upper) {
     std::uniform_int_distribution<std::mt19937::result_type> randInt(lower,upper);
     return randInt(rng);
 }
+
+bool HelperMethods::nameTest(const std::string &name) {
+    return ( access( name.c_str(), F_OK ) != -1 );
+}

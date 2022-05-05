@@ -10,7 +10,7 @@
 // How many children we will have
 #define POPULATION_COUNT 1000
 
-#define GENERATION_COUNT 100000
+#define GENERATION_COUNT 10
 #define TEST_BATTLES_COUNT 10000
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
@@ -23,5 +23,8 @@
 #define DRAW 0.0
 #define LOSE -1
 #define INVALID_PENALTY -10
+
+
+#define FILENAME_BASE "test"
 
 #endif //MASTER_SHAREDDEFINITIONS_H

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include "Generation.h"
 #include "../utils/HelperMethods.h"
 #include "../games/tictactoe/TicTacToe.h"
@@ -43,6 +44,7 @@ void Generation::runThroughGeneration() {
         }
     }
     std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
+    generationScores.push_back(bestScore);
     members = createNewGeneration(bestIndex);
 
 
@@ -103,5 +105,39 @@ double Generation::testFor(int iterationCount, Network network) {
     }
     return score;
 }
+
+void Generation::saveTheScore(const std::string &filename) const {
+    std::ofstream scoreFile;
+    const auto originalName = "../savedData/" + filename + "_scores.csv";
+    auto name = originalName;
+    int counter{0};
+    while (HelperMethods::nameTest(name)) {
+        name = originalName + std::to_string(counter++);
+    }
+    scoreFile.open(name);
+    for (const auto score : generationScores) {
+        scoreFile << score << ";";
+    }
+    scoreFile << std::endl;
+    scoreFile.close();
+}
+
+void Generation::saveTheNetwork(const std::string &filename) const {
+    std::ofstream networkFile;
+    const auto originalName = "../savedData/" + filename + "_network.csv";
+    auto name = originalName;
+    int counter{0};
+    while (HelperMethods::nameTest(name)) {
+        name = originalName + std::to_string(counter++);
+    }
+    networkFile.open(name);
+    for (const auto& network : members) {
+        networkFile << "Network:" << std::endl;
+        networkFile << network->getSaveData() << std::endl;
+    }
+    networkFile << std::endl;
+    networkFile.close();
+}
+
 
 

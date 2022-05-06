@@ -12,9 +12,14 @@ int main() {
     auto generation = new Generation(POPULATION_COUNT, game);
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
 
+    std::cout << "Testing" << std::endl;
+
     generation->testFor(TEST_BATTLES_COUNT, bestRes);
 
+    std::cout << "Saving scores" << std::endl;
     generation->saveTheScore(FILENAME_BASE);
+    std::cout << "Saving network" << std::endl;
+
     generation->saveTheNetwork(FILENAME_BASE);
 
     std::cout << "Hello, World!" << std::endl;

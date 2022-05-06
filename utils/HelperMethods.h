@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 #include <random>
-#include <io.h>
 
 class HelperMethods {
 public:

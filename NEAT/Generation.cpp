@@ -24,7 +24,7 @@ Network Generation::iterateFor(int iterationCount) {
 void Generation::runThroughGeneration() {
     float bestScore{GAMES_PER_ITER * INVALID_PENALTY - 10  };
     int bestIndex;
-
+    memberScores.clear();
     for(int x = 0; x < members.size(); ++x) {
         auto member = members[x];
         float score = 0;

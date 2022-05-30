@@ -1,7 +1,6 @@
 
 #include <ranges>
 #include "Network.h"
-#include "../utils/HelperMethods.h"
 
 
 
@@ -13,11 +12,11 @@ Network::Network(int inputCount, int outputCount, StructureMutator* ledger): led
         this->inputs.push_back(neuron);
     }
 
-    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
-        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
-        neuronMap[neuron->getId()] = neuron;
-        this->hidden.push_back(neuron);
-    }
+//    for (int x = 0; x < HIDDEN_LAYER_COUNT; ++x) {
+//        auto neuron = new Neuron(neuronCount++, Layer::Hidden);
+//        neuronMap[neuron->getId()] = neuron;
+//        this->hidden.push_back(neuron);
+//    }
 
     for (int x = 0; x < outputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Output);
@@ -25,8 +24,9 @@ Network::Network(int inputCount, int outputCount, StructureMutator* ledger): led
         this->outputs.push_back(neuron);
     }
 
-    int current = connectLayers(inputs, hidden, true, 0);
-    connectLayers(hidden, outputs, true, current);
+//    int current = connectLayers(inputs, hidden, true, 0);
+//    connectLayers(hidden, outputs, true, current);
+    connectLayers(hidden, outputs, true, 0);
 
 }
 
@@ -212,6 +212,8 @@ Neuron* Network::getRandomNeuron(Layer layer) {
             return hidden[HelperMethods::getRandomInt(0, hidden.size())];
         case Layer::Output:
             return outputs[HelperMethods::getRandomInt(0, outputs.size())];
+        default:
+            return nullptr;
     }
 }
 

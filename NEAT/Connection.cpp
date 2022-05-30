@@ -33,3 +33,7 @@ bool Connection::isEnabled() const {
     return enabled;
 }
 
+bool Connection::isOriginal() const {
+    return original;
+}
+

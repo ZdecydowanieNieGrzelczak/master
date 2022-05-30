@@ -7,6 +7,7 @@
 Generation::Generation(int generationCount, Game* game): game{game} {
     auto ledger = new StructureMutator();
     members.reserve(generationCount);
+    ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
         members.push_back(new Network(game->getStateSize(), game->getActionSize(), ledger));
     }

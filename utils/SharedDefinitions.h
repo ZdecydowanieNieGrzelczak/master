@@ -9,6 +9,15 @@
 #define CONNECTION_MUTATION_RATE 0.25
 #define NEURON_MUTATION_RATE 0.10
 
+
+// Chances
+#define WEIGHTS_MUTATION_RATE 75
+#define CONN_TOGGLING_RATE 15
+#define STRUCTURE_MUTATION_RATE 10
+
+
+#define NEURON_CREATION_RATE 35
+
 // How many children we will have
 #define POPULATION_COUNT 2000
 

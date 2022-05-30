@@ -24,6 +24,8 @@ public:
     int neuronInnovationCounter{0};
 
     int getOrCreateConnInnovation(std::pair<int, int> key);
+
+    int getNewNeuronId();
 };
 
 

@@ -26,8 +26,6 @@ private:
 
     void runThroughGeneration();
 
-
-
     std::vector<Network*> createNewGeneration(int bestIndex);
 
     std::vector<Network*> members;

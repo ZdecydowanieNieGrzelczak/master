@@ -1,14 +1,14 @@
 #include <iostream>
 #include <fstream>
 #include "Generation.h"
-#include "../utils/HelperMethods.h"
 #include "../games/tictactoe/TicTacToe.h"
 
 
 Generation::Generation(int generationCount, Game* game): game{game} {
+    auto ledger = new StructureMutator();
     members.reserve(generationCount);
     for(int i = 0; i < generationCount; ++i) {
-        members.push_back(new Network(game->getStateSize(), game->getActionSize()));
+        members.push_back(new Network(game->getStateSize(), game->getActionSize(), ledger));
     }
 }
 

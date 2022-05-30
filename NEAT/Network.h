@@ -16,7 +16,7 @@
 
 class Network {
 public:
-    Network(int inputCount, int outputCount);
+    Network(int inputCount, int outputCount, StructureMutator* ledger);
 
     Network(const Network &other);
 
@@ -24,13 +24,13 @@ public:
 
     int passThroughNetwork(const std::vector<float>& state);
 
-    void mutate();
+    std::pair<bool, int> mutate();
 
     std::string getSaveData();
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    void connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out);
+    int connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out, bool original, int current);
 
     StructureMutator* ledger;
 
@@ -45,8 +45,17 @@ private:
     std::unordered_set<int> connInnovations;
     std::unordered_set<int> neuronInnovations;
 
-    Connection createConnection(int innovationId, std::pair<int, int> fromTo) const;
+    bool createConnection();
+    bool createNeuron();
 
+
+    Neuron *getRandomNeuron(Layer layer);
+
+    void mutateWeights();
+
+    void toggleConnection();
+
+    bool mutateStructure();
 };
 
 #endif //MASTER_NETWORK_H

@@ -32,3 +32,7 @@ int StructureMutator::getOrCreateConnInnovation(std::pair<int, int> key) {
     return innovationNumber;
 }
 
+int StructureMutator::getNewNeuronId() {
+    return ++neuronInnovationCounter;
+}
+

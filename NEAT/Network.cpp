@@ -1,10 +1,11 @@
 
+#include <ranges>
 #include "Network.h"
 #include "../utils/HelperMethods.h"
 
 
 
-Network::Network(int inputCount, int outputCount) {
+Network::Network(int inputCount, int outputCount, StructureMutator* ledger): ledger{ledger} {
     int neuronCount = 1;
     for (int x = 0; x < inputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Input);
@@ -24,21 +25,19 @@ Network::Network(int inputCount, int outputCount) {
         this->outputs.push_back(neuron);
     }
 
-//    connectLayers(inputs, outputs);
-//
-    connectLayers(inputs, hidden);
-    connectLayers(hidden, outputs);
+    int current = connectLayers(inputs, hidden, true, 0);
+    connectLayers(hidden, outputs, true, current);
 
 }
 
 
 
-Network::Network(const Network &other) {
+Network::Network(const Network &other): ledger{other.ledger} {
     neuronMap.clear();
     for(auto conn : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
-        auto connection = new Connection(inNeuron, outNeuron, conn->getWeight());
+        auto connection = new Connection(*conn);
 
 //        outNeuron->addIncoming(conn);
         inNeuron->addOutgoing(connection);
@@ -95,7 +94,21 @@ Network::~Network() {
     }
 }
 
-void Network::mutate() {
+std::pair<bool, int> Network::mutate() {
+    int roll = HelperMethods::getRandomChance();
+    if ( roll < WEIGHTS_MUTATION_RATE ) {
+        mutateWeights();
+    } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
+        toggleConnection();
+    }
+    else {
+//    if (HelperMethods::getRandomChance() > STRUCTURE_MUTATION_RATE ) {
+        return {true,  mutateStructure()};
+    }
+    return {false, 0};
+}
+
+void Network::mutateWeights() {
     for (auto neuron : inputs) {
         if (rand() % 100 <= NEURON_MUTATION_RATE * 100) {
             neuron->mutate();
@@ -118,6 +131,18 @@ void Network::mutate() {
         if (rand() % 100 <= 100 * CONNECTION_MUTATION_RATE) {
             conn->mutate();
         }
+    }
+}
+
+void Network::toggleConnection() {
+    connections[HelperMethods::getRandomInt(0, connections.size())]->toggle();
+}
+
+bool Network::mutateStructure() {
+    if (HelperMethods::getRandomChance() > NEURON_CREATION_RATE ) {
+        return createNeuron();
+    } else {
+        return createConnection();
     }
 }
 
@@ -145,14 +170,15 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
     }
 }
 
-void Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out) {
+int Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out, bool original, int current) {
     for (auto & srcNeuron : in) {
         for (auto & destNeuron : out) {
-            auto connection = new Connection(srcNeuron, destNeuron);
+            auto connection = new Connection(srcNeuron, destNeuron, current++, original);
             connections.push_back(connection);
             srcNeuron->addOutgoing(connection);
         }
     }
+    return current;
 }
 
 std::string Network::getSaveData() {
@@ -177,42 +203,67 @@ std::string Network::getSaveData() {
     return data;
 }
 
-//bool Network::createConnection(int innovationId, std::pair<int, int> fromTo) {
-//    if (hidden.empty()) {
-//        return false;
-//    }
-//    bool fromHidden = HelperMethods::getCoinFlip();
-//    int first, second;
-//
-//    if (fromHidden) {
-//        first = HelperMethods::getRandomInt(0, hidden.size());
-//        second = HelperMethods::getRandomInt(0, outputs.size());
-//    } else {
-//        first = HelperMethods::getRandomInt(0, inputs.size());
-//        second = HelperMethods::getRandomInt(0,  hidden.size());
-//    }
-//
-//    auto key = std::make_pair(first, second);
-//    int innovation = ledger->getOrCreateConnInnovation(key);
-//    while (connInnovations.contains(innovation)) {
-//        if (fromHidden) {
-//            first = HelperMethods::getRandomInt(0, hidden.size());
-//            second = HelperMethods::getRandomInt(0, outputs.size());
-//        } else {
-//            first = HelperMethods::getRandomInt(0, inputs.size());
-//            second = HelperMethods::getRandomInt(0,  hidden.size());
-//        }
-//
-//        key = std::make_pair(first, second);
-//        innovation = ledger->getOrCreateConnInnovation(key);
-//    }
-//    connInnovations.insert(innovation);
-//
-//
-//}
 
-//
-//bool Network::hasConnectionInnovation(int innovationId) const {
-//    return connInnovations.contains(innovationId);
-//}
+Neuron* Network::getRandomNeuron(Layer layer) {
+    switch (layer) {
+        case Layer::Input:
+            return inputs[HelperMethods::getRandomInt(0, inputs.size())];
+        case Layer::Hidden:
+            return hidden[HelperMethods::getRandomInt(0, hidden.size())];
+        case Layer::Output:
+            return outputs[HelperMethods::getRandomInt(0, outputs.size())];
+    }
+}
 
+bool Network::createConnection() {
+    if (hidden.empty()) {
+        return false;
+    }
+    bool fromInput = HelperMethods::getCoinFlip();
+
+    Neuron* first = getRandomNeuron(fromInput ? Layer::Input : Layer::Hidden);
+    Neuron* second = getRandomNeuron(fromInput ? Layer::Hidden : Layer::Output);
+
+    auto key = std::make_pair(first->getId(), second->getId());
+    int innovation = ledger->getOrCreateConnInnovation(key);
+    while (connInnovations.contains(innovation)) {
+        first = getRandomNeuron(fromInput ? Layer::Input : Layer::Hidden);
+        second = getRandomNeuron(fromInput ? Layer::Hidden : Layer::Output);
+        key = std::make_pair(first->getId(), second->getId());
+        innovation = ledger->getOrCreateConnInnovation(key);
+    }
+
+    auto* conn = new Connection(first, second, innovation, 1.0, false, true);
+
+    connInnovations.insert(innovation);
+    connections.push_back(conn);
+    return true;
+}
+
+bool Network::createNeuron() {
+    std::vector<Connection*> possibilities;
+    std::copy_if(connections.begin(), connections.end(), std::back_inserter(possibilities),
+                  [](Connection* conn){ return conn->isOriginal() && conn->isEnabled(); });
+    if (possibilities.empty()) {
+        return false;
+    }
+
+    auto randomConn = possibilities[HelperMethods::getRandomInt(0, possibilities.size())];
+    randomConn->disable();
+    int newNeuronId = ledger->getNewNeuronId();
+    auto newNeuron = new Neuron(newNeuronId, Layer::Hidden);
+    auto connInInnovation = ledger->getOrCreateConnInnovation({randomConn->source->getId(), newNeuronId});
+    auto newConnIn = new Connection(randomConn->source, newNeuron, connInInnovation, false);
+    auto connOutInnovation = ledger->getOrCreateConnInnovation({newNeuronId, randomConn->destination->getId()});
+    auto newConnOut = new Connection(randomConn->source, newNeuron, connInInnovation, false);
+
+    randomConn->source->addOutgoing(newConnIn);
+    newNeuron->addOutgoing(newConnOut);
+
+    connections.push_back(newConnIn);
+    connections.push_back(newConnOut);
+
+    hidden.push_back(newNeuron);
+
+    return true;
+}

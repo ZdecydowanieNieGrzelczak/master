@@ -1,3 +1,4 @@
+
 #include "HelperMethods.h"
 
 
@@ -16,6 +17,12 @@ int HelperMethods::getRandomInt(int lower, int upper) {
 }
 
 bool HelperMethods::nameTest(const std::string &name) {
-//    return ( access( name.c_str(), F_OK ) != -1 );
-     return false;
+    return ( access( name.c_str(), F_OK ) != -1 );
+}
+
+int HelperMethods::getRandomChance() {
+    std::random_device dev;
+    std::mt19937 rng(dev());
+    std::uniform_int_distribution<std::mt19937::result_type> randInt(0, 100);
+    return randInt(rng);
 }

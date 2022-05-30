@@ -1,9 +1,12 @@
 #ifndef MASTER_HELPERMETHODS_H
 #define MASTER_HELPERMETHODS_H
 
+#include <io.h>
+
 #include <iostream>
 #include <vector>
 #include <random>
+
 
 class HelperMethods {
 public:
@@ -12,8 +15,10 @@ public:
     template <typename T> static void printPointerVector(const std::vector<T*>& vec);
 
     static bool getCoinFlip();
+    static int getRandomChance();
     static int getRandomInt(int lower, int upper);
     static bool nameTest(const std::string &name);
+
 };
 
 template<typename T>
@@ -31,6 +36,8 @@ void HelperMethods::printPointerVector(const std::vector<T*> &vec) {
     }
     std::cout << std::endl;
 }
+
+
 
 
 #endif //MASTER_HELPERMETHODS_H

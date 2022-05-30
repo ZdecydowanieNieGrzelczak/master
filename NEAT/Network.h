@@ -10,7 +10,7 @@
 #include "Connection.h"
 #include "Neuron.h"
 #include "../utils/SharedDefinitions.h"
-
+#include "StructureMutator.h"
 
 
 
@@ -32,6 +32,7 @@ private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
     void connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out);
 
+    StructureMutator* ledger;
 
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;
@@ -40,6 +41,11 @@ private:
     std::map<int, Neuron*> neuronMap;
 
     std::vector<Connection*> connections;
+
+    std::unordered_set<int> connInnovations;
+    std::unordered_set<int> neuronInnovations;
+
+    Connection createConnection(int innovationId, std::pair<int, int> fromTo) const;
 
 };
 

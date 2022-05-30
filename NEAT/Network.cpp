@@ -177,3 +177,42 @@ std::string Network::getSaveData() {
     return data;
 }
 
+//bool Network::createConnection(int innovationId, std::pair<int, int> fromTo) {
+//    if (hidden.empty()) {
+//        return false;
+//    }
+//    bool fromHidden = HelperMethods::getCoinFlip();
+//    int first, second;
+//
+//    if (fromHidden) {
+//        first = HelperMethods::getRandomInt(0, hidden.size());
+//        second = HelperMethods::getRandomInt(0, outputs.size());
+//    } else {
+//        first = HelperMethods::getRandomInt(0, inputs.size());
+//        second = HelperMethods::getRandomInt(0,  hidden.size());
+//    }
+//
+//    auto key = std::make_pair(first, second);
+//    int innovation = ledger->getOrCreateConnInnovation(key);
+//    while (connInnovations.contains(innovation)) {
+//        if (fromHidden) {
+//            first = HelperMethods::getRandomInt(0, hidden.size());
+//            second = HelperMethods::getRandomInt(0, outputs.size());
+//        } else {
+//            first = HelperMethods::getRandomInt(0, inputs.size());
+//            second = HelperMethods::getRandomInt(0,  hidden.size());
+//        }
+//
+//        key = std::make_pair(first, second);
+//        innovation = ledger->getOrCreateConnInnovation(key);
+//    }
+//    connInnovations.insert(innovation);
+//
+//
+//}
+
+//
+//bool Network::hasConnectionInnovation(int innovationId) const {
+//    return connInnovations.contains(innovationId);
+//}
+

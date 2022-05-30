@@ -20,15 +20,19 @@ public:
     void saveTheScore(const std::string &filename) const;
     void saveTheNetwork(const std::string &filename) const;
 
+
+
 private:
 
     void runThroughGeneration();
+
+
+
     std::vector<Network*> createNewGeneration(int bestIndex);
 
     std::vector<Network*> members;
     std::vector<float> memberScores;
     int generationCounter{0};
-    float prevBest{0.0f};
 
     Game* game;
 

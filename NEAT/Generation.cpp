@@ -142,4 +142,3 @@ void Generation::saveTheNetwork(const std::string &filename) const {
 }
 
 
-

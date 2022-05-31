@@ -3,13 +3,15 @@
 #include "Generation.h"
 #include "../games/tictactoe/TicTacToe.h"
 
+#pragma once
+StructureMutator* ledger;
 
 Generation::Generation(int generationCount, Game* game): game{game} {
-    auto ledger = new StructureMutator();
+    ledger = new StructureMutator();
     members.reserve(generationCount);
     ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
-        members.push_back(new Network(game->getStateSize(), game->getActionSize(), ledger));
+        members.push_back(new Network(game->getStateSize(), game->getActionSize()));
     }
 }
 
@@ -60,6 +62,10 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     }
 
     std::cout << "Created best member for: " << generationCounter << std::endl;
+    std::cout << "Size of hidden layer: " << bestNetwork->getHiddenSize() << std::endl;
+    std::cout << "Size of connections: " << bestNetwork->getConnectionsSize() << std::endl;
+    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++: " << std::endl;
+
 
 
     for (int i = BEST_COPY_COUNT; i < members.size(); ++i) {

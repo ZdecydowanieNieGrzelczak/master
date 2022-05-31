@@ -12,7 +12,7 @@ bool HelperMethods::getCoinFlip() {
 int HelperMethods::getRandomInt(int lower, int upper) {
     std::random_device dev;
     std::mt19937 rng(dev());
-    std::uniform_int_distribution<std::mt19937::result_type> randInt(lower,upper);
+    std::uniform_int_distribution<std::mt19937::result_type> randInt(lower,upper - 1);
     return randInt(rng);
 }
 

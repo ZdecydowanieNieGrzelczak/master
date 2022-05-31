@@ -4,7 +4,8 @@
 
 
 
-Network::Network(int inputCount, int outputCount, StructureMutator* ledger): ledger{ledger} {
+//Network::Network(int inputCount, int outputCount, StructureMutator* ledger): ledger{ledger} {
+Network::Network(int inputCount, int outputCount) {
     int neuronCount = 1;
     for (int x = 0; x < inputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Input);
@@ -26,23 +27,29 @@ Network::Network(int inputCount, int outputCount, StructureMutator* ledger): led
 
 //    int current = connectLayers(inputs, hidden, true, 0);
 //    connectLayers(hidden, outputs, true, current);
-    connectLayers(hidden, outputs, true, 0);
+    connectLayers(inputs, outputs, true, 0);
 
 }
 
 
 
-Network::Network(const Network &other): ledger{other.ledger} {
+Network::Network(const Network &other) {
+//Network::Network(const Network &other): ledger{other.ledger} {
     neuronMap.clear();
     for(auto conn : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
-        auto connection = new Connection(*conn);
+//        auto connection = new Connection(*conn);
+        auto connection = new Connection(inNeuron, outNeuron, conn->getID(),
+                                         conn->getWeight(), conn->isEnabled(), conn->isOriginal());
 
 //        outNeuron->addIncoming(conn);
         inNeuron->addOutgoing(connection);
 
         this->connections.push_back(connection);
+        for (auto id : other.connInnovations) {
+            connInnovations.insert(id);
+        }
     }
 
 }
@@ -95,7 +102,7 @@ Network::~Network() {
 }
 
 std::pair<bool, int> Network::mutate() {
-    int roll = HelperMethods::getRandomChance();
+        int roll = HelperMethods::getRandomChance();
     if ( roll < WEIGHTS_MUTATION_RATE ) {
         mutateWeights();
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
@@ -106,6 +113,7 @@ std::pair<bool, int> Network::mutate() {
         return {true,  mutateStructure()};
     }
     return {false, 0};
+
 }
 
 void Network::mutateWeights() {
@@ -135,7 +143,9 @@ void Network::mutateWeights() {
 }
 
 void Network::toggleConnection() {
-    connections[HelperMethods::getRandomInt(0, connections.size())]->toggle();
+    int num = HelperMethods::getRandomInt(0, connections.size());
+    auto conn = connections.at(num);
+    conn->toggle();
 }
 
 bool Network::mutateStructure() {
@@ -144,6 +154,7 @@ bool Network::mutateStructure() {
     } else {
         return createConnection();
     }
+    return false;
 }
 
 Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
@@ -228,11 +239,15 @@ bool Network::createConnection() {
 
     auto key = std::make_pair(first->getId(), second->getId());
     int innovation = ledger->getOrCreateConnInnovation(key);
+    int tries = 0;
     while (connInnovations.contains(innovation)) {
         first = getRandomNeuron(fromInput ? Layer::Input : Layer::Hidden);
         second = getRandomNeuron(fromInput ? Layer::Hidden : Layer::Output);
         key = std::make_pair(first->getId(), second->getId());
         innovation = ledger->getOrCreateConnInnovation(key);
+        if (++tries > MAX_TRIES) {
+            return false;
+        }
     }
 
     auto* conn = new Connection(first, second, innovation, 1.0, false, true);
@@ -255,12 +270,18 @@ bool Network::createNeuron() {
     int newNeuronId = ledger->getNewNeuronId();
     auto newNeuron = new Neuron(newNeuronId, Layer::Hidden);
     auto connInInnovation = ledger->getOrCreateConnInnovation({randomConn->source->getId(), newNeuronId});
-    auto newConnIn = new Connection(randomConn->source, newNeuron, connInInnovation, false);
     auto connOutInnovation = ledger->getOrCreateConnInnovation({newNeuronId, randomConn->destination->getId()});
-    auto newConnOut = new Connection(randomConn->source, newNeuron, connInInnovation, false);
+
+
+    auto newConnIn = new Connection(randomConn->source, newNeuron, connInInnovation, 1.0, false, true);
+    auto newConnOut = new Connection( newNeuron, randomConn->destination, connOutInnovation, randomConn->getWeight(), false, true);
 
     randomConn->source->addOutgoing(newConnIn);
     newNeuron->addOutgoing(newConnOut);
+
+    connInnovations.insert(connInInnovation);
+    connInnovations.insert(connOutInnovation);
+//    neuronInnovations.insert(newNeuronId);
 
     connections.push_back(newConnIn);
     connections.push_back(newConnOut);

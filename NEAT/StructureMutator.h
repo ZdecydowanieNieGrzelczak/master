@@ -4,6 +4,8 @@
 #include <map>
 #include "../utils/SharedDefinitions.h"
 
+
+
 class StructureMutator {
 public:
     static StructureMutator& getInstance() {
@@ -27,6 +29,8 @@ public:
 
     int getNewNeuronId();
 };
+
+extern StructureMutator* ledger;
 
 
 #endif //MASTER_STRUCTUREMUTATOR_H

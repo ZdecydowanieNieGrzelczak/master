@@ -1,6 +1,7 @@
 #include "StructureMutator.h"
 
 
+
 int StructureMutator::checkConnectionInnovation(int neuronFromId, int neronToId) const {
     return checkConnectionInnovation(std::pair(neronToId, neronToId));
 }

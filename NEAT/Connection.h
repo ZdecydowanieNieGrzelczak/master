@@ -32,6 +32,8 @@ public:
 
     friend std::ostream& operator<<(std::ostream& os, const Connection& conn);
 
+    int getID();
+
 private:
 
     double weight;

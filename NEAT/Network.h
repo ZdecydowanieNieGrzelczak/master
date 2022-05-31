@@ -16,7 +16,8 @@
 
 class Network {
 public:
-    Network(int inputCount, int outputCount, StructureMutator* ledger);
+//    Network(int inputCount, int outputCount, StructureMutator* ledger);
+    Network(int inputCount, int outputCount);
 
     Network(const Network &other);
 
@@ -28,11 +29,14 @@ public:
 
     std::string getSaveData();
 
+    size_t getHiddenSize() {return hidden.size(); };
+    size_t getConnectionsSize() {return connections.size(); };
+
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
     int connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out, bool original, int current);
 
-    StructureMutator* ledger;
+//    StructureMutator* ledger;
 
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;
@@ -52,9 +56,7 @@ private:
     Neuron *getRandomNeuron(Layer layer);
 
     void mutateWeights();
-
     void toggleConnection();
-
     bool mutateStructure();
 };
 

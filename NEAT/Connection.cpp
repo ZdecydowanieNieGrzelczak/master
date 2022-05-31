@@ -37,3 +37,7 @@ bool Connection::isOriginal() const {
     return original;
 }
 
+int Connection::getID() {
+    return innovId;
+}
+

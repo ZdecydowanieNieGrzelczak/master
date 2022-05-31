@@ -6,11 +6,11 @@
 
 
 int main() {
-
     auto game = new TicTacToe();
     srand (time(nullptr));
     auto generation = new Generation(POPULATION_COUNT, game);
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
+
 
     std::cout << "Testing" << std::endl;
 

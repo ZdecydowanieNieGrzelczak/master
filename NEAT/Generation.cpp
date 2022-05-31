@@ -2,6 +2,7 @@
 #include <fstream>
 #include "Generation.h"
 #include "../games/tictactoe/TicTacToe.h"
+#include "Spiecie.h"
 
 StructureMutator* ledger;
 
@@ -54,7 +55,10 @@ void Generation::runThroughGeneration() {
 
 std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     auto newMembers = std::vector<Network*>();
+    spiecies.clear();
     auto bestNetwork = members.at(bestIndex);
+
+    spiecies.emplace_back(1, bestNetwork);
 
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
         newMembers.push_back(new Network(*bestNetwork));
@@ -84,6 +88,8 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         assert(index >= 0);
         assert(index < members.size());
         auto newMember = new Network(*members.at(index), i);
+        addToSpiecies(newMember);
+
         if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
             newMember->mutate();
         }
@@ -95,8 +101,18 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     }
 
     std::cout << "Created generation: " << generationCounter << std::endl;
+    std::cout << "Species size : " << GENERATION_COUNT << "/" << spiecies.size() << std::endl;
 
     return newMembers;
+}
+
+void Generation::addToSpiecies(Network* net) {
+    for (auto & spiecie : spiecies) {
+        if(spiecie.testAndAdd(*net)) {
+            return;
+        }
+    }
+    spiecies.emplace_back(spiecies.size() + 1, net);
 }
 
 double Generation::testFor(int iterationCount, Network network) {

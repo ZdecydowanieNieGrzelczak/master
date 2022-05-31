@@ -47,7 +47,7 @@ private:
 
     std::map<int, Neuron*> neuronMap;
 
-    std::vector<Connection*> connections;
+    std::map<int, Connection*> connections;
 
     std::unordered_set<int> connInnovations;
     std::unordered_set<int> neuronInnovations;

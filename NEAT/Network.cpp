@@ -36,15 +36,16 @@ Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} 
 Network::Network(const Network &other, int id): id{id}, parentId{other.id} {
 //Network::Network(const Network &other): ledger{other.ledger} {
     neuronMap.clear();
-    for(auto conn : other.connections) {
+    connections.clear();
+    for(auto  [ID, conn] : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
-        auto connection = new Connection(inNeuron, outNeuron, conn->getID(),
+        auto connection = new Connection(inNeuron, outNeuron, ID,
                                          conn->getWeight(), conn->isEnabled(), conn->isOriginal());
 
         inNeuron->addOutgoing(connection);
 
-        this->connections.push_back(connection);
+        this->connections[ID] = connection;
         for (auto id : other.connInnovations) {
             connInnovations.insert(id);
         }
@@ -94,7 +95,7 @@ Network::~Network() {
     for (auto neuron : outputs) {
         delete neuron;
     }
-    for (auto conn : connections) {
+    for (auto &[ID, conn] : connections) {
         delete conn;
     }
 }
@@ -133,7 +134,7 @@ void Network::mutateWeights() {
         }
     }
 
-    for (auto conn : connections) {
+    for (auto & [ID, conn] : connections) {
         if (rand() % 100 <= 100 * CONNECTION_MUTATION_RATE) {
             conn->mutate();
         }
@@ -141,9 +142,12 @@ void Network::mutateWeights() {
 }
 
 void Network::toggleConnection() {
-    int num = HelperMethods::getRandomInt(0, connections.size());
-    auto conn = connections.at(num);
-    conn->toggle();
+
+    std::pair<int, Connection*> pair;
+    std::mt19937 gen( std::random_device{}() );
+    std::sample(connections.begin(), connections.end(), &pair, 1, gen );
+    pair.second->toggle();
+
 }
 
 bool Network::mutateStructure() {
@@ -183,7 +187,7 @@ int Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *
     for (auto & srcNeuron : in) {
         for (auto & destNeuron : out) {
             auto connection = new Connection(srcNeuron, destNeuron, current++, original);
-            connections.push_back(connection);
+            connections[current] = (connection);
             srcNeuron->addOutgoing(connection);
         }
     }
@@ -205,7 +209,7 @@ std::string Network::getSaveData() {
         data += std::to_string(output->getBias()) + ";" + std::to_string(output->getId()) + "\n";
     }
     data += "Connection\n";
-    for (auto conn : connections) {
+    for (auto & [connID, conn] : connections) {
         data += std::to_string(conn->getWeight()) + ";" + std::to_string(conn->source->getId()) + ";" +
                 std::to_string(conn->destination->getId()) + "\n";
     }
@@ -251,14 +255,17 @@ bool Network::createConnection() {
     auto* conn = new Connection(first, second, innovation, 1.0, false, true);
 
     connInnovations.insert(innovation);
-    connections.push_back(conn);
+    connections[innovation ] = conn;
     return true;
 }
 
 bool Network::createNeuron() {
     std::vector<Connection*> possibilities;
-    std::copy_if(connections.begin(), connections.end(), std::back_inserter(possibilities),
-                  [](Connection* conn){ return conn->isOriginal() && conn->isEnabled(); });
+    for (const auto & [ID, conn] : connections) {
+        if (conn->isOriginal() && conn->isEnabled()) {
+            possibilities.push_back(conn);
+        }
+    }
     if (possibilities.empty()) {
         return false;
     }
@@ -281,8 +288,8 @@ bool Network::createNeuron() {
     connInnovations.insert(connOutInnovation);
 //    neuronInnovations.insert(newNeuronId);
 
-    connections.push_back(newConnIn);
-    connections.push_back(newConnOut);
+    connections[connInInnovation] = (newConnIn);
+    connections[connOutInnovation] = (newConnOut);
 
     hidden.push_back(newNeuron);
 
@@ -316,10 +323,15 @@ double Network::getSimilarity(const Network &network) {
 
     double connectionDiff{0.0};
 
-    for (auto connection : connections) {
-
+    // Replace checking with try /except?
+    try{
+        for (auto [ID, connection] : connections) {
+            connectionDiff += abs(connection->getWeight() * connection->isEnabled() - network.connections.at(ID)->getWeight() * connection->isEnabled());
+        }
+    } catch (const std::out_of_range &e) {
+        std::cout << "Wrong matching " << std::endl;
+        return 0;
     }
 
-    double res{0};
-
+    return std::max(10 - connectionDiff, 0.0);
 }

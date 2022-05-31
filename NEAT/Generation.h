@@ -4,9 +4,7 @@
 #include "Network.h"
 #include "../games/Game.h"
 #include "../utils/SharedDefinitions.h"
-
-
-
+#include "Spiecie.h"
 
 
 class Generation {
@@ -37,6 +35,9 @@ private:
     std::vector<float> generationScores;
 
 
+    std::vector<Spiecie> spiecies;
+
+    void addToSpiecies(Network *net);
 };
 
 #endif //MASTER_GENERATION_H

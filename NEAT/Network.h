@@ -6,6 +6,7 @@
 #include <map>
 #include <cassert>
 #include <iostream>
+#include <stdlib.h>
 
 #include "Connection.h"
 #include "Neuron.h"
@@ -17,9 +18,9 @@
 class Network {
 public:
 //    Network(int inputCount, int outputCount, StructureMutator* ledger);
-    Network(int inputCount, int outputCount);
+    Network(int inputCount, int outputCount, int id);
 
-    Network(const Network &other);
+    Network(const Network &other, int id);
 
     ~Network();
 
@@ -31,6 +32,8 @@ public:
 
     size_t getHiddenSize() {return hidden.size(); };
     size_t getConnectionsSize() {return connections.size(); };
+
+    double getSimilarity(const Network &network);
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
@@ -58,6 +61,9 @@ private:
     void mutateWeights();
     void toggleConnection();
     bool mutateStructure();
+
+    int parentId;
+    int id;
 };
 
 #endif //MASTER_NETWORK_H

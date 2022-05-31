@@ -5,7 +5,7 @@
 
 
 //Network::Network(int inputCount, int outputCount, StructureMutator* ledger): ledger{ledger} {
-Network::Network(int inputCount, int outputCount) {
+Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} {
     int neuronCount = 1;
     for (int x = 0; x < inputCount; ++x) {
         auto neuron = new Neuron(neuronCount++, Layer::Input);
@@ -33,17 +33,15 @@ Network::Network(int inputCount, int outputCount) {
 
 
 
-Network::Network(const Network &other) {
+Network::Network(const Network &other, int id): id{id}, parentId{other.id} {
 //Network::Network(const Network &other): ledger{other.ledger} {
     neuronMap.clear();
     for(auto conn : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
-//        auto connection = new Connection(*conn);
         auto connection = new Connection(inNeuron, outNeuron, conn->getID(),
                                          conn->getWeight(), conn->isEnabled(), conn->isOriginal());
 
-//        outNeuron->addIncoming(conn);
         inNeuron->addOutgoing(connection);
 
         this->connections.push_back(connection);
@@ -289,4 +287,39 @@ bool Network::createNeuron() {
     hidden.push_back(newNeuron);
 
     return true;
+}
+
+double Network::getSimilarity(const Network &network) {
+    if (parentId == network.parentId) {
+        return 100.0;
+    }
+
+    if (hidden.size() != network.hidden.size()) {
+        return 0.0;
+    }
+
+    if (std::abs(int(connInnovations.size() - network.connInnovations.size())) > 0) {
+        return 0.0;
+    }
+
+    for (auto connIn : connInnovations ) {
+        if (!network.connInnovations.contains(connIn)) {
+            return false;
+        }
+    }
+
+    for (auto connIn : network.connInnovations ) {
+        if (!connInnovations.contains(connIn)) {
+            return false;
+        }
+    }
+
+    double connectionDiff{0.0};
+
+    for (auto connection : connections) {
+
+    }
+
+    double res{0};
+
 }

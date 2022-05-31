@@ -3,7 +3,6 @@
 #include "Generation.h"
 #include "../games/tictactoe/TicTacToe.h"
 
-#pragma once
 StructureMutator* ledger;
 
 Generation::Generation(int generationCount, Game* game): game{game} {
@@ -11,7 +10,7 @@ Generation::Generation(int generationCount, Game* game): game{game} {
     members.reserve(generationCount);
     ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
-        members.push_back(new Network(game->getStateSize(), game->getActionSize()));
+        members.push_back(new Network(game->getStateSize(), game->getActionSize(), i));
     }
 }
 
@@ -84,7 +83,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
         assert(index >= 0);
         assert(index < members.size());
-        auto newMember = new Network(*members.at(index));
+        auto newMember = new Network(*members.at(index), i);
         if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
             newMember->mutate();
         }

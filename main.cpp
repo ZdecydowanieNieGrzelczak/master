@@ -14,7 +14,7 @@ int main() {
 
     std::cout << "Testing" << std::endl;
 
-    generation->testFor(TEST_BATTLES_COUNT, bestRes);
+    generation->testFor(TEST_BATTLES_COUNT, *bestRes);
 
     std::cout << "Saving scores" << std::endl;
     generation->saveTheScore(FILENAME_BASE);

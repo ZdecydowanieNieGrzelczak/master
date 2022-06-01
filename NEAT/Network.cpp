@@ -27,7 +27,7 @@ Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} 
 
 //    int current = connectLayers(inputs, hidden, true, 0);
 //    connectLayers(hidden, outputs, true, current);
-    connectLayers(inputs, outputs, true, 0);
+    connectLayers(inputs, outputs, 0);
 
 }
 
@@ -37,7 +37,7 @@ Network::Network(const Network &other, int id): id{id}, parentId{other.id} {
 //Network::Network(const Network &other): ledger{other.ledger} {
     neuronMap.clear();
     connections.clear();
-    for(auto  [ID, conn] : other.connections) {
+    for(auto &[ID, conn] : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
         auto connection = new Connection(inNeuron, outNeuron, ID,
@@ -60,6 +60,7 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
     }
+
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->passValue();
@@ -160,10 +161,10 @@ bool Network::mutateStructure() {
 }
 
 Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
-    auto id = originalNeuron.getId();
-    if (!neuronMap.contains(id)) {
+    auto originalId = originalNeuron.getId();
+    if (!neuronMap.contains(originalId)) {
         auto neuron = new Neuron(originalNeuron);
-        neuronMap[id] = neuron;
+        neuronMap[originalId] = neuron;
         switch (neuron->getLayer()) {
             case Layer::Hidden:
                 hidden.push_back(neuron);
@@ -179,14 +180,14 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
         }
         return neuron;
     } else {
-        return neuronMap[id];
+        return neuronMap[originalId];
     }
 }
 
-int Network::connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out, bool original, int current) {
+int Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current) {
     for (auto & srcNeuron : in) {
         for (auto & destNeuron : out) {
-            auto connection = new Connection(srcNeuron, destNeuron, current++, original);
+            auto connection = new Connection(srcNeuron, destNeuron, current++, true);
             connections[current] = (connection);
             srcNeuron->addOutgoing(connection);
         }

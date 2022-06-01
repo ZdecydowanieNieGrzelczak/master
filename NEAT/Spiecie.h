@@ -9,6 +9,7 @@ public:
     Spiecie(int id, Network* archetype);
     bool testAndAdd(const Network& contestant);
     int getCount() { return specimensCount; }
+    int getID() {return id; }
 private:
     Network* archetype;
     int specimensCount{1};

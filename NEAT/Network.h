@@ -21,6 +21,7 @@ public:
     Network(int inputCount, int outputCount, int id);
 
     Network(const Network &other, int id);
+    Network(const Network &other) = delete;
 
     ~Network();
 
@@ -33,11 +34,13 @@ public:
     size_t getHiddenSize() {return hidden.size(); };
     size_t getConnectionsSize() {return connections.size(); };
 
+    int spiecieID{0};
+
     double getSimilarity(const Network &network);
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    int connectLayers(std::vector<Neuron *>& in, const std::vector<Neuron *>& out, bool original, int current);
+    int connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current);
 
 //    StructureMutator* ledger;
 

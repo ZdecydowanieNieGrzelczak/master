@@ -11,21 +11,23 @@ Generation::Generation(int generationCount, Game* game): game{game} {
     members.reserve(generationCount);
     ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
-        members.push_back(new Network(game->getStateSize(), game->getActionSize(), i));
+        auto net = new Network(game->getStateSize(), game->getActionSize(), i);
+        members.push_back(net);
+        spiecies.emplace_back(i, net);
     }
 }
 
-Network Generation::iterateFor(int iterationCount) {
+Network * Generation::iterateFor(int iterationCount) {
     std::cout << "Beginning iteration!" << std::endl;
 
     for(int i = 0; i < iterationCount; ++i) {
         runThroughGeneration();
     }
-    return *members.at(0);
+    return members.at(0);
 }
 
 void Generation::runThroughGeneration() {
-    float bestScore{GAMES_PER_ITER * INVALID_PENALTY - 10  };
+    float bestScore{-999999999999999999999999.0f};
     int bestIndex;
     memberScores.clear();
     for(int x = 0; x < members.size(); ++x) {
@@ -40,6 +42,8 @@ void Generation::runThroughGeneration() {
             }
             score += res.second;
         }
+        score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
+                : score * spiecies.at(member->spiecieID).getCount();
         memberScores.push_back(score);
         if (score > bestScore) {
             bestScore = score;
@@ -55,13 +59,14 @@ void Generation::runThroughGeneration() {
 
 std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     auto newMembers = std::vector<Network*>();
-    spiecies.clear();
+    std::vector<Spiecie> newSpiecies;
     auto bestNetwork = members.at(bestIndex);
 
-    spiecies.emplace_back(1, bestNetwork);
+    newSpiecies.emplace_back(0, bestNetwork);
 
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
-        newMembers.push_back(new Network(*bestNetwork));
+        newMembers.push_back(new Network(*bestNetwork, x));
+
     }
 
     std::cout << "Created best member for: " << generationCounter << std::endl;
@@ -88,7 +93,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         assert(index >= 0);
         assert(index < members.size());
         auto newMember = new Network(*members.at(index), i);
-        addToSpiecies(newMember);
+        addToSpiecies(newMember, newSpiecies);
 
         if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
             newMember->mutate();
@@ -100,22 +105,27 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         delete member;
     }
 
+    spiecies.clear();
+    spiecies = newSpiecies;
+
     std::cout << "Created generation: " << generationCounter << std::endl;
     std::cout << "Species size : " << GENERATION_COUNT << "/" << spiecies.size() << std::endl;
 
     return newMembers;
 }
 
-void Generation::addToSpiecies(Network* net) {
-    for (auto & spiecie : spiecies) {
+void Generation::addToSpiecies(Network *net, std::vector<Spiecie> &newSpiecies) {
+    for (auto & spiecie : newSpiecies) {
         if(spiecie.testAndAdd(*net)) {
+            net->spiecieID = spiecie.getID();
             return;
         }
     }
-    spiecies.emplace_back(spiecies.size() + 1, net);
+    net->spiecieID = newSpiecies.size();
+    newSpiecies.emplace_back(newSpiecies.size(), net);
 }
 
-double Generation::testFor(int iterationCount, Network network) {
+double Generation::testFor(int iterationCount, Network &network) {
     double score = 0.0;
     for(int x = 0; x < iterationCount; ++x) {
         auto res = game->reset();

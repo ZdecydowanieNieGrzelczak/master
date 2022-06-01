@@ -27,9 +27,10 @@ void Neuron::mutate() {
 }
 
 void Neuron::passValue() {
-    for (const auto out : outgoing) {
+    for (const auto & out : outgoing) {
         if (out->isEnabled()) {
-            auto val = (currentValue + bias) * out->getWeight();
+            double weight = out->getWeight();
+            auto val = (currentValue + bias) * weight;
             out->destination->receiveValue(val);
         }
     }

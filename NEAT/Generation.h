@@ -10,9 +10,9 @@
 class Generation {
 public:
     Generation(int generationCount, Game *game);
-    Network iterateFor(int iterationCount);
+    Network * iterateFor(int iterationCount);
 
-    double testFor(int iterationCount, Network network);
+    double testFor(int iterationCount, Network &network);
 
 
     void saveTheScore(const std::string &filename) const;
@@ -37,7 +37,7 @@ private:
 
     std::vector<Spiecie> spiecies;
 
-    void addToSpiecies(Network *net);
+    void addToSpiecies(Network *net, std::vector<Spiecie> &newSpiecies);
 };
 
 #endif //MASTER_GENERATION_H

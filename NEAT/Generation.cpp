@@ -62,9 +62,9 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     std::vector<Spiecie> newSpiecies;
     auto bestNetwork = members.at(bestIndex);
 
-    newSpiecies.emplace_back(0, bestNetwork);
 
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
+        addToSpiecies(bestNetwork, newSpiecies);
         newMembers.push_back(new Network(*bestNetwork, x));
 
     }

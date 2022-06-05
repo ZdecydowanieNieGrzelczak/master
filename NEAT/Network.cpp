@@ -107,9 +107,7 @@ std::pair<bool, int> Network::mutate() {
         mutateWeights();
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
         toggleConnection();
-    }
-    else {
-//    if (HelperMethods::getRandomChance() > STRUCTURE_MUTATION_RATE ) {
+    } else if (HelperMethods::getRandomChance() > STRUCTURE_MUTATION_RATE ) {
         return {true,  mutateStructure()};
     }
     return {false, 0};
@@ -212,7 +210,8 @@ std::string Network::getSaveData() {
     data += "Connection\n";
     for (auto & [connID, conn] : connections) {
         data += std::to_string(conn->getWeight()) + ";" + std::to_string(conn->source->getId()) + ";" +
-                std::to_string(conn->destination->getId()) + "\n";
+                std::to_string(conn->destination->getId()) + ";" + std::to_string(connID) + ";" +
+                std::to_string(conn->isEnabled() ? 1 : 0) + "\n";
     }
     return data;
 }

@@ -28,6 +28,7 @@ Network * Generation::iterateFor(int iterationCount) {
 
 void Generation::runThroughGeneration() {
     float bestScore{-999999999999999999999999.0f};
+    float bestRawScore{-999999999999999999999999.0f};
     int bestIndex;
     memberScores.clear();
     for(int x = 0; x < members.size(); ++x) {
@@ -42,16 +43,23 @@ void Generation::runThroughGeneration() {
             }
             score += res.second;
         }
+        float rawScore = score;
         score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
                 : score * spiecies.at(member->spiecieID).getCount();
         memberScores.push_back(score);
         if (score > bestScore) {
             bestScore = score;
+        }
+        if (rawScore > bestRawScore) {
             bestIndex = x;
+            bestRawScore = rawScore;
         }
     }
     std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
+    std::cout << "Best Raw Score: " << bestRawScore << std::endl;
     generationScores.push_back(bestScore);
+    generationRawScores.push_back(bestRawScore);
+    generationSizes.emplace_back(members[bestIndex]->getHiddenSize(), members[bestIndex]->getConnectionsSize());
     members = createNewGeneration(bestIndex);
 
 
@@ -108,6 +116,8 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     spiecies.clear();
     spiecies = newSpiecies;
 
+    spieciesCounter.push_back(spiecies.size());
+
     std::cout << "Created generation: " << generationCounter << std::endl;
     std::cout << "Species size : " << GENERATION_COUNT << "/" << spiecies.size() << std::endl;
 
@@ -140,16 +150,16 @@ double Generation::testFor(int iterationCount, Network &network) {
     return score;
 }
 
-void Generation::saveTheScore(const std::string &filename) const {
+void Generation::saveTheScore(const std::string &filename, std::vector<float> &scoreVec) const {
     std::ofstream scoreFile;
-    const auto originalName = "../savedData/" + filename + "_scores.csv";
-    auto name = originalName;
+    const auto originalName = "../savedData/" + filename + "_scores";
+    auto name = originalName + ".csv";
     int counter{0};
     while (HelperMethods::nameTest(name)) {
-        name = originalName + std::to_string(counter++);
+        name = originalName + std::to_string(counter++) + ".csv";
     }
     scoreFile.open(name);
-    for (const auto score : generationScores) {
+    for (const auto score : scoreVec) {
         scoreFile << score << ";";
     }
     scoreFile << std::endl;
@@ -158,11 +168,11 @@ void Generation::saveTheScore(const std::string &filename) const {
 
 void Generation::saveTheNetwork(const std::string &filename) const {
     std::ofstream networkFile;
-    const auto originalName = "../savedData/" + filename + "_network.csv";
-    auto name = originalName;
+    const auto originalName = "../savedData/" + filename + "_network";
+    auto name = originalName + ".csv";
     int counter{0};
     while (HelperMethods::nameTest(name)) {
-        name = originalName + std::to_string(counter++);
+        name = originalName + std::to_string(counter++) + ".csv";
     }
     networkFile.open(name);
     for (const auto& network : members) {
@@ -171,6 +181,45 @@ void Generation::saveTheNetwork(const std::string &filename) const {
     }
     networkFile << std::endl;
     networkFile.close();
+}
+
+void Generation::saveTheSize(const std::string &filename) const {
+    std::ofstream scoreFile;
+    const auto originalName = "../savedData/" + filename + "_sizes";
+    auto name = originalName + ".csv";
+    int counter{0};
+    while (HelperMethods::nameTest(name)) {
+        name = originalName + std::to_string(counter++) + ".csv";
+    }
+    scoreFile.open(name);
+    for (const auto score : generationSizes) {
+        scoreFile << score.first << ";" << score.second << ";" << std::endl;
+    }
+    scoreFile << std::endl;
+    scoreFile.close();
+}
+
+void Generation::saveTheSpiecies(const std::string &filename) const {
+    std::ofstream scoreFile;
+    const auto originalName = "../savedData/" + filename + "_spiecies";
+    auto name = originalName + ".csv";
+    int counter{0};
+    while (HelperMethods::nameTest(name)) {
+        name = originalName + std::to_string(counter++) + ".csv";
+    }
+    scoreFile.open(name);
+    for (const auto score : spieciesCounter) {
+        scoreFile << score << ";" << std::endl;
+    }
+    scoreFile << std::endl;
+    scoreFile.close();
+}
+
+void Generation::saveTheScores(const std::string& string) {
+    saveTheScore(string, generationScores);
+    saveTheScore(string + "_raw_", generationRawScores);
+    saveTheSize(string + "_sizes_");
+    saveTheSpiecies(string + "_spieciesCount_");
 }
 
 

@@ -15,10 +15,12 @@ public:
     double testFor(int iterationCount, Network &network);
 
 
-    void saveTheScore(const std::string &filename) const;
+    void saveTheScore(const std::string &filename, std::vector<float> &scoreVec) const;
+
     void saveTheNetwork(const std::string &filename) const;
 
 
+    void saveTheScores(const std::string& string);
 
 private:
 
@@ -33,11 +35,18 @@ private:
     Game* game;
 
     std::vector<float> generationScores;
+    std::vector<float> generationRawScores;
+    std::vector<int> spieciesCounter;
+    std::vector<std::pair<int, int>> generationSizes;
 
 
     std::vector<Spiecie> spiecies;
 
     void addToSpiecies(Network *net, std::vector<Spiecie> &newSpiecies);
+
+    void saveTheSize(const std::string &filename) const;
+
+    void saveTheSpiecies(const std::string &filename) const;
 };
 
 #endif //MASTER_GENERATION_H

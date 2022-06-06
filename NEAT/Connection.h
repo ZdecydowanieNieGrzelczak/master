@@ -15,8 +15,9 @@
 class Connection {
 public:
     Connection(Neuron* source, Neuron* destination, int innovId, bool original);
-    Connection(Neuron* source, Neuron* destination, int innnovId, double weight, bool original, bool enable);
-    Connection(const Connection &other);
+    Connection(Neuron* source, Neuron* destination, const Connection& other);
+    Connection(Neuron* source, Neuron* destination, int innovId, double weight, bool original, bool enabled, int generation);
+    Connection(const Connection &other) = delete;
 
     void mutate();
     Neuron* source;
@@ -26,13 +27,14 @@ public:
     [[nodiscard]] bool isEnabled() const;
     [[nodiscard]] bool isOriginal() const;
 
-    void enable() {this->enabled = true; };
-    void disable() {this->enabled = false; };
-    void toggle() { this->enabled = !this->enabled; };
+    void enable(int counter) { this->enabled = true; lastEnabledAt = counter; };
+    void disable(int counter) { this->enabled = false; lastEnabledAt = counter; };
+    void toggle(int counter) { this->enabled = !this->enabled; lastEnabledAt = counter; };
 
     friend std::ostream& operator<<(std::ostream& os, const Connection& conn);
 
     int getID();
+    int lastEnabledAt;
 
 private:
 

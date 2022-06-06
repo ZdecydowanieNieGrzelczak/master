@@ -2,15 +2,20 @@
 #include "Neuron.h"
 
 Connection::Connection(Neuron *source, Neuron *destination, int innovId, bool original): source{source}, destination{destination}
-, innovId{innovId}, original{original} {
+, innovId{innovId}, original{original}, lastEnabledAt{0} {
     this->weight = (float)HelperMethods::getRandomInt(-50, 50) / 100.0f;
 }
 
-Connection::Connection(Neuron *source, Neuron *destination, int innovId, double weight, bool original, bool enabled): source{source},
-destination{destination}, innovId{innovId}, weight{weight}, original{original}, enabled{enabled} {
+Connection::Connection(Neuron *source, Neuron *destination, const Connection& other): source{source},
+                                                                                      destination{destination}, innovId{other.innovId}, weight{other.weight}, original{other.original}, enabled{other.enabled},
+                                                                                      lastEnabledAt{other.lastEnabledAt}{
 }
 
-Connection::Connection(const Connection& other) = default;
+
+Connection::Connection(Neuron *source, Neuron *destination, int innovId, double weight, bool original, bool enabled, int generation): source{source},
+                      destination{destination}, innovId{innovId}, weight{weight}, original{original}, enabled{enabled},
+                                                                                      lastEnabledAt{generation}{
+}
 
 void Connection::mutate() {
     this->weight += ((float)HelperMethods::getRandomInt(-50, 50) / 100.0f) * CONN_MUTATION_FACTOR;
@@ -40,4 +45,6 @@ bool Connection::isOriginal() const {
 int Connection::getID() {
     return innovId;
 }
+
+
 

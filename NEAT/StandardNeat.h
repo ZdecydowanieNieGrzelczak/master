@@ -13,14 +13,14 @@ public:
     StandardNeat(const StandardNeat &other) = delete;
     ~StandardNeat() override;
 
-    std::pair<bool, int> mutate() override;
+    std::pair<bool, int> mutate(int generation) override;
 
 
 private:
 
-    bool mutateStructure() override;
-    bool createConnection() override;
-    bool createNeuron() override;
+    bool mutateStructure(int generation) override;
+    bool createConnection(int generation) override;
+    bool createNeuron(int generation) override;
 };
 
 

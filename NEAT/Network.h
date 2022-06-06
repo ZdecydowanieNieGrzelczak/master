@@ -26,7 +26,7 @@ public:
 
     int passThroughNetwork(const std::vector<float>& state);
 
-    virtual std::pair<bool, int> mutate() = 0;
+    virtual std::pair<bool, int> mutate(int generation) = 0;
 
     std::string getSaveData();
 
@@ -39,11 +39,11 @@ public:
 
 protected:
     void mutateWeights();
-    void toggleConnection();
-    virtual bool mutateStructure() = 0;
+    void toggleConnection(int generation);
+    virtual bool mutateStructure(int generation) = 0;
 
-    virtual bool createConnection() = 0;
-    virtual bool createNeuron() = 0;
+    virtual bool createConnection(int generation) = 0;
+    virtual bool createNeuron(int generation) = 0;
 
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;

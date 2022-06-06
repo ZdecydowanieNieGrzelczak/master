@@ -11,27 +11,27 @@ SimplifiedNeat::SimplifiedNeat(const SimplifiedNeat &other, int id) : Network(ot
 
 //TODO: Add neuron removal
 //TODO: Add prunning every nth iterations
-std::pair<bool, int> SimplifiedNeat::mutate() {
+std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
     int roll = HelperMethods::getRandomChance();
     if ( roll < WEIGHTS_MUTATION_RATE ) {
         mutateWeights();
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
-        toggleConnection();
+        toggleConnection(0);
     } else if (HelperMethods::getRandomChance() > STRUCTURE_MUTATION_RATE ) {
-        return {true,  mutateStructure()};
+        return {true, mutateStructure(0)};
     }
     return {false, 0};
 }
 
-bool SimplifiedNeat::mutateStructure() {
+bool SimplifiedNeat::mutateStructure(int generation) {
     if (HelperMethods::getRandomChance() > NEURON_CREATION_RATE ) {
-        return createNeuron();
+        return createNeuron(0);
     } else {
-        return createConnection();
+        return createConnection(0);
     }
 }
 
-bool SimplifiedNeat::createConnection() {
+bool SimplifiedNeat::createConnection(int generation) {
     if (hidden.empty()) {
         return false;
     }
@@ -53,15 +53,15 @@ bool SimplifiedNeat::createConnection() {
         }
     }
 
-    auto* conn = new Connection(first, second, innovation, 1.0, false, true);
+    auto* conn = new Connection(first, second, innovation, 1.0, false, true, generation);
 
     connInnovations.insert(innovation);
     connections[innovation ] = conn;
     return true;
 }
-}
 
-bool SimplifiedNeat::createNeuron() {
+
+bool SimplifiedNeat::createNeuron(int generation) {
     std::vector<Connection*> possibilities;
     for (const auto & [ID, conn] : connections) {
         if (conn->isOriginal() && conn->isEnabled()) {
@@ -73,15 +73,15 @@ bool SimplifiedNeat::createNeuron() {
     }
 
     auto randomConn = possibilities[HelperMethods::getRandomInt(0, possibilities.size())];
-    randomConn->disable();
+    randomConn->disable(generation);
     int newNeuronId = ledger->getNewNeuronId();
     auto newNeuron = new Neuron(newNeuronId, Layer::Hidden);
     auto connInInnovation = ledger->getOrCreateConnInnovation({randomConn->source->getId(), newNeuronId});
     auto connOutInnovation = ledger->getOrCreateConnInnovation({newNeuronId, randomConn->destination->getId()});
 
 
-    auto newConnIn = new Connection(randomConn->source, newNeuron, connInInnovation, 1.0, false, true);
-    auto newConnOut = new Connection( newNeuron, randomConn->destination, connOutInnovation, randomConn->getWeight(), false, true);
+    auto newConnIn = new Connection(randomConn->source, newNeuron, connInInnovation, 1.0, false, true, generation);
+    auto newConnOut = new Connection( newNeuron, randomConn->destination, connOutInnovation, randomConn->getWeight(), false, true, generation);
 
     randomConn->source->addOutgoing(newConnIn);
     newNeuron->addOutgoing(newConnOut);
@@ -113,4 +113,3 @@ SimplifiedNeat::~SimplifiedNeat() {
     }
 }
 
-}

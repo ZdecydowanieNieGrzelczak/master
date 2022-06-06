@@ -104,7 +104,7 @@ void Network::mutateWeights() {
     }
 }
 
-void Network::toggleConnection() {
+void Network::toggleConnection(int generation) {
 
     std::pair<int, Connection*> pair;
     std::mt19937 gen( std::random_device{}() );

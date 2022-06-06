@@ -4,6 +4,7 @@
 #include "../games/tictactoe/TicTacToe.h"
 #include "Spiecie.h"
 #include "StandardNeat.h"
+#include "SimplifiedNeat.h"
 
 StructureMutator* ledger;
 
@@ -12,7 +13,7 @@ Generation::Generation(int generationCount, Game* game): game{game} {
     members.reserve(generationCount);
     ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
-        auto net = new StandardNeat(game->getStateSize(), game->getActionSize(), i);
+        auto net = new SimplifiedNeat(game->getStateSize(), game->getActionSize(), i);
         members.push_back(net);
         spiecies.emplace_back(i, net);
     }

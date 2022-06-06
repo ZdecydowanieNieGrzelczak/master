@@ -21,6 +21,10 @@ private:
     bool mutateStructure(int generation) override;
     bool createConnection(int generation) override;
     bool createNeuron(int generation) override;
+
+    bool pruneNeurons(int generation);
+
+    void deleteNeuron(Neuron *neuron);
 };
 
 

@@ -66,5 +66,13 @@ void Neuron::removeFromOutgoing(Connection* conn) {
     auto new_end = std::remove(outgoing.begin(), outgoing.end(), conn);
 }
 
+bool Neuron::suitableForRemoval(int generation) {
+    return std::count_if(outgoing.begin(), outgoing.end(), [](Connection *out){ return !out->isEnabled(); }) == outgoing.size();
+}
+
+bool operator==(const Neuron &left, const Neuron &right) {
+    return left.id == right.id;
+}
+
 
 

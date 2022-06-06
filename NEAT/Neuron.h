@@ -30,6 +30,7 @@ public:
 
     void receiveValue(float val) { this->currentValue += val; }
     void passValue();
+    bool suitableForRemoval(int generation);
 
     int getId() const;
 
@@ -38,6 +39,8 @@ public:
     float getFinalValue();
 
     friend std::ostream& operator<<(std::ostream& os, const Neuron& conn);
+    friend bool operator==(const Neuron& left, const Neuron& right);
+
 
     float getBias() { return bias; }
 

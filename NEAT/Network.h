@@ -40,6 +40,9 @@ public:
 protected:
     void mutateWeights();
     void toggleConnection(int generation);
+
+    void deleteConnection(int id);
+
     virtual bool mutateStructure(int generation) = 0;
 
     virtual bool createConnection(int generation) = 0;

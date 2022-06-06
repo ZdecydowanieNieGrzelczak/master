@@ -62,5 +62,9 @@ std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
 Neuron::~Neuron() {
 }
 
+void Neuron::removeFromOutgoing(Connection* conn) {
+    auto new_end = std::remove(outgoing.begin(), outgoing.end(), conn);
+}
+
 
 

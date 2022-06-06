@@ -224,3 +224,13 @@ double Network::getSimilarity(const Network &network) {
 
     return std::max(10 - connectionDiff, 0.0);
 }
+
+void Network::deleteConnection(int id) {
+    if (connInnovations.contains(id)) {
+        connInnovations.erase(id);
+    }
+    auto conn = connections[conn];
+    conn->source->removeFromOutgoing(conn);
+    std::remove(connections.begin(), connections.end(), conn);
+
+}

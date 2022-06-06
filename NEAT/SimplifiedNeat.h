@@ -17,7 +17,7 @@ public:
 
 private:
     void pruneTheNetwork(int generation);
-    bool pruneTheConnections(int generation)
+    bool pruneTheConnections(int generation);
     bool mutateStructure(int generation) override;
     bool createConnection(int generation) override;
     bool createNeuron(int generation) override;

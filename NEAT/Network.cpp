@@ -31,8 +31,7 @@ Network::Network(const Network &other, int id): id{id}, parentId{other.id} {
     for(auto &[ID, conn] : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
-        auto connection = new Connection(inNeuron, outNeuron, ID,
-                                         conn->getWeight(), conn->isEnabled(), conn->isOriginal());
+        auto connection = new Connection(inNeuron, outNeuron, *conn);
 
         inNeuron->addOutgoing(connection);
 
@@ -109,7 +108,7 @@ void Network::toggleConnection(int generation) {
     std::pair<int, Connection*> pair;
     std::mt19937 gen( std::random_device{}() );
     std::sample(connections.begin(), connections.end(), &pair, 1, gen );
-    pair.second->toggle();
+    pair.second->toggle(generation);
 
 }
 
@@ -229,8 +228,23 @@ void Network::deleteConnection(int id) {
     if (connInnovations.contains(id)) {
         connInnovations.erase(id);
     }
-    auto conn = connections[conn];
+    auto conn = connections[id];
     conn->source->removeFromOutgoing(conn);
-    std::remove(connections.begin(), connections.end(), conn);
+    connections.erase(id);
 
+}
+
+Network::~Network() {
+    for (auto neuron : inputs) {
+        delete neuron;
+    }
+    for (auto neuron : hidden) {
+        delete neuron;
+    }
+    for (auto neuron : outputs) {
+        delete neuron;
+    }
+    for (auto &[ID, conn] : connections) {
+        delete conn;
+    }
 }

@@ -97,16 +97,5 @@ bool StandardNeat::createNeuron(int generation) {
 }
 
 StandardNeat::~StandardNeat() {
-    for (auto neuron : inputs) {
-        delete neuron;
-    }
-    for (auto neuron : hidden) {
-        delete neuron;
-    }
-    for (auto neuron : outputs) {
-        delete neuron;
-    }
-    for (auto &[ID, conn] : connections) {
-        delete conn;
-    }
+
 }

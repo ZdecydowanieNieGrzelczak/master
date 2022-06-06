@@ -39,7 +39,8 @@
 #define NOT_FOUND_CODE 404
 
 
-  
+#define FILENAME_BASE "Simpler_NEAT_"
+
 
 #define SIMILARITY_THRESHOLD 2.5
 

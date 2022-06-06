@@ -32,6 +32,7 @@ public:
     void toggle(int counter) { this->enabled = !this->enabled; lastEnabledAt = counter; };
 
     friend std::ostream& operator<<(std::ostream& os, const Connection& conn);
+    friend bool operator==(const Connection& left, const Connection& right);
 
     int getID();
     int lastEnabledAt;

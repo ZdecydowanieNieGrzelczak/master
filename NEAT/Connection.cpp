@@ -46,5 +46,9 @@ int Connection::getID() {
     return innovId;
 }
 
+bool operator==(const Connection &left, const Connection &right) {
+    return left.innovId == right.innovId;
+}
+
 
 

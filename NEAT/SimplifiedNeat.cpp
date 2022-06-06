@@ -99,17 +99,17 @@ bool SimplifiedNeat::createNeuron(int generation) {
 }
 
 SimplifiedNeat::~SimplifiedNeat() {
-    for (auto neuron : inputs) {
-        delete neuron;
-    }
-    for (auto neuron : hidden) {
-        delete neuron;
-    }
-    for (auto neuron : outputs) {
-        delete neuron;
-    }
-    for (auto &[ID, conn] : connections) {
-        delete conn;
-    }
+//    for (auto neuron : inputs) {
+//        delete neuron;
+//    }
+//    for (auto neuron : hidden) {
+//        delete neuron;
+//    }
+//    for (auto neuron : outputs) {
+//        delete neuron;
+//    }
+//    for (auto &[ID, conn] : connections) {
+//        delete conn;
+//    }
 }
 

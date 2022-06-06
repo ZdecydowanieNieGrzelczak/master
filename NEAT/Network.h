@@ -22,7 +22,7 @@ public:
     Network(const Network &other, int id);
     Network(const Network &other) = delete;
 
-    virtual ~Network() = 0;
+    virtual ~Network();
 
     int passThroughNetwork(const std::vector<float>& state);
 

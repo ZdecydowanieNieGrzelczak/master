@@ -1,0 +1,10 @@
+NEAT_TEST_INVALID = Conn innovations not set when created, thus it created definitely too much connections. Chances of
+structure mutation at 10%, definitely too big as it evolved like 160 hidden neurons. Prefer smaller networks, set connInn
+properly.
+
+
+
+NEAT_3 = Final version. Speciefication included. This should be final version to compare.
+WEIGHTS_MUTATION_RATE 75
+CONN_TOGGLING_RATE 12
+STRUCTURE_MUTATION_RATE 4

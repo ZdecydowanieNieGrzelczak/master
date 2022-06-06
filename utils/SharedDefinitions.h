@@ -41,7 +41,7 @@
 
 #define FILENAME_BASE "Simpler_NEAT_"
 
-#define PRUNE_EVERY_N 500
+#define PRUNE_EVERY_N 100
 
 #define SIMILARITY_THRESHOLD 2.5
 

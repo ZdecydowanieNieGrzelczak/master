@@ -15,7 +15,7 @@ public:
     double testFor(int iterationCount, Network &network);
 
 
-    void saveTheScore(const std::string &filename, std::vector<float> &scoreVec) const;
+    static void saveTheScore(const std::string &filename, std::vector<float> &scoreVec) ;
 
     void saveTheNetwork(const std::string &filename) const;
 
@@ -42,7 +42,7 @@ private:
 
     std::vector<Spiecie> spiecies;
 
-    void addToSpiecies(Network *net, std::vector<Spiecie> &newSpiecies);
+    static void addToSpiecies(Network *net, std::vector<Spiecie> &newSpiecies);
 
     void saveTheSize(const std::string &filename) const;
 

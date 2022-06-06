@@ -3,6 +3,7 @@
 #include "Generation.h"
 #include "../games/tictactoe/TicTacToe.h"
 #include "Spiecie.h"
+#include "StandardNeat.h"
 
 StructureMutator* ledger;
 
@@ -11,7 +12,7 @@ Generation::Generation(int generationCount, Game* game): game{game} {
     members.reserve(generationCount);
     ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
-        auto net = new Network(game->getStateSize(), game->getActionSize(), i);
+        auto net = new StandardNeat(game->getStateSize(), game->getActionSize(), i);
         members.push_back(net);
         spiecies.emplace_back(i, net);
     }
@@ -73,7 +74,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
         addToSpiecies(bestNetwork, newSpiecies);
-        newMembers.push_back(new Network(*bestNetwork, x));
+        newMembers.push_back(new StandardNeat(*bestNetwork, x));
 
     }
 
@@ -100,7 +101,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
         assert(index >= 0);
         assert(index < members.size());
-        auto newMember = new Network(*members.at(index), i);
+        auto newMember = new StandardNeat(*members.at(index), i);
         addToSpiecies(newMember, newSpiecies);
 
         if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
@@ -150,7 +151,7 @@ double Generation::testFor(int iterationCount, Network &network) {
     return score;
 }
 
-void Generation::saveTheScore(const std::string &filename, std::vector<float> &scoreVec) const {
+void Generation::saveTheScore(const std::string &filename, std::vector<float> &scoreVec) {
     std::ofstream scoreFile;
     const auto originalName = "../savedData/" + filename + "_scores";
     auto name = originalName + ".csv";

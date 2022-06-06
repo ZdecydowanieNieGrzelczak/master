@@ -17,17 +17,16 @@
 
 class Network {
 public:
-//    Network(int inputCount, int outputCount, StructureMutator* ledger);
     Network(int inputCount, int outputCount, int id);
 
     Network(const Network &other, int id);
     Network(const Network &other) = delete;
 
-    ~Network();
+    virtual ~Network() = 0;
 
     int passThroughNetwork(const std::vector<float>& state);
 
-    std::pair<bool, int> mutate();
+    virtual std::pair<bool, int> mutate() = 0;
 
     std::string getSaveData();
 
@@ -38,11 +37,13 @@ public:
 
     double getSimilarity(const Network &network);
 
-private:
-    Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    int connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current);
+protected:
+    void mutateWeights();
+    void toggleConnection();
+    virtual bool mutateStructure() = 0;
 
-//    StructureMutator* ledger;
+    virtual bool createConnection() = 0;
+    virtual bool createNeuron() = 0;
 
     std::vector<Neuron*> inputs;
     std::vector<Neuron*> hidden;
@@ -55,15 +56,11 @@ private:
     std::unordered_set<int> connInnovations;
     std::unordered_set<int> neuronInnovations;
 
-    bool createConnection();
-    bool createNeuron();
-
-
     Neuron *getRandomNeuron(Layer layer);
 
-    void mutateWeights();
-    void toggleConnection();
-    bool mutateStructure();
+private:
+    Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
+    int connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current);
 
     int parentId;
     int id;

@@ -39,8 +39,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "NEAT_3"
-
+  
 
 #define SIMILARITY_THRESHOLD 2.5
 

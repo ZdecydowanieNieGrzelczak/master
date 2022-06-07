@@ -22,11 +22,12 @@ public:
     Network(const Network &other, int id);
     Network(const Network &other) = delete;
 
-    virtual ~Network();
+    ~Network();
 
     int passThroughNetwork(const std::vector<float>& state);
 
     virtual std::pair<bool, int> mutate(int generation) = 0;
+    virtual void processBestNetwork(int generation) = 0;
 
     std::string getSaveData();
 
@@ -44,7 +45,6 @@ protected:
     void deleteConnection(int id);
 
     virtual bool mutateStructure(int generation) = 0;
-
     virtual bool createConnection(int generation) = 0;
     virtual bool createNeuron(int generation) = 0;
 

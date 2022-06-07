@@ -30,6 +30,7 @@
 #define HIDDEN_LAYER_COUNT 40
 
 #define BEST_COPY_COUNT 1
+#define BEST_COPY_WITH_PROCESSING 10
 
 #define WIN 1.0
 #define DRAW 0.0
@@ -39,9 +40,11 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "Simpler_NEAT_"
+#define FILENAME_BASE "correct_simpler"
 
 #define PRUNE_EVERY_N 100
+
+#define REMOVE_NEURONS_COUNT 3
 
 #define SIMILARITY_THRESHOLD 2.5
 

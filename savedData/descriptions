@@ -8,3 +8,7 @@ NEAT_3 = Final version. Speciefication included. This should be final version to
 WEIGHTS_MUTATION_RATE 75
 CONN_TOGGLING_RATE 12
 STRUCTURE_MUTATION_RATE 4
+
+
+SIMPLER_NEAT = STILL NEAT. wrong name, it was running standard neat
+

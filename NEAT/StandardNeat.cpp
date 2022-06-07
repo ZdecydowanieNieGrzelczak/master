@@ -96,6 +96,8 @@ bool StandardNeat::createNeuron(int generation) {
     return true;
 }
 
-StandardNeat::~StandardNeat() {
+StandardNeat::~StandardNeat() = default;
+
+void StandardNeat::processBestNetwork(int generation) {
 
 }

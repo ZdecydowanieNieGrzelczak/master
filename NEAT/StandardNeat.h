@@ -11,9 +11,11 @@ public:
 
     StandardNeat(const Network &other, int id);
     StandardNeat(const StandardNeat &other) = delete;
-    ~StandardNeat() override;
+    StandardNeat(const Network &other) = delete;
+    ~StandardNeat();
 
     std::pair<bool, int> mutate(int generation) override;
+    void processBestNetwork(int generation) override;
 
 
 private:

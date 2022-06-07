@@ -9,6 +9,7 @@ int main() {
     auto game = new TicTacToe();
     srand (time(nullptr));
     auto generation = new Generation(POPULATION_COUNT, game);
+
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
 
 
@@ -19,7 +20,6 @@ int main() {
     std::cout << "Saving scores" << std::endl;
     generation->saveTheScores(FILENAME_BASE);
     std::cout << "Saving network" << std::endl;
-
     generation->saveTheNetwork(FILENAME_BASE);
 
     std::cout << "Hello, World!" << std::endl;

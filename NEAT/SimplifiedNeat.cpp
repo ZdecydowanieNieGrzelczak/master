@@ -104,64 +104,64 @@ bool SimplifiedNeat::createNeuron(int generation) {
 
 SimplifiedNeat::~SimplifiedNeat() = default;
 
-//void SimplifiedNeat::pruneTheNetwork(int generation) {
-//    pruneTheConnections(generation);
-//    pruneNeurons(generation);
-//}
-//
-//bool SimplifiedNeat::pruneTheConnections(int generation) {
-//    std::vector<int> toRemove;
-//    for (const auto & [ID, conn] : connections) {
-//        if (!conn->isOriginal() && !conn->isEnabled()) {
-//            toRemove.push_back(conn->getID());
-//        }
-//    }
-//    if (toRemove.empty()) {
-//        return false;
-//    }
-//    for (auto id : toRemove) {
-//        deleteConnection(id);
-//    }
-//    return true;
-//
-//
-//}
-//
-//bool SimplifiedNeat::pruneNeurons(int generation) {
-//    std::vector<Neuron*> toRemove;
-//    for (const auto neuron : hidden) {
-//        if(neuron->suitableForRemoval(generation)) {
-//            toRemove.push_back(neuron);
-//        }
-//
-//    }
-//    if (toRemove.empty()) {
-//        return false;
-//    }
-//    for (auto id : toRemove) {
-//        deleteNeuron(id);
-//    }
-//    return true;
-//}
-//
-//void SimplifiedNeat::deleteNeuron(Neuron *neuron) {
-//    std::vector<int> toRemove;
-//    for (auto & [connId, conn] : connections) {
-//        if (conn->source == neuron || conn->destination == neuron) {
-//            toRemove.push_back(connId);
-//
-//        }
-//    }
-//    for (auto connId : toRemove) {
-//        deleteConnection(connId);
-//    }
-//
-//    auto res = std::remove(hidden.begin(), hidden.end(), neuron);
-//
-//}
+void SimplifiedNeat::pruneTheNetwork(int generation) {
+    pruneTheConnections(generation);
+    pruneNeurons(generation);
+}
+
+bool SimplifiedNeat::pruneTheConnections(int generation) {
+    std::vector<int> toRemove;
+    for (const auto & [ID, conn] : connections) {
+        if (!conn->isOriginal() && !conn->isEnabled()) {
+            toRemove.push_back(conn->getID());
+        }
+    }
+    if (toRemove.empty()) {
+        return false;
+    }
+    for (auto id : toRemove) {
+        deleteConnection(id);
+    }
+    return true;
+
+
+}
+
+bool SimplifiedNeat::pruneNeurons(int generation) {
+    std::vector<Neuron*> toRemove;
+    for (const auto neuron : hidden) {
+        if(neuron->suitableForRemoval(generation)) {
+            toRemove.push_back(neuron);
+        }
+
+    }
+    if (toRemove.empty()) {
+        return false;
+    }
+    for (auto id : toRemove) {
+        deleteNeuron(id);
+    }
+    return true;
+}
+
+void SimplifiedNeat::deleteNeuron(Neuron *neuron) {
+    std::vector<int> toRemove;
+    for (auto & [connId, conn] : connections) {
+        if (conn->source == neuron || conn->destination == neuron) {
+            toRemove.push_back(connId);
+
+        }
+    }
+    for (auto connId : toRemove) {
+        deleteConnection(connId);
+    }
+    neuronMap.erase(neuron->getId());
+    auto res = std::remove(hidden.begin(), hidden.end(), neuron);
+
+}
 
 void SimplifiedNeat::processBestNetwork(int generation) {
-//    for(int i = 0; i < REMOVE_NEURONS_COUNT; ++i) {
-//        deleteNeuron(getRandomNeuron(Layer::Hidden));
-//    }
+    for(int i = 0; i < REMOVE_NEURONS_COUNT; ++i) {
+        deleteNeuron(getRandomNeuron(Layer::Hidden));
+    }
 }

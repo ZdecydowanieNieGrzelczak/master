@@ -106,7 +106,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         addToSpiecies(newMember, newSpiecies);
 
         if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
-            newMember->mutate(0);
+            newMember->mutate(generationCounter);
         }
         newMembers.push_back(newMember);
     }

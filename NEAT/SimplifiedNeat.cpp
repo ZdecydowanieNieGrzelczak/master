@@ -12,9 +12,9 @@ SimplifiedNeat::SimplifiedNeat(const Network &other, int id) : Network(other, id
 //TODO: Add neuron removal
 //TODO: Add prunning every nth iterations
 std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
-//    if (generation % PRUNE_EVERY_N == 0) {
-//        pruneTheNetwork(generation);
-//    }
+    if (generation % PRUNE_EVERY_N == 0) {
+        pruneTheNetwork(generation);
+    }
 
     int roll = HelperMethods::getRandomChance();
     if ( roll < WEIGHTS_MUTATION_RATE ) {
@@ -106,7 +106,7 @@ SimplifiedNeat::~SimplifiedNeat() = default;
 
 void SimplifiedNeat::pruneTheNetwork(int generation) {
     pruneTheConnections(generation);
-    pruneNeurons(generation);
+//    pruneNeurons(generation);
 }
 
 bool SimplifiedNeat::pruneTheConnections(int generation) {
@@ -144,21 +144,6 @@ bool SimplifiedNeat::pruneNeurons(int generation) {
     return true;
 }
 
-void SimplifiedNeat::deleteNeuron(Neuron *neuron) {
-    std::vector<int> toRemove;
-    for (auto & [connId, conn] : connections) {
-        if (conn->source == neuron || conn->destination == neuron) {
-            toRemove.push_back(connId);
-
-        }
-    }
-    for (auto connId : toRemove) {
-        deleteConnection(connId);
-    }
-    neuronMap.erase(neuron->getId());
-    auto res = std::remove(hidden.begin(), hidden.end(), neuron);
-
-}
 
 void SimplifiedNeat::processBestNetwork(int generation) {
     for(int i = 0; i < REMOVE_NEURONS_COUNT; ++i) {

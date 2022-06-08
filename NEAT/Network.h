@@ -61,12 +61,17 @@ protected:
 
     Neuron *getRandomNeuron(Layer layer);
 
+    void deleteNeuron(Neuron *neuron);
+
+
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
     int connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current);
 
     int parentId;
     int id;
+
+
 };
 
 #endif //MASTER_NETWORK_H

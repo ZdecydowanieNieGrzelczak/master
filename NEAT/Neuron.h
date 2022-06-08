@@ -24,7 +24,7 @@ public:
     ~Neuron();
 
     void addOutgoing(Connection *conn);
-    void removeFromOutgoing(Connection *conn);
+    bool removeFromOutgoing(Connection *conn);
 
     void mutate();
 

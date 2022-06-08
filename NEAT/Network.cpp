@@ -229,10 +229,33 @@ void Network::deleteConnection(int id) {
         connInnovations.erase(id);
     }
     auto conn = connections[id];
-    conn->source->removeFromOutgoing(conn);
+    auto ret = conn->source->removeFromOutgoing(conn);
     connections.erase(id);
+    delete conn;
+
+    if (ret) {
+        deleteNeuron(conn->source);
+    }
 
 }
+
+
+void Network::deleteNeuron(Neuron *neuron) {
+    std::vector<int> toRemove;
+    for (auto & [connId, conn] : connections) {
+        if (conn->source == neuron || conn->destination == neuron) {
+            toRemove.push_back(connId);
+
+        }
+    }
+    for (auto connId : toRemove) {
+        deleteConnection(connId);
+    }
+    neuronMap.erase(neuron->getId());
+    hidden.erase(std::remove(hidden.begin(), hidden.end(), neuron), hidden.end());
+    delete neuron;
+}
+
 
 Network::~Network() {
     for (auto neuron : inputs) {

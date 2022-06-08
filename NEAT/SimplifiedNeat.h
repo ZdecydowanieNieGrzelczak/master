@@ -27,7 +27,6 @@ private:
 
     bool pruneNeurons(int generation);
 
-    void deleteNeuron(Neuron *neuron);
 };
 
 

@@ -40,9 +40,9 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "correct_simpler"
+#define FILENAME_BASE "simpler_with_prunning"
 
-#define PRUNE_EVERY_N 100
+#define PRUNE_EVERY_N 50
 
 #define REMOVE_NEURONS_COUNT 3
 

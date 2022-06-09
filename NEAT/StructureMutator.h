@@ -28,6 +28,8 @@ public:
     int getOrCreateConnInnovation(std::pair<int, int> key);
 
     int getNewNeuronId();
+
+    void print();
 };
 
 extern StructureMutator* ledger;

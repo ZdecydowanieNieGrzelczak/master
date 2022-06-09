@@ -47,7 +47,7 @@ Layer Neuron::getLayer() {
 
 float Neuron::getFinalValue() {
     // Only for outputs
-    assert(layer == Layer::Output);
+//    assert(layer == Layer::Output);
     auto value = currentValue + bias;
     currentValue = 0;
     return value;

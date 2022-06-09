@@ -42,7 +42,7 @@ protected:
     void mutateWeights();
     void toggleConnection(int generation);
 
-    void deleteConnection(int id);
+    void deleteConnection(int cid, bool fromNeuron);
 
     virtual bool mutateStructure(int generation) = 0;
     virtual bool createConnection(int generation) = 0;

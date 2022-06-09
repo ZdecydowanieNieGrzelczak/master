@@ -13,14 +13,16 @@ int main() {
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
 
 
-    std::cout << "Testing" << std::endl;
+//    std::cout << "Testing" << std::endl;
+//
+//    generation->testFor(TEST_BATTLES_COUNT, *bestRes);
+//
+//    std::cout << "Saving scores" << std::endl;
+//    generation->saveTheScores(FILENAME_BASE);
+//    std::cout << "Saving network" << std::endl;
+//    generation->saveTheNetwork(FILENAME_BASE);
 
-    generation->testFor(TEST_BATTLES_COUNT, *bestRes);
-
-    std::cout << "Saving scores" << std::endl;
-    generation->saveTheScores(FILENAME_BASE);
-    std::cout << "Saving network" << std::endl;
-    generation->saveTheNetwork(FILENAME_BASE);
+    ledger->print();
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

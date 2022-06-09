@@ -2,8 +2,8 @@
 
 
 GameEval TicTacToe::moveWhite(short actionCode) {
-    assert(isWhiteMoving);
-    assert((whiteState | actionCode) != whiteState);
+//    assert(isWhiteMoving);
+//    assert((whiteState | actionCode) != whiteState);
     whiteState = whiteState | actionCode;
     for(const short winCombination : winCombinations) {
         if ((whiteState & winCombination) == winCombination) {
@@ -20,8 +20,8 @@ GameEval TicTacToe::moveWhite(short actionCode) {
 }
 
 GameEval TicTacToe::moveBlack(short actionCode) {
-    assert(!isWhiteMoving);
-    assert((blackState | actionCode) != blackState);
+//    assert(!isWhiteMoving);
+//    assert((blackState | actionCode) != blackState);
     blackState = blackState | actionCode;
     for(const short winCombination : winCombinations) {
         if ((blackState & winCombination) == winCombination) {

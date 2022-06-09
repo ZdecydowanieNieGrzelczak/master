@@ -1,3 +1,4 @@
+#include <iostream>
 #include "StructureMutator.h"
 
 
@@ -37,3 +38,8 @@ int StructureMutator::getNewNeuronId() {
     return ++neuronInnovationCounter;
 }
 
+void StructureMutator::print() {
+    for (auto & [key, id] : connectionsInnovations) {
+        std::cout << "Connection from: " << key.first << " to " << key.second << " has id: " << id << std::endl;
+    }
+}

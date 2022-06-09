@@ -90,18 +90,18 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         int first = rand() % members.size();
         int second = rand() % members.size();
         int index;
-        assert(first >= 0);
-        assert(first < memberScores.size());
-        assert(second >= 0);
-        assert(second < memberScores.size());
+//        assert(first >= 0);
+//        assert(first < memberScores.size());
+//        assert(second >= 0);
+//        assert(second < memberScores.size());
         if (memberScores.at(first) > memberScores.at(second)) {
             index = first;
         } else {
             index = second;
         }
 
-        assert(index >= 0);
-        assert(index < members.size());
+//        assert(index >= 0);
+//        assert(index < members.size());
         auto newMember = new SimplifiedNeat(*members.at(index), i);
         addToSpiecies(newMember, newSpiecies);
 

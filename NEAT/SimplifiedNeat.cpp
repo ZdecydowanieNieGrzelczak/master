@@ -106,7 +106,7 @@ SimplifiedNeat::~SimplifiedNeat() = default;
 
 void SimplifiedNeat::pruneTheNetwork(int generation) {
     pruneTheConnections(generation);
-//    pruneNeurons(generation);
+    pruneNeurons(generation);
 }
 
 bool SimplifiedNeat::pruneTheConnections(int generation) {
@@ -120,7 +120,7 @@ bool SimplifiedNeat::pruneTheConnections(int generation) {
         return false;
     }
     for (auto id : toRemove) {
-        deleteConnection(id);
+        deleteConnection(id, false);
     }
     return true;
 

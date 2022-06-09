@@ -45,7 +45,7 @@ Network::Network(const Network &other, int id): id{id}, parentId{other.id} {
 
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
-    assert(state.size() == inputs.size());
+//    assert(state.size() == inputs.size());
 
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
@@ -60,7 +60,7 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
         neuron->passValue();
     }
 
-    assert(!outputs.empty());
+//    assert(!outputs.empty());
 
     double highestValue = -999999999999;
     int highestIndex = -1;
@@ -71,8 +71,8 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
             highestIndex = x;
         }
     }
-    assert(highestIndex >= 0);
-    assert(highestIndex < outputs.size());
+//    assert(highestIndex >= 0);
+//    assert(highestIndex < outputs.size());
     return highestIndex;
 }
 
@@ -221,26 +221,31 @@ double Network::getSimilarity(const Network &network) {
     }
 
 
-    return std::max(10 - connectionDiff, 0.0);
+    return std::max(7 - connectionDiff, 0.0);
 }
 
-void Network::deleteConnection(int id) {
-    if (connInnovations.contains(id)) {
-        connInnovations.erase(id);
+void Network::deleteConnection(int cid, bool fromNeuron) {
+    if (connInnovations.contains(cid)) {
+        connInnovations.erase(cid);
     }
-    auto conn = connections[id];
-    auto ret = conn->source->removeFromOutgoing(conn);
-    connections.erase(id);
-    delete conn;
+    auto conn = connections[cid];
+    if (!fromNeuron) {
+        auto ret = conn->source->removeFromOutgoing(conn);
+        if (ret) {
+            deleteNeuron(conn->source);
+        }
+        delete conn;
+        connections.erase(cid);
 
-    if (ret) {
-        deleteNeuron(conn->source);
+
     }
+
 
 }
 
 
 void Network::deleteNeuron(Neuron *neuron) {
+//    assert(neuron->getLayer() == Layer::Hidden);
     std::vector<int> toRemove;
     for (auto & [connId, conn] : connections) {
         if (conn->source == neuron || conn->destination == neuron) {
@@ -249,11 +254,11 @@ void Network::deleteNeuron(Neuron *neuron) {
         }
     }
     for (auto connId : toRemove) {
-        deleteConnection(connId);
+        deleteConnection(connId, true);
     }
     neuronMap.erase(neuron->getId());
     hidden.erase(std::remove(hidden.begin(), hidden.end(), neuron), hidden.end());
-    delete neuron;
+//    delete neuron;
 }
 
 

@@ -61,7 +61,7 @@ protected:
 
     Neuron *getRandomNeuron(Layer layer);
 
-    void deleteNeuron(Neuron *neuron);
+    void deleteNeuron(int neuronID);
 
 
 private:

@@ -42,10 +42,10 @@
 
 #define FILENAME_BASE "simpler_with_prunning"
 
-#define PRUNE_EVERY_N 50
+#define PRUNE_EVERY_N 5
 
 #define REMOVE_NEURONS_COUNT 3
 
-#define SIMILARITY_THRESHOLD 2.5
+#define SIMILARITY_THRESHOLD 5
 
 #endif //MASTER_SHAREDDEFINITIONS_H

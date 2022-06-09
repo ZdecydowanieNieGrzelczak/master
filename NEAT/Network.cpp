@@ -221,7 +221,7 @@ double Network::getSimilarity(const Network &network) {
     }
 
 
-    return std::max(7 - connectionDiff, 0.0);
+    return std::max(15 - connectionDiff, 0.0);
 }
 
 void Network::deleteConnection(int cid, bool fromNeuron) {
@@ -232,23 +232,20 @@ void Network::deleteConnection(int cid, bool fromNeuron) {
     if (!fromNeuron) {
         auto ret = conn->source->removeFromOutgoing(conn);
         if (ret) {
-            deleteNeuron(conn->source);
+            deleteNeuron(conn->source->getId());
         }
-        delete conn;
-        connections.erase(cid);
-
-
     }
 
+    delete conn;
+    connections.erase(cid);
 
 }
 
 
-void Network::deleteNeuron(Neuron *neuron) {
-//    assert(neuron->getLayer() == Layer::Hidden);
+void Network::deleteNeuron(int neuronID) {
     std::vector<int> toRemove;
     for (auto & [connId, conn] : connections) {
-        if (conn->source == neuron || conn->destination == neuron) {
+        if (conn->source->getId() == neuronID || conn->destination->getId() == neuronID) {
             toRemove.push_back(connId);
 
         }
@@ -256,8 +253,10 @@ void Network::deleteNeuron(Neuron *neuron) {
     for (auto connId : toRemove) {
         deleteConnection(connId, true);
     }
-    neuronMap.erase(neuron->getId());
+    auto neuron = neuronMap[neuronID];
+    neuronMap.erase(neuronID);
     hidden.erase(std::remove(hidden.begin(), hidden.end(), neuron), hidden.end());
+//    hidden.erase(std::remove_if(hidden.begin(), hidden.end(), [neuronID](Neuron *n){return n->getId() == neuronID; }), hidden.end());
 //    delete neuron;
 }
 

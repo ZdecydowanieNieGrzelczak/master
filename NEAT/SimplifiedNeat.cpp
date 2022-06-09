@@ -20,9 +20,9 @@ std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
     if ( roll < WEIGHTS_MUTATION_RATE ) {
         mutateWeights();
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
-        toggleConnection(0);
-    } else if (HelperMethods::getRandomChance() > STRUCTURE_MUTATION_RATE ) {
-        return {true, mutateStructure(0)};
+        toggleConnection(generation);
+    } else if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE ) {
+        return {true, mutateStructure(generation)};
     }
     return {false, 0};
 }
@@ -128,10 +128,10 @@ bool SimplifiedNeat::pruneTheConnections(int generation) {
 }
 
 bool SimplifiedNeat::pruneNeurons(int generation) {
-    std::vector<Neuron*> toRemove;
+    std::vector<int> toRemove;
     for (const auto neuron : hidden) {
         if(neuron->suitableForRemoval(generation)) {
-            toRemove.push_back(neuron);
+            toRemove.push_back(neuron->getId());
         }
 
     }
@@ -147,6 +147,6 @@ bool SimplifiedNeat::pruneNeurons(int generation) {
 
 void SimplifiedNeat::processBestNetwork(int generation) {
     for(int i = 0; i < REMOVE_NEURONS_COUNT; ++i) {
-        deleteNeuron(getRandomNeuron(Layer::Hidden));
+        deleteNeuron(getRandomNeuron(Layer::Hidden)->getId());
     }
 }

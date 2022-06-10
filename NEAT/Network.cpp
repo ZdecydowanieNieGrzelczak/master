@@ -216,26 +216,18 @@ double Network::getSimilarity(const Network &network) {
     double connectionDiff{0.0};
 
 
-    for (auto [ID, connection] : connections) {
-        connectionDiff += abs(connection->getWeight() * connection->isEnabled() - network.connections.at(ID)->getWeight() * connection->isEnabled());
-    }
+//    for (auto [ID, connection] : connections) {
+//        connectionDiff += abs(connection->getWeight() * connection->isEnabled() - network.connections.at(ID)->getWeight() * connection->isEnabled());
+//    }
 
 
     return std::max(15 - connectionDiff, 0.0);
 }
 
 void Network::deleteConnection(int cid, bool fromNeuron) {
-    if (connInnovations.contains(cid)) {
-        connInnovations.erase(cid);
-    }
+    connInnovations.erase(cid);
     auto conn = connections[cid];
-    if (!fromNeuron) {
-        auto ret = conn->source->removeFromOutgoing(conn);
-        if (ret) {
-            deleteNeuron(conn->source->getId());
-        }
-    }
-
+    conn->source->removeFromOutgoing(conn);
     delete conn;
     connections.erase(cid);
 
@@ -257,7 +249,7 @@ void Network::deleteNeuron(int neuronID) {
     neuronMap.erase(neuronID);
     hidden.erase(std::remove(hidden.begin(), hidden.end(), neuron), hidden.end());
 //    hidden.erase(std::remove_if(hidden.begin(), hidden.end(), [neuronID](Neuron *n){return n->getId() == neuronID; }), hidden.end());
-//    delete neuron;
+    delete neuron;
 }
 
 

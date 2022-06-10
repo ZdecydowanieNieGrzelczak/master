@@ -27,10 +27,10 @@ void Neuron::mutate() {
 }
 
 void Neuron::passValue() {
-    for (const auto & out : outgoing) {
+    for (const auto  out : outgoing) {
         if (out->isEnabled()) {
             double weight = out->getWeight();
-            auto val = (currentValue + bias) * weight;
+            auto val = std::min((currentValue + bias) * weight, 0.0);
             out->destination->receiveValue(val);
         }
     }
@@ -60,6 +60,7 @@ std::ostream &operator<<(std::ostream &os, const Neuron &neuron) {
 }
 
 Neuron::~Neuron() {
+    outgoing.clear();
 }
 
 bool Neuron::removeFromOutgoing(Connection* conn) {

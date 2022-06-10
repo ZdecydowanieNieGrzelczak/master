@@ -4,7 +4,7 @@
 #define CONN_MUTATION_FACTOR 0.25f
 #define NEURON_MUTATION_FACTOR 0.25f
 
-#define GAMES_PER_ITER 20
+#define GAMES_PER_ITER 1000
 #define NETWORK_MUTATION_CHANCE 55
 #define CONNECTION_MUTATION_RATE 0.25
 #define NEURON_MUTATION_RATE 0.10
@@ -40,9 +40,9 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "simpler_with_prunning"
+#define FILENAME_BASE "comparable_standard_NEAT"
 
-#define PRUNE_EVERY_N 5
+#define PRUNE_EVERY_N 25
 
 #define REMOVE_NEURONS_COUNT 3
 

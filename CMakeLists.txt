@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.22)
 project(master)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp -std=c++11")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp")
 
 set(GMAKE_CXX_STANDARD 20)
 set(GMAKE_CXX_FLAGS_DEBUG "-g")

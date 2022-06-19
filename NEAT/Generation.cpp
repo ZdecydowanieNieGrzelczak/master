@@ -36,7 +36,7 @@ void Generation::runThroughGeneration() {
     std::vector<float> _rawScores( -9999999999, THREAD_NUM);
     std::vector<int> _bestIndex( 0, THREAD_NUM);
 
-    #pragma omp parallel for
+    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex)
     for(int x = 0; x < members.size(); ++x) {
         auto member = members[x];
         float score = 0;

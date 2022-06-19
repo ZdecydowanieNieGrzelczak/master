@@ -32,9 +32,9 @@ Network * Generation::iterateFor(int iterationCount) {
 
 void Generation::runThroughGeneration() {
 
-    std::vector<float> _scores(-999999999999999, THREAD_NUM);
-    std::vector<float> _rawScores( -9999999999, THREAD_NUM);
-    std::vector<int> _bestIndex( 0, THREAD_NUM);
+    std::vector<float> _scores(THREAD_NUM, -999999999999999.0f);
+    std::vector<float> _rawScores( THREAD_NUM, -999999999999.0f);
+    std::vector<int> _bestIndex( THREAD_NUM, 0);
 
     #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex)
     for(int x = 0; x < members.size(); ++x) {

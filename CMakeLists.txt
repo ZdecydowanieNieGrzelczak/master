@@ -3,6 +3,6 @@ project(master)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp")
 
 add_executable(master main.cpp NEAT/Network.h NEAT/Neuron.h NEAT/Network.cpp NEAT/Connection.cpp NEAT/Connection.h NEAT/Neuron.cpp NEAT/Neuron.fwd.h NEAT/Connection.fwd.h games/tictactoe/TicTacToe.cpp games/tictactoe/TicTacToe.h games/Game.h NEAT/Generation.cpp NEAT/Generation.h utils/JsonHelper.cpp utils/JsonHelper.h utils/HelperMethods.cpp utils/HelperMethods.h utils/SharedDefinitions.h NEAT/StructureMutator.cpp NEAT/StructureMutator.h NEAT/Spiecie.cpp NEAT/Spiecie.h NEAT/StandardNeat.cpp NEAT/StandardNeat.h NEAT/SimplifiedNeat.cpp NEAT/SimplifiedNeat.h)

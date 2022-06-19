@@ -5,6 +5,7 @@
 #include "Spiecie.h"
 #include "SimplifiedNeat.h"
 #include "StandardNeat.h"
+#include <omp.h>
 
 StructureMutator* ledger;
 
@@ -30,9 +31,12 @@ Network * Generation::iterateFor(int iterationCount) {
 }
 
 void Generation::runThroughGeneration() {
-    float bestScore{-999999999999999999999999.0f};
-    float bestRawScore{-999999999999999999999999.0f};
-    int bestIndex;
+
+    std::vector<float> _scores(-999999999999999, THREAD_NUM);
+    std::vector<float> _rawScores( -9999999999, THREAD_NUM);
+    std::vector<int> _bestIndex( 0, THREAD_NUM);
+
+    #pragma omp parallel for
     for(int x = 0; x < members.size(); ++x) {
         auto member = members[x];
         float score = 0;
@@ -49,14 +53,28 @@ void Generation::runThroughGeneration() {
         score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
                 : score * spiecies.at(member->spiecieID).getCount();
         memberScores.at(x) = score;
-        if (score > bestScore) {
-            bestScore = score;
+        if (score > _scores[omp_get_thread_num()]) {
+            _scores[omp_get_thread_num()] = score;
         }
-        if (rawScore > bestRawScore) {
-            bestIndex = x;
-            bestRawScore = rawScore;
+        if (rawScore > _rawScores[omp_get_thread_num()]) {
+            _bestIndex[omp_get_thread_num()] = x;
+            _rawScores[omp_get_thread_num()] = rawScore;
         }
     }
+
+    float bestScore = -999999999.0f;
+    float bestRawScore = -999999999.0f;
+    int bestIndex = -999999999;
+    for (int i = 0; i < THREAD_NUM; ++i) {
+        if (bestScore < _scores[i]) {
+            bestScore = _scores[i];
+        }
+        if (bestRawScore < _rawScores[i]) {
+            bestIndex = _bestIndex[i];
+            bestRawScore = _rawScores[i];
+        }
+    }
+
     std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
     std::cout << "Best Raw Score: " << bestRawScore << std::endl;
     generationScores.push_back(bestScore);

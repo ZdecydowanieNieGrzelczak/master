@@ -2,7 +2,7 @@
 
 #include "NEAT/Generation.h"
 #include "games/tictactoe/TicTacToe.h"
-
+#include <omp.h>
 
 
 int main() {

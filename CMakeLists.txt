@@ -3,7 +3,7 @@ project(master)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp -std=c++20")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp -std=c++11")
 
 set(GMAKE_CXX_STANDARD 20)
 set(GMAKE_CXX_FLAGS_DEBUG "-g")

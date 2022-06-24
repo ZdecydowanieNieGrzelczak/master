@@ -36,16 +36,19 @@ void Generation::runThroughGeneration() {
     std::vector<float> _rawScores( THREAD_NUM, -999999999999.0f);
     std::vector<int> _bestIndex( THREAD_NUM, 0);
 
-    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex)
+    Game* privateGame;
+
+    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex) private(privateGame)
     for(int x = 0; x < members.size(); ++x) {
+        privateGame = new TicTacToe();
         auto member = members[x];
         float score = 0;
         for(int y = 0; y < GAMES_PER_ITER; ++y) {
-            auto res = game->reset();
+            auto res = privateGame->reset();
             while(!res.first) {
-                auto currentState = game->getState();
+                auto currentState = privateGame->getState();
                 auto bestAction = member->passThroughNetwork(currentState);
-                res = game->doAction(bestAction);
+                res = privateGame->doAction(bestAction);
             }
             score += res.second;
         }

@@ -1,7 +1,7 @@
 #include <cassert>
 #include "Neuron.h"
 #include "Connection.h"
-
+#include <algorithm>
 
 Neuron::Neuron(int id, Layer layer): id{id}, layer{layer} {
     bias = (((rand() % 100) / 100.f) - 0.5f) * 2;

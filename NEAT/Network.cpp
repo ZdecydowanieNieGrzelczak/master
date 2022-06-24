@@ -1,7 +1,7 @@
 
 #include "Network.h"
-
-
+#include <ranges>
+#include <algorithm>
 
 //Network::Network(int inputCount, int outputCount, StructureMutator* ledger): ledger{ledger} {
 Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} {

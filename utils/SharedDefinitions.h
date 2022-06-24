@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "comparable_standard_NEAT-HPC"
+#define FILENAME_BASE "simplified-HPC"
 
 #define PRUNE_EVERY_N 25
 

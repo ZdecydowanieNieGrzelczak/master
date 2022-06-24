@@ -37,7 +37,7 @@ void Generation::runThroughGeneration() {
     std::vector<int> _bestIndex( THREAD_NUM, 0);
 
 
-    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex, members, spiecie)
+    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex, members, spiecies)
     for(int x = 0; x < members.size(); ++x) {
         TicTacToe privateGame = TicTacToe();
         auto member = members[x];

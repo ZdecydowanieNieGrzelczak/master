@@ -8,9 +8,10 @@ if(OpenMP_CXX_FOUND)
     target_link_libraries(master PUBLIC OpenMP::OpenMP_CXX)
 endif()
 
-set(CMAKE_CXX_COMPILER gcc)
+set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
+#set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp -std=c++20  -lstdc++")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -fopenmp -std=c++20")
 #set(CMAKE_EXE_LINKER_FLAGS "-static -static-libgcc -static-libstdc++")
 

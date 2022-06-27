@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "simplified-HPC"
+#define FILENAME_BASE "standard-10k-HPC"
 
 #define PRUNE_EVERY_N 25
 
@@ -48,6 +48,6 @@
 
 #define SIMILARITY_THRESHOLD 5
 
-#define THREAD_NUM 12
+#define THREAD_NUM 16
 
 #endif //MASTER_SHAREDDEFINITIONS_H

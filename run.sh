@@ -5,7 +5,7 @@
 ### -- set the job Name -- 
 #BSUB -J master_maciek_simplified
 ### -- ask for number of cores (default: 1) -- 
-#BSUB -n 4 
+#BSUB -n 8 
 ### -- specify that the cores must be on the same host -- 
 #BSUB -R "span[hosts=1]"
 ### -- specify that we need 2GB of memory per core/slot -- 
@@ -28,7 +28,7 @@
 #BSUB -e outfiles/Error_%J.err 
 
 module load openmp
-export OMP_NUM_THREADS=8
+
 
 # here follow the commands you want to execute 
 rel/master >> rel/texts/new_simplified_hpc.txt

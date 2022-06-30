@@ -6,6 +6,9 @@
 
 
 int main() {
+    omp_set_dynamic(0);     // Explicitly disable dynamic teams
+    omp_set_num_threads(THREAD_NUM);
+
     auto game = new TicTacToe();
     srand (time(nullptr));
     auto generation = new Generation(POPULATION_COUNT, game);

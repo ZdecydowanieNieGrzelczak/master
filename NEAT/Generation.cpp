@@ -101,10 +101,12 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
     }
 
+    std::time_t end_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()
+
     std::cout << "Created best member for: " << generationCounter << std::endl;
     std::cout << "Size of hidden layer: " << bestNetwork->getHiddenSize() << std::endl;
     std::cout << "Size of connections: " << bestNetwork->getConnectionsSize() << std::endl;
-    std::cout << "Timestamp: " << std::ctime(&std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) << std::endl;
+    std::cout << "Timestamp: " << std::ctime(&end_time) << std::endl;
     std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++: " << std::endl;
 
 

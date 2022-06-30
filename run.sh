@@ -13,7 +13,7 @@
 ### -- specify that we want the job to get killed if it exceeds 3 GB per core/slot -- 
 #BSUB -M 5GB
 ### -- set walltime limit: hh:mm -- 
-#BSUB -W 72:00 
+#BSUB -W 96:00 
 ### -- set the email address -- 
 # please uncomment the following line and put in your e-mail address,
 # if you want to receive e-mail notifications on a non-default address
@@ -24,8 +24,8 @@
 #BSUB -N 
 ### -- Specify the output and error file. %J is the job-id -- 
 ### -- -o and -e mean append, -oo and -eo mean overwrite -- 
-#BSUB -o Output_%J.out 
-#BSUB -e Error_%J.err 
+#BSUB -o outfiles/Output_%J.out 
+#BSUB -e outfiles/Error_%J.err 
 
 module load openmp
 export OMP_NUM_THREADS=8

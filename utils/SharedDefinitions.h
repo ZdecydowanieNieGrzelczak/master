@@ -21,7 +21,7 @@
 // How many children we will have
 #define POPULATION_COUNT 2000
 
-#define GENERATION_COUNT 10000
+#define GENERATION_COUNT 2000
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "standard-10k-HPC"
+#define FILENAME_BASE "simplified-2k-HPC"
 
 #define PRUNE_EVERY_N 25
 

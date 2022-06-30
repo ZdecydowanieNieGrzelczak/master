@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "job_standard-10k-HPC"
+#define FILENAME_BASE "16cores_job_standard-10k-HPC"
 
 #define PRUNE_EVERY_N 25
 

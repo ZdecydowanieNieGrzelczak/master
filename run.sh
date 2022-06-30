@@ -3,9 +3,9 @@
 ### -- specify queue -- 
 #BSUB -q hpc
 ### -- set the job Name -- 
-#BSUB -J test_for_4_cores
+#BSUB -J test_for_2_cores
 ### -- ask for number of cores (default: 1) -- 
-#BSUB -n 4 
+#BSUB -n 2
 ### -- specify that the cores must be on the same host -- 
 #BSUB -R "span[hosts=1]"
 ### -- specify that we need 2GB of memory per core/slot -- 
@@ -31,4 +31,4 @@ module load openmp
 
 
 # here follow the commands you want to execute 
-rel/master >> rel/texts/test_4_cores.txt
+rel/master >> rel/texts/test_2_cores.txt

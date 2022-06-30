@@ -21,7 +21,7 @@
 // How many children we will have
 #define POPULATION_COUNT 2000
 
-#define GENERATION_COUNT 10000
+#define GENERATION_COUNT 100
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
@@ -48,6 +48,6 @@
 
 #define SIMILARITY_THRESHOLD 5
 
-#define THREAD_NUM 16
+#define THREAD_NUM 8
 
 #endif //MASTER_SHAREDDEFINITIONS_H

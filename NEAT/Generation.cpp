@@ -6,6 +6,8 @@
 #include "SimplifiedNeat.h"
 #include "StandardNeat.h"
 #include <omp.h>
+#include <chrono>
+#include <ctime>   
 
 StructureMutator* ledger;
 
@@ -102,6 +104,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     std::cout << "Created best member for: " << generationCounter << std::endl;
     std::cout << "Size of hidden layer: " << bestNetwork->getHiddenSize() << std::endl;
     std::cout << "Size of connections: " << bestNetwork->getConnectionsSize() << std::endl;
+    std::cout << "Timestamp: " << std::ctime(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())) << std::endl;
     std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++: " << std::endl;
 
 

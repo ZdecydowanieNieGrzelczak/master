@@ -17,7 +17,7 @@ int main() {
     auto generation = new Generation(POPULATION_COUNT, game);
 
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
-    fs::path save ('savedData');
+    fs::path save ("savedData");
     fs::path dir (FILENAME_BASE);
 
     std::cout << "Saving scores" << std::endl;

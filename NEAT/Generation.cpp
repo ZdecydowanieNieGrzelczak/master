@@ -179,7 +179,7 @@ double Generation::testFor(int iterationCount, Network &network) {
 
 void Generation::saveTheScore(const std::string &filename, std::vector<float> &scoreVec) {
     std::ofstream scoreFile;
-    const auto originalName = "../savedData/" + filename + "_scores";
+    const auto originalName = "savedData/" + filename + "_scores";
     auto name = originalName + ".csv";
     int counter{0};
     while (HelperMethods::nameTest(name)) {
@@ -196,7 +196,7 @@ void Generation::saveTheScore(const std::string &filename, std::vector<float> &s
 
 void Generation::saveTheNetwork(const std::string &filename) const {
     std::ofstream networkFile;
-    const auto originalName = "../savedData/" + filename + "_network";
+    const auto originalName = "savedData/" + filename + "_network";
     auto name = originalName + ".csv";
     int counter{0};
     while (HelperMethods::nameTest(name)) {
@@ -213,7 +213,7 @@ void Generation::saveTheNetwork(const std::string &filename) const {
 
 void Generation::saveTheSize(const std::string &filename) const {
     std::ofstream scoreFile;
-    const auto originalName = "../savedData/" + filename + "_sizes";
+    const auto originalName = "savedData/" + filename + "_sizes";
     auto name = originalName + ".csv";
     int counter{0};
     while (HelperMethods::nameTest(name)) {
@@ -229,13 +229,14 @@ void Generation::saveTheSize(const std::string &filename) const {
 
 void Generation::saveTheSpiecies(const std::string &filename) const {
     std::ofstream scoreFile;
-    const auto originalName = "../savedData/" + filename + "_spiecies";
+    const auto originalName = "savedData/" + filename + "_spiecies";
     auto name = originalName + ".csv";
     int counter{0};
     while (HelperMethods::nameTest(name)) {
         name = originalName + std::to_string(counter++) + ".csv";
     }
     scoreFile.open(name);
+    std::cout << name << std::endl;
     for (const auto score : spieciesCounter) {
         scoreFile << score << ";" << std::endl;
     }

@@ -20,13 +20,12 @@ int main() {
 
 
     std::cout << "Saving scores" << std::endl;
-    generation->saveTheScores(FILENAME_BASE);
+    generation->saveTheScores(std::filesystem::current_path() + FILENAME_BASE);
     std::cout << "Saving network" << std::endl;
-    generation->saveTheNetwork(FILENAME_BASE);
+    generation->saveTheNetwork(std::filesystem::current_path() + FILENAME_BASE);
 
     // ledger->print();
 
     std::cout << "Hello, World!" << std::endl;
-    std::cout << std::filesystem::current_path() << std::endl;
     return 0;
 }

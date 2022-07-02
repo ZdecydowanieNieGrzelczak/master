@@ -17,13 +17,13 @@ int main() {
     auto generation = new Generation(POPULATION_COUNT, game);
 
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
-
+    fs::path save ('savedData');
     fs::path dir (FILENAME_BASE);
 
     std::cout << "Saving scores" << std::endl;
-    generation->saveTheScores(std::filesystem::current_path() / dir);
+    generation->saveTheScores(std::filesystem::current_path() / save / dir);
     std::cout << "Saving network" << std::endl;
-    generation->saveTheNetwork(std::filesystem::current_path() / dir);
+    generation->saveTheNetwork(std::filesystem::current_path() / save / dir);
 
     // ledger->print();
 

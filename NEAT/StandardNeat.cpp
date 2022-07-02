@@ -14,11 +14,11 @@ std::pair<bool, int> StandardNeat::mutate(int generation) {
     if ( roll < WEIGHTS_MUTATION_RATE ) {
         mutateWeights();
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
-        toggleConnection(0);
-    } else if (HelperMethods::getRandomChance() > STRUCTURE_MUTATION_RATE ) {
-        return {true, mutateStructure(0)};
+        toggleConnection(generation);
+    } else if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE ) {
+        return {true, mutateStructure(generation)};
     }
-    return {false, 0};
+    return {false, generation};
 
 }
 
@@ -61,8 +61,9 @@ bool StandardNeat::createConnection(int generation) {
 
 bool StandardNeat::createNeuron(int generation) {
     std::vector<Connection*> possibilities;
-    for (const auto & [ID, conn] : connections) {
-        if (conn->isOriginal() && conn->isEnabled()) {
+    for (int i = 0; i < originalConnectionsCount; ++i) {
+        auto conn = connections[i];
+        if (conn->isEnabled()) {
             possibilities.push_back(conn);
         }
     }

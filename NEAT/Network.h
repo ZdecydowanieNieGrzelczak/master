@@ -36,6 +36,8 @@ public:
 
     int spiecieID{0};
 
+    int originalConnectionsCount{0};
+
     double getSimilarity(const Network &network);
 
 

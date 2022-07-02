@@ -20,6 +20,8 @@ Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} 
 
     connectLayers(inputs, outputs, 0);
 
+    originalConnectionsCount = connections.size();
+
 }
 
 

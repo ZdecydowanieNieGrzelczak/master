@@ -66,8 +66,9 @@ bool SimplifiedNeat::createConnection(int generation) {
 
 bool SimplifiedNeat::createNeuron(int generation) {
     std::vector<Connection*> possibilities;
-    for (const auto & [ID, conn] : connections) {
-        if (conn->isOriginal() && conn->isEnabled()) {
+    for (int i = 0; i < originalConnectionsCount; ++i) {
+        auto conn = connections[i];
+        if (conn->isEnabled()) {
             possibilities.push_back(conn);
         }
     }

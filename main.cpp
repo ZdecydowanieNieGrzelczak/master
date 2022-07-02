@@ -20,9 +20,9 @@ int main() {
 
 
     std::cout << "Saving scores" << std::endl;
-    generation->saveTheScores(std::filesystem::current_path() + FILENAME_BASE);
+    generation->saveTheScores(std::filesystem::current_path() + std::filesystem::path dir(FILENAME_BASE));
     std::cout << "Saving network" << std::endl;
-    generation->saveTheNetwork(std::filesystem::current_path() + FILENAME_BASE);
+    generation->saveTheNetwork(std::filesystem::current_path() + std::filesystem::path dir(FILENAME_BASE));
 
     // ledger->print();
 

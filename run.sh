@@ -19,7 +19,7 @@
 # if you want to receive e-mail notifications on a non-default address
 #BSUB -u s203396@student.dtu.dk
 ### -- send notification at start -- 
-#BSUB -B 
+###BSUB -B 
 ### -- send notification at completion -- 
 #BSUB -N 
 ### -- Specify the output and error file. %J is the job-id -- 

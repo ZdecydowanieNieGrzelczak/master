@@ -24,7 +24,7 @@ int main() {
     std::cout << "Saving network" << std::endl;
     generation->saveTheNetwork(FILENAME_BASE);
 
-    ledger->print();
+    // ledger->print();
 
     std::cout << "Hello, World!" << std::endl;
     std::cout << std::filesystem::current_path() << std::endl;

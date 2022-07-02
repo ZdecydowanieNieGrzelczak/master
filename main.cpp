@@ -16,9 +16,6 @@ int main() {
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
 
 
-//    std::cout << "Testing" << std::endl;
-//
-//    generation->testFor(TEST_BATTLES_COUNT, *bestRes);
 
     std::cout << "Saving scores" << std::endl;
     generation->saveTheScores(FILENAME_BASE);

@@ -16,8 +16,6 @@ public:
     std::pair<bool, int> mutate(int generation) override;
     void processBestNetwork(int generation) override;
 
-
-
 private:
     void pruneTheNetwork(int generation);
     bool pruneTheConnections(int generation);

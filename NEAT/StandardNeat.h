@@ -17,7 +17,6 @@ public:
     std::pair<bool, int> mutate(int generation) override;
     void processBestNetwork(int generation) override;
 
-
 private:
 
     bool mutateStructure(int generation) override;

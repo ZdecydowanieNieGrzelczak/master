@@ -38,6 +38,7 @@ public:
 
     double getSimilarity(const Network &network);
 
+
 protected:
     void mutateWeights();
     void toggleConnection(int generation);

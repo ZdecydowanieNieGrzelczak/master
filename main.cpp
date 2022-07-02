@@ -3,6 +3,8 @@
 #include "NEAT/Generation.h"
 #include "games/tictactoe/TicTacToe.h"
 #include <omp.h>
+#include <filesystem>
+#include <unistd.h>
 
 
 int main() {
@@ -25,5 +27,6 @@ int main() {
     ledger->print();
 
     std::cout << "Hello, World!" << std::endl;
+    std::cout << std::filesystem::current_path() << std::endl;
     return 0;
 }

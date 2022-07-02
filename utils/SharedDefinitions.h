@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "standard-2k-proper-mutation-rate"
+#define FILENAME_BASE "standard-4k-proper-mutation-rate"
 
 #define PRUNE_EVERY_N 25
 

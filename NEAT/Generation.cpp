@@ -99,7 +99,6 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
         addToSpiecies(bestNetwork, newSpiecies);
         newMembers.push_back(new StandardNeat(*bestNetwork, x));
-
     }
 
     std::time_t end_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());

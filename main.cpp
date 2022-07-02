@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <unistd.h>
 
+namespace fs = std::filesystem;
 
 int main() {
     omp_set_dynamic(0);     // Explicitly disable dynamic teams
@@ -17,12 +18,12 @@ int main() {
 
     auto bestRes = generation->iterateFor(GENERATION_COUNT);
 
-
+    fs::path dir (FILENAME_BASE);
 
     std::cout << "Saving scores" << std::endl;
-    generation->saveTheScores(std::filesystem::current_path() + std::filesystem::path dir(FILENAME_BASE));
+    generation->saveTheScores(std::filesystem::current_path() / dir);
     std::cout << "Saving network" << std::endl;
-    generation->saveTheNetwork(std::filesystem::current_path() + std::filesystem::path dir(FILENAME_BASE));
+    generation->saveTheNetwork(std::filesystem::current_path() / dir);
 
     // ledger->print();
 

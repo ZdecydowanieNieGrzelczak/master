@@ -3,7 +3,7 @@
 ### -- specify queue -- 
 #BSUB -q hpc
 ### -- set the job Name -- 
-#BSUB -J standard_4k_true
+#BSUB -J simplified_4k
 ### -- ask for number of cores (default: 1) -- 
 #BSUB -n 4
 ### -- specify that the cores must be on the same host -- 
@@ -31,4 +31,4 @@
 
 
 # here follow the commands you want to execute 
-rel/master > rel/texts/new/true_standard_4k.txt
+rel/master > rel/texts/new/simplified_4k.txt

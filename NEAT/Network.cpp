@@ -142,8 +142,8 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
 int Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current) {
     for (auto & srcNeuron : in) {
         for (auto & destNeuron : out) {
-            auto connection = new Connection(srcNeuron, destNeuron, current++, true);
-            connections[current] = (connection);
+            auto connection = new Connection(srcNeuron, destNeuron, current, true);
+            connections[current++] = (connection);
             srcNeuron->addOutgoing(connection);
         }
     }

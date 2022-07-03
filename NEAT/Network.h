@@ -69,7 +69,7 @@ protected:
 
 private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
-    int connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current);
+    int connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out);
 
     int parentId;
     int id;

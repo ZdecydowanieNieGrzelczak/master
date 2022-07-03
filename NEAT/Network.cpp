@@ -18,7 +18,7 @@ Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} 
         this->outputs.push_back(neuron);
     }
 
-    connectLayers(inputs, outputs, 0);
+    connectLayers(inputs, outputs);
 
     originalConnectionsCount = connections.size();
 
@@ -139,11 +139,12 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
     }
 }
 
-int Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out, int current) {
+int Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out) {
     for (auto & srcNeuron : in) {
         for (auto & destNeuron : out) {
-            auto connection = new Connection(srcNeuron, destNeuron, current, true);
-            connections[current++] = (connection);
+            auto connId = ledger->getOrCreateConnInnovation({srcNeuron->getId(), destNeuron->getId()});
+            auto connection = new Connection(srcNeuron, destNeuron, connId, true);
+            connections[connId] = (connection);
             srcNeuron->addOutgoing(connection);
         }
     }

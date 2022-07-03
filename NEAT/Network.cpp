@@ -26,7 +26,7 @@ Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} 
 
 
 
-Network::Network(const Network &other, int id): id{id}, parentId{other.id} {
+Network::Network(const Network &other, int id): id{id}, parentId{other.id}, originalConnectionsCount{other.originalConnectionsCount} {
     neuronMap.clear();
     connections.clear();
     for(auto &[ID, conn] : other.connections) {

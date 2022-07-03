@@ -148,7 +148,6 @@ int Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *
             srcNeuron->addOutgoing(connection);
         }
     }
-    return current;
 }
 
 std::string Network::getSaveData() {

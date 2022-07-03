@@ -31,4 +31,4 @@
 
 
 # here follow the commands you want to execute 
-rel/master > rel/texts/new/simplified_4k.txt
+rel/master > rel/texts/new/simplified_2k.txt

@@ -67,6 +67,7 @@ bool SimplifiedNeat::createConnection(int generation) {
 
 bool SimplifiedNeat::createNeuron(int generation) {
     std::vector<Connection*> possibilities;
+    std::cout << "Creating neuron" << std::endl;
     for (int i = 0; i < originalConnectionsCount; ++i) {
         auto conn = connections[i];
         if (conn->isEnabled()) {
@@ -74,8 +75,12 @@ bool SimplifiedNeat::createNeuron(int generation) {
         }
     }
     if (possibilities.empty()) {
+        std::cout << "No possibilities" << std::endl;
         return false;
     }
+
+    std::cout << "Created" << std::endl;
+
 
     auto randomConn = possibilities[HelperMethods::getRandomInt(0, possibilities.size())];
     randomConn->disable(generation);

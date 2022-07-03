@@ -21,7 +21,8 @@ std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
         mutateWeights();
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
         toggleConnection(generation);
-    } else if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE ) {
+    }
+    if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE ) {
         return {true, mutateStructure(generation)};
     }
     return {false, 0};

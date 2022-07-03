@@ -139,7 +139,7 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
     }
 }
 
-int Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out) {
+void Network::connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out) {
     for (auto & srcNeuron : in) {
         for (auto & destNeuron : out) {
             auto connId = ledger->getOrCreateConnInnovation({srcNeuron->getId(), destNeuron->getId()});

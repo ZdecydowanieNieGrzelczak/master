@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "simplified-6k"
+#define FILENAME_BASE "standard-6k"
 
 #define PRUNE_EVERY_N 100
 

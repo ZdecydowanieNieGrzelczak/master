@@ -130,7 +130,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         auto newMember = new SimplifiedNeat(*members.at(index), i);
         addToSpiecies(newMember, newSpiecies);
 
-        if (rand() % 100 <= NETWORK_MUTATION_CHANCE) {
+        if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE) {
             newMember->mutate(generationCounter);
         }
         newMembers.push_back(newMember);

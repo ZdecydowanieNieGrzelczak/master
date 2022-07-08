@@ -12,7 +12,7 @@
 
 // Chances
 #define WEIGHTS_MUTATION_RATE 75
-#define CONN_TOGGLING_RATE 10
+#define CONN_TOGGLING_RATE 5
 #define STRUCTURE_MUTATION_RATE 2
 #define MAX_TRIES 6
 
@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "standard-6k"
+#define FILENAME_BASE "simp-no-spiecies"
 
 #define PRUNE_EVERY_N 100
 

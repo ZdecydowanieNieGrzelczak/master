@@ -103,3 +103,7 @@ StandardNeat::~StandardNeat() = default;
 void StandardNeat::processBestNetwork(int generation) {
 
 }
+
+float StandardNeat::getScoreModifier() {
+    return 1;
+}

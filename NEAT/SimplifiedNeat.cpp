@@ -1,6 +1,9 @@
 
 #include "SimplifiedNeat.h"
 
+
+
+
 SimplifiedNeat::SimplifiedNeat(int inputCount, int outputCount, int id) : Network(inputCount, outputCount, id) {
 
 }
@@ -22,7 +25,7 @@ std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
         toggleConnection(generation);
     }
-    if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE ) {
+    if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE && generation > GENERATION_COUNT * GENERATION_MUTATION_PERC ) {
         return {true, mutateStructure(generation)};
     }
     return {false, 0};
@@ -153,4 +156,8 @@ void SimplifiedNeat::processBestNetwork(int generation) {
     for(int i = 0; i < REMOVE_NEURONS_COUNT; ++i) {
         deleteNeuron(getRandomNeuron(Layer::Hidden)->getId());
     }
+}
+
+float SimplifiedNeat::getScoreModifier() {
+    return pow(SCORE_PENALTY_BASE, hidden.size());
 }

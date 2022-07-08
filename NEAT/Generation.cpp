@@ -55,8 +55,9 @@ void Generation::runThroughGeneration() {
             score += res.second;
         }
         float rawScore = score;
-        score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
-                : score * spiecies.at(member->spiecieID).getCount();
+//        score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
+//                : score * spiecies.at(member->spiecieID).getCount();
+        score = score * member->getScoreModifier();
         memberScores.at(x) = score;
         if (score > _scores[omp_get_thread_num()]) {
             _scores[omp_get_thread_num()] = score;
@@ -97,7 +98,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
 
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
-        addToSpiecies(bestNetwork, newSpiecies);
+//        addToSpiecies(bestNetwork, newSpiecies);
         newMembers.push_back(new StandardNeat(*bestNetwork, x));
     }
 
@@ -128,7 +129,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 //        assert(index >= 0);
 //        assert(index < members.size());
         auto newMember = new StandardNeat(*members.at(index), i);
-        addToSpiecies(newMember, newSpiecies);
+//        addToSpiecies(newMember, newSpiecies);
 
         if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE) {
             newMember->mutate(generationCounter);

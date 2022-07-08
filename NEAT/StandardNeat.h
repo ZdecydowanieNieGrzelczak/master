@@ -16,6 +16,7 @@ public:
 
     std::pair<bool, int> mutate(int generation) override;
     void processBestNetwork(int generation) override;
+    float getScoreModifier() override;
 
 private:
 

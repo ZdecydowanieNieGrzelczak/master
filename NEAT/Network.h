@@ -28,6 +28,7 @@ public:
 
     virtual std::pair<bool, int> mutate(int generation) = 0;
     virtual void processBestNetwork(int generation) = 0;
+    virtual float getScoreModifier() = 0;
 
     std::string getSaveData();
 
@@ -39,6 +40,7 @@ public:
     int originalConnectionsCount{0};
 
     double getSimilarity(const Network &network);
+
 
 
 protected:

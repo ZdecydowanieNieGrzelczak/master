@@ -1,6 +1,9 @@
 #ifndef MASTER_SIMPLIFIEDNEAT_H
 #define MASTER_SIMPLIFIEDNEAT_H
 
+#define SCORE_PENALTY_BASE 0.95
+#define GENERATION_MUTATION_PERC 0.25
+
 
 #include "Network.h"
 
@@ -15,6 +18,7 @@ public:
 
     std::pair<bool, int> mutate(int generation) override;
     void processBestNetwork(int generation) override;
+    float getScoreModifier() override;
 
 private:
     void pruneTheNetwork(int generation);

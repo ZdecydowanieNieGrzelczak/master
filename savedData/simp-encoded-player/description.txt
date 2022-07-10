@@ -1,3 +1,6 @@
+No spiecies, simplified, the positions are absolute, but there is an additional variable stating what color the player is.
+6k simplified, should go much better as there is a clear way of knowing what is what, but also possibly more convoluted?
+
 #ifndef MASTER_SHAREDDEFINITIONS_H
 #define MASTER_SHAREDDEFINITIONS_H
 
@@ -25,7 +28,7 @@
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
-#define TIC_TAC_TOE_STATE_SIZE 19
+#define TIC_TAC_TOE_STATE_SIZE 18
 
 #define HIDDEN_LAYER_COUNT 40
 

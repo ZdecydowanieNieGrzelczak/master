@@ -25,7 +25,7 @@
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
-#define TIC_TAC_TOE_STATE_SIZE 19
+#define TIC_TAC_TOE_STATE_SIZE 18
 
 #define HIDDEN_LAYER_COUNT 40
 
@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "simp-encoded-player-relu"
+#define FILENAME_BASE "simp-corrected-vector-relu"
 
 #define PRUNE_EVERY_N 100
 

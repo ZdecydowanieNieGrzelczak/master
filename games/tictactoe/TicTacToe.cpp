@@ -93,23 +93,22 @@ std::vector<float> TicTacToe::getInitialState() {
 
 std::vector<float> TicTacToe::getState() {
     std::vector<float> state;
-//    if (isPlayerWhite) {
-    state.push_back(isPlayerWhite);
-    for (auto action : actions) {
-        state.push_back((action & whiteState) == action);
+    if (isPlayerWhite) {
+//    state.push_back(isPlayerWhite);
+        for (auto action : actions) {
+            state.push_back((action & whiteState) == action);
+        }
+        for (auto action : actions) {
+            state.push_back((action & blackState) == action);
+        }
+    } else {
+        for (auto action : actions) {
+            state.push_back((action & blackState) == action);
+        }
+        for (auto action : actions) {
+            state.push_back((action & whiteState) == action);
+        }
     }
-    for (auto action : actions) {
-        state.push_back((action & blackState) == action);
-    }
-//        }
-//    } else {
-//        for (auto action : actions) {
-//            state.push_back((action & blackState) == action);
-//        }
-//        for (auto action : actions) {
-//            state.push_back((action & whiteState) == action);
-//        }
-//    }
     return state;
 }
 

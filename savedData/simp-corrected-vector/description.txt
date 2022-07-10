@@ -1,3 +1,6 @@
+No spiecies, simplified, the vector is now based on the position of the player.
+6k simplified, should go much better as there is a clear way of knowing what is what.
+
 #ifndef MASTER_SHAREDDEFINITIONS_H
 #define MASTER_SHAREDDEFINITIONS_H
 

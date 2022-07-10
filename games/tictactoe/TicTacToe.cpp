@@ -13,7 +13,7 @@ GameEval TicTacToe::moveWhite(short actionCode) {
     if (++counter == 9) {
         return std::pair<bool, float>{true, DRAW};
     }
-    isWhiteMoving = false;
+//    isWhiteMoving = false;
     return std::pair<bool, float>{false, 0};
 
 
@@ -32,7 +32,7 @@ GameEval TicTacToe::moveBlack(short actionCode) {
     if (++counter == 9) {
         return std::pair<bool, float>{true, DRAW};
     }
-    isWhiteMoving = true;
+//    isWhiteMoving = true;
     return std::pair<bool, float>{false, 0};
 }
 
@@ -40,7 +40,7 @@ GameEval TicTacToe::reset() {
     whiteState = 0;
     blackState = 0;
     counter = 0;
-    isWhiteMoving = true;
+//    isWhiteMoving = true;
     isPlayerWhite = HelperMethods::getCoinFlip();
     if (!isPlayerWhite) {
         int enemyAction = rand() % 9;
@@ -93,11 +93,20 @@ std::vector<float> TicTacToe::getInitialState() {
 
 std::vector<float> TicTacToe::getState() {
     std::vector<float> state;
-    for (auto action : actions) {
-        state.push_back((action & whiteState) == action);
-    }
-    for (auto action : actions) {
-        state.push_back((action & blackState) == action);
+    if (isPlayerWhite) {
+        for (auto action : actions) {
+            state.push_back((action & whiteState) == action);
+        }
+        for (auto action : actions) {
+            state.push_back((action & blackState) == action);
+        }
+    } else {
+        for (auto action : actions) {
+            state.push_back((action & blackState) == action);
+        }
+        for (auto action : actions) {
+            state.push_back((action & whiteState) == action);
+        }
     }
     return state;
 }

@@ -40,7 +40,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "simp-corrected-vector-relu"
+#define FILENAME_BASE "simp-6k-relu"
 
 #define PRUNE_EVERY_N 100
 

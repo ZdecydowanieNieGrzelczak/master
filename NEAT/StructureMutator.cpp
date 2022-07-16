@@ -15,7 +15,7 @@ int StructureMutator::checkConnectionInnovation(const std::pair<int, int> &key) 
 }
 
 int StructureMutator::checkNeuronInnovation(int neuronFromId, int neronToId) const {
-    return checkConnectionInnovation(std::pair(neronToId, neronToId));
+    return checkConnectionInnovation(std::pair(neuronFromId, neronToId));
 }
 
 int StructureMutator::checkNeuronInnovation(const std::pair<int, int> &key) const {
@@ -31,6 +31,15 @@ int StructureMutator::getOrCreateConnInnovation(std::pair<int, int> key) {
     }
     auto innovationNumber = connInnovationCounter++;
     connectionsInnovations[key] = innovationNumber;
+    return innovationNumber;
+}
+
+int StructureMutator::getOrCreateConnInnovation(int key) {
+    if (neuronInnovations.contains(key)){
+        return neuronInnovations.at(key);
+    }
+    auto innovationNumber = neuronInnovationCounter++;
+    neuronInnovations[key] = innovationNumber;
     return innovationNumber;
 }
 

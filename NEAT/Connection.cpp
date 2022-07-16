@@ -42,12 +42,17 @@ bool Connection::isOriginal() const {
     return original;
 }
 
-int Connection::getID() {
+int Connection::getID() const {
     return innovId;
 }
 
 bool operator==(const Connection &left, const Connection &right) {
     return left.innovId == right.innovId;
+}
+
+void Connection::mergeWithConnection(Connection* other) {
+    weight = (other->weight + weight) / 2;
+    enabled = enabled || other->enabled;
 }
 
 

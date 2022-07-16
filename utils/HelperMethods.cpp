@@ -16,7 +16,7 @@ int HelperMethods::getRandomInt(int lower, int upper) {
     return randInt(rng);
 }
 
-bool HelperMethods::nameTest(const std::string &name) {
+bool HelperMethods::nameTest(std::string name) {
     return ( access( name.c_str(), F_OK ) != -1 );
 
 }

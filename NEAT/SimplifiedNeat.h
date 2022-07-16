@@ -12,6 +12,7 @@ public:
     SimplifiedNeat(int inputCount, int outputCount, int id);
 
     SimplifiedNeat(const Network &other, int id);
+    SimplifiedNeat(const Network &left, const Network &right, int id);
     SimplifiedNeat(const SimplifiedNeat &other) = delete;
     SimplifiedNeat(const Network &other) = delete;
     ~SimplifiedNeat();

@@ -27,6 +27,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include <filesystem>
 
 
 class HelperMethods {
@@ -38,7 +39,7 @@ public:
     static bool getCoinFlip();
     static int getRandomChance();
     static int getRandomInt(int lower, int upper);
-    static bool nameTest(const std::string &name);
+    static bool nameTest(std::string name);
 
 };
 

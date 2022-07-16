@@ -27,8 +27,8 @@ Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} 
 
 
 Network::Network(const Network &other, int id): id{id}, parentId{other.id}, originalConnectionsCount{other.originalConnectionsCount} {
-    neuronMap.clear();
-    connections.clear();
+//    neuronMap.clear();
+//    connections.clear();
     for(auto &[ID, conn] : other.connections) {
         auto inNeuron = getOrCreateNeuron(*conn->source);
         auto outNeuron = getOrCreateNeuron(*conn->destination);
@@ -37,12 +37,65 @@ Network::Network(const Network &other, int id): id{id}, parentId{other.id}, orig
         inNeuron->addOutgoing(connection);
 
         this->connections[ID] = connection;
-        for (auto id : other.connInnovations) {
-            connInnovations.insert(id);
+
+    }
+    for (auto cid : other.connInnovations) {
+        connInnovations.insert(cid);
+    }
+
+}
+
+
+Network::Network(const Network& left, const Network &right, int id): id{id}, originalConnectionsCount{left.originalConnectionsCount}, parentId{left.id} {
+//    neuronMap.clear();
+//    connections.clear();
+    for(int i = 0; i < left.originalConnectionsCount; ++i) {
+        auto conn = left.connections.at(i);
+        auto inNeuron = getOrCreateNeuron(*conn->source);
+        auto outNeuron = getOrCreateNeuron(*conn->destination);
+        auto connRight = right.connections.at(i);
+        inNeuron->mergeWithNeuron(connRight->source);
+        outNeuron->mergeWithNeuron(connRight->destination);
+
+        auto connection = new Connection(inNeuron, outNeuron, *conn);
+        connection->mergeWithConnection(connRight);
+        inNeuron->addOutgoing(connection);
+
+        this->connections[i] = connection;
+
+    }
+    for (auto cid : left.connInnovations) {
+        auto conn = left.connections.at(cid);
+        auto inNeuron = getOrCreateNeuron(*conn->source);
+        auto outNeuron = getOrCreateNeuron(*conn->destination);
+        auto connection = new Connection(inNeuron, outNeuron, *conn);
+
+
+        if(right.connInnovations.contains(cid)) {
+            auto connRight = right.connections.at(cid);
+            inNeuron->mergeWithNeuron(connRight->source);
+            outNeuron->mergeWithNeuron(connRight->destination);
+            connection->mergeWithConnection(connRight);
+
+        }
+        this->connections[cid] = connection;
+
+        connInnovations.insert(cid);
+    }
+
+    for (auto cid : right.connInnovations) {
+        if (!connInnovations.contains(cid)) {
+            auto conn = right.connections.at(cid);
+            auto inNeuron = getOrCreateNeuron(*conn->source);
+            auto outNeuron = getOrCreateNeuron(*conn->destination);
+            auto connection = new Connection(inNeuron, outNeuron, *conn);
+            this->connections[cid] = connection;
+            connInnovations.insert(cid);
         }
     }
 
 }
+
 
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
@@ -268,3 +321,5 @@ Network::~Network() {
         delete conn;
     }
 }
+
+

@@ -6,6 +6,7 @@
 
 #define GAMES_PER_ITER 2000
 #define NETWORK_MUTATION_CHANCE 95
+#define NETWORK_MUTATION_CHANCE_AFTER_RECOMBINATION 20
 #define CONNECTION_MUTATION_RATE 0.30
 #define NEURON_MUTATION_RATE 0.05
 
@@ -21,13 +22,13 @@
 // How many children we will have
 #define POPULATION_COUNT 2000
 
+#define CROSS_BREED_POPULATION 400
+
 #define GENERATION_COUNT 6000
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
 #define TIC_TAC_TOE_STATE_SIZE 18
-
-#define HIDDEN_LAYER_COUNT 40
 
 #define BEST_COPY_COUNT 3
 #define BEST_COPY_WITH_PROCESSING 10
@@ -40,7 +41,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "stan-6k-corrected-vec-relu"
+#define FILENAME_BASE "stan-6k-recombination"
 
 #define PRUNE_EVERY_N 100
 

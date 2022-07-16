@@ -45,6 +45,8 @@ public:
     float getBias() { return bias; }
 
 
+    void mergeWithNeuron(Neuron *pNeuron);
+
 private:
 //    std::vector<Connection*> incoming;
     std::vector<Connection*> outgoing;
@@ -53,6 +55,7 @@ private:
     float bias{0.0};
     int id;
     Layer layer;
+    bool merged{false};
 
 
 };

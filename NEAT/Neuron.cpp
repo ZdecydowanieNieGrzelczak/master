@@ -76,5 +76,12 @@ bool operator==(const Neuron &left, const Neuron &right) {
     return left.id == right.id;
 }
 
+void Neuron::mergeWithNeuron(Neuron *pNeuron) {
+    if (!merged) {
+        merged = true;
+        bias = (bias + pNeuron->getBias()) / 2;
+    }
+}
+
 
 

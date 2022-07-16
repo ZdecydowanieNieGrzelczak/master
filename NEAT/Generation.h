@@ -1,6 +1,7 @@
 #ifndef MASTER_GENERATION_H
 #define MASTER_GENERATION_H
 
+#include <filesystem>
 #include "Network.h"
 #include "../games/Game.h"
 #include "../utils/SharedDefinitions.h"
@@ -15,12 +16,12 @@ public:
     double testFor(int iterationCount, Network &network);
 
 
-    static void saveTheScore(const std::string &filename, std::vector<float> &scoreVec) ;
+    static void saveTheScore(const std::string& filename, std::vector<float> &scoreVec) ;
 
-    void saveTheNetwork(const std::string &filename) const;
+    void saveTheNetwork(const std::string& filename) const;
 
 
-    void saveTheScores(const std::string& string);
+    void saveTheScores(const std::filesystem::__cxx11::path& string);
 
 private:
 
@@ -44,9 +45,11 @@ private:
 
     static void addToSpiecies(Network *net, std::vector<Spiecie> &newSpiecies);
 
-    void saveTheSize(const std::string &filename) const;
+    void saveTheSize(const std::string& filename) const;
 
-    void saveTheSpiecies(const std::string &filename) const;
+    void saveTheSpiecies(const std::string& filename) const;
+
+    int getTournamentIndex();
 };
 
 #endif //MASTER_GENERATION_H

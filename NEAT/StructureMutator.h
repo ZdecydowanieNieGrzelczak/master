@@ -19,17 +19,19 @@ public:
     int checkNeuronInnovation(int neuronFromId, int neronToId) const;
     int checkNeuronInnovation(const std::pair<int, int> &key) const;
 
-    std::map<std::pair<int, int>, int> neuronInnovations;
+    std::map<int, int> neuronInnovations;
     std::map<std::pair<int, int>, int> connectionsInnovations;
 
     int connInnovationCounter{0};
-    int neuronInnovationCounter{0};
+    int neuronInnovationCounter{TIC_TAC_TOE_STATE_SIZE + TIC_TAC_TOE_ACTION_SIZE};
 
     int getOrCreateConnInnovation(std::pair<int, int> key);
 
     int getNewNeuronId();
 
     void print();
+
+    int getOrCreateConnInnovation(int key);
 };
 
 extern StructureMutator* ledger;

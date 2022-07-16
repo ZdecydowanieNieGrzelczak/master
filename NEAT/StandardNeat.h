@@ -10,6 +10,7 @@ public:
     StandardNeat(int inputCount, int outputCount, int id);
 
     StandardNeat(const Network &other, int id);
+    StandardNeat(const Network &left, const Network &right, int id);
     StandardNeat(const StandardNeat &other) = delete;
     StandardNeat(const Network &other) = delete;
     ~StandardNeat();

@@ -20,6 +20,7 @@ public:
     Network(int inputCount, int outputCount, int id);
 
     Network(const Network &other, int id);
+    Network(const Network& left, const Network& right, int id);
     Network(const Network &other) = delete;
 
     ~Network();

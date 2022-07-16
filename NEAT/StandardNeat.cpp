@@ -8,6 +8,11 @@ StandardNeat::StandardNeat(const Network &other, int id) : Network(other, id) {
 
 }
 
+StandardNeat::StandardNeat(const Network &left, const Network &right, int id) : Network(left, right, id) {
+
+}
+
+
 
 std::pair<bool, int> StandardNeat::mutate(int generation) {
     int roll = HelperMethods::getRandomChance();
@@ -74,7 +79,7 @@ bool StandardNeat::createNeuron(int generation) {
 
     auto randomConn = possibilities[HelperMethods::getRandomInt(0, possibilities.size())];
     randomConn->disable(generation);
-    int newNeuronId = ledger->getNewNeuronId();
+    int newNeuronId = ledger->getOrCreateConnInnovation(randomConn->getID());
     auto newNeuron = new Neuron(newNeuronId, Layer::Hidden);
     auto connInInnovation = ledger->getOrCreateConnInnovation({randomConn->source->getId(), newNeuronId});
     auto connOutInnovation = ledger->getOrCreateConnInnovation({newNeuronId, randomConn->destination->getId()});
@@ -107,3 +112,4 @@ void StandardNeat::processBestNetwork(int generation) {
 float StandardNeat::getScoreModifier() {
     return 1;
 }
+

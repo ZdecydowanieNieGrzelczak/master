@@ -12,6 +12,10 @@ SimplifiedNeat::SimplifiedNeat(const Network &other, int id) : Network(other, id
 
 }
 
+SimplifiedNeat::SimplifiedNeat(const Network &left, const Network &right, int id) : Network(left, right, id) {
+
+}
+
 //TODO: Add neuron removal
 //TODO: Add prunning every nth iterations
 std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
@@ -84,7 +88,7 @@ bool SimplifiedNeat::createNeuron(int generation) {
 
     auto randomConn = possibilities[HelperMethods::getRandomInt(0, possibilities.size())];
     randomConn->disable(generation);
-    int newNeuronId = ledger->getNewNeuronId();
+    int newNeuronId = ledger->getOrCreateConnInnovation(randomConn->getID());
     auto newNeuron = new Neuron(newNeuronId, Layer::Hidden);
     auto connInInnovation = ledger->getOrCreateConnInnovation({randomConn->source->getId(), newNeuronId});
     auto connOutInnovation = ledger->getOrCreateConnInnovation({newNeuronId, randomConn->destination->getId()});
@@ -161,3 +165,5 @@ void SimplifiedNeat::processBestNetwork(int generation) {
 float SimplifiedNeat::getScoreModifier() {
     return pow(SCORE_PENALTY_BASE, hidden.size());
 }
+
+

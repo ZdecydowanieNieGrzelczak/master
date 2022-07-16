@@ -31,10 +31,12 @@ public:
     void disable(int counter) { this->enabled = false; lastEnabledAt = counter; };
     void toggle(int counter) { this->enabled = !this->enabled; lastEnabledAt = counter; };
 
+    void mergeWithConnection(Connection* other);
+
     friend std::ostream& operator<<(std::ostream& os, const Connection& conn);
     friend bool operator==(const Connection& left, const Connection& right);
 
-    int getID();
+    int getID() const;
     int lastEnabledAt;
 
 private:

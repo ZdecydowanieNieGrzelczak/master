@@ -112,22 +112,9 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
 
 
-    for (int i = BEST_COPY_COUNT; i < members.size(); ++i) {
-        int first = rand() % members.size();
-        int second = rand() % members.size();
-        int index;
-//        assert(first >= 0);
-//        assert(first < memberScores.size());
-//        assert(second >= 0);
-//        assert(second < memberScores.size());
-        if (memberScores.at(first) > memberScores.at(second)) {
-            index = first;
-        } else {
-            index = second;
-        }
+    for (int i = BEST_COPY_COUNT; i < members.size() - CROSS_BREED_POPULATION; ++i) {
+        int index = getTournamentIndex();
 
-//        assert(index >= 0);
-//        assert(index < members.size());
         auto newMember = new StandardNeat(*members.at(index), i);
 //        addToSpiecies(newMember, newSpiecies);
 
@@ -135,6 +122,21 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
             newMember->mutate(generationCounter);
         }
         newMembers.push_back(newMember);
+    }
+
+    for (int i = members.size() - CROSS_BREED_POPULATION; i < members.size(); ++i) {
+        int index1 = getTournamentIndex();
+        int index2 = getTournamentIndex();
+
+        auto newMember = new StandardNeat(*members.at(index1), *members.at(index2), i);
+
+        if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE_AFTER_RECOMBINATION) {
+            newMember->mutate(generationCounter);
+        }
+
+        newMembers.push_back(newMember);
+
+
     }
 
     for (auto member : members) {
@@ -178,7 +180,7 @@ double Generation::testFor(int iterationCount, Network &network) {
     return score;
 }
 
-void Generation::saveTheScore(const std::string &filename, std::vector<float> &scoreVec) {
+void Generation::saveTheScore(const std::string& filename, std::vector<float> &scoreVec) {
     std::ofstream scoreFile;
     const auto originalName = filename + "_scores";
     auto name = originalName + ".csv";
@@ -195,7 +197,7 @@ void Generation::saveTheScore(const std::string &filename, std::vector<float> &s
     scoreFile.close();
 }
 
-void Generation::saveTheNetwork(const std::string &filename) const {
+void Generation::saveTheNetwork(const std::string& filename) const {
     std::ofstream networkFile;
     const auto originalName = filename + "_network";
     auto name = originalName + ".csv";
@@ -212,7 +214,7 @@ void Generation::saveTheNetwork(const std::string &filename) const {
     networkFile.close();
 }
 
-void Generation::saveTheSize(const std::string &filename) const {
+void Generation::saveTheSize(const std::string& filename) const {
     std::ofstream scoreFile;
     const auto originalName = filename + "_sizes";
     auto name = originalName + ".csv";
@@ -228,7 +230,7 @@ void Generation::saveTheSize(const std::string &filename) const {
     scoreFile.close();
 }
 
-void Generation::saveTheSpiecies(const std::string &filename) const {
+void Generation::saveTheSpiecies(const std::string& filename) const {
     std::ofstream scoreFile;
     const auto originalName = filename + "_spiecies";
     auto name = originalName + ".csv";
@@ -245,11 +247,18 @@ void Generation::saveTheSpiecies(const std::string &filename) const {
     scoreFile.close();
 }
 
-void Generation::saveTheScores(const std::string& string) {
+void Generation::saveTheScores(const std::filesystem::path& path) {
+    auto string = path.string();
     saveTheScore(string, generationScores);
     saveTheScore(string + "_raw_", generationRawScores);
     saveTheSize(string + "_sizes_");
     saveTheSpiecies(string);
+}
+
+int Generation::getTournamentIndex() {
+    int first = rand() % members.size();
+    int second = rand() % members.size();
+    return memberScores.at(first) > memberScores.at(second) ? first : second;
 }
 
 

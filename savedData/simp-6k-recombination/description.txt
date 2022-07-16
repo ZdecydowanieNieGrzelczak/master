@@ -1,3 +1,10 @@
+Added recombination and limit for the neuron innovation creations. This should limit the sizes of the standard neat (so not this).
+
+This is running with no spiecies and with additional penalty for the sizes for simplified.
+The vector is corrected (player always first). The ReLU is corrected.
+
+Consts:
+
 #ifndef MASTER_SHAREDDEFINITIONS_H
 #define MASTER_SHAREDDEFINITIONS_H
 
@@ -41,7 +48,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "simp-6k-recombination"
+#define FILENAME_BASE "stan-6k-recombination"
 
 #define PRUNE_EVERY_N 100
 

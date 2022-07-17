@@ -23,7 +23,7 @@ public:
     std::map<std::pair<int, int>, int> connectionsInnovations;
 
     int connInnovationCounter{0};
-    int neuronInnovationCounter{TIC_TAC_TOE_STATE_SIZE + TIC_TAC_TOE_ACTION_SIZE};
+    int neuronInnovationCounter{100};
 
     int getOrCreateConnInnovation(std::pair<int, int> key);
 

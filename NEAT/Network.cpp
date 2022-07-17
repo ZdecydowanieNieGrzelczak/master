@@ -46,9 +46,12 @@ Network::Network(const Network &other, int id): id{id}, parentId{other.id}, orig
 }
 
 
+//Network::Network(const Network& left, const Network &right, int id): Network(left, id) {
 Network::Network(const Network& left, const Network &right, int id): id{id}, originalConnectionsCount{left.originalConnectionsCount}, parentId{left.id} {
 //    neuronMap.clear();
 //    connections.clear();
+//    connInnovations.clear();
+
     for(int i = 0; i < left.originalConnectionsCount; ++i) {
         auto conn = left.connections.at(i);
         auto inNeuron = getOrCreateNeuron(*conn->source);
@@ -79,7 +82,6 @@ Network::Network(const Network& left, const Network &right, int id): id{id}, ori
 
         }
         this->connections[cid] = connection;
-
         connInnovations.insert(cid);
     }
 

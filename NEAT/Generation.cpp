@@ -57,7 +57,7 @@ void Generation::runThroughGeneration() {
         float rawScore = score;
 //        score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
 //                : score * spiecies.at(member->spiecieID).getCount();
-        score = score * member->getScoreModifier();
+//        score = score * member->getScoreModifier();
         memberScores.at(x) = score;
         if (score > _scores[omp_get_thread_num()]) {
             _scores[omp_get_thread_num()] = score;
@@ -110,21 +110,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     std::cout << "Timestamp: " << std::ctime(&end_time) << std::endl;
     std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++: " << std::endl;
 
-
-
-    for (int i = BEST_COPY_COUNT; i < members.size() - CROSS_BREED_POPULATION; ++i) {
-        int index = getTournamentIndex();
-
-        auto newMember = new SimplifiedNeat(*members.at(index), i);
-//        addToSpiecies(newMember, newSpiecies);
-
-        if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE) {
-            newMember->mutate(generationCounter);
-        }
-        newMembers.push_back(newMember);
-    }
-
-    for (int i = members.size() - CROSS_BREED_POPULATION; i < members.size(); ++i) {
+    for (int i = newMembers.size(); i < CROSS_BREED_POPULATION; ++i) {
         int index1 = getTournamentIndex();
         int index2 = getTournamentIndex();
 
@@ -135,8 +121,19 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         }
 
         newMembers.push_back(newMember);
+    }
 
 
+    for (int i = newMembers.size(); i < POPULATION_COUNT; ++i) {
+        int index = getTournamentIndex();
+
+        auto newMember = new SimplifiedNeat(*members.at(index), i);
+//        addToSpiecies(newMember, newSpiecies);
+
+        if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE) {
+            newMember->mutate(generationCounter);
+        }
+        newMembers.push_back(newMember);
     }
 
     for (auto member : members) {

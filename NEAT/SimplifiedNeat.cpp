@@ -88,7 +88,8 @@ bool SimplifiedNeat::createNeuron(int generation) {
 
     auto randomConn = possibilities[HelperMethods::getRandomInt(0, possibilities.size())];
     randomConn->disable(generation);
-    int newNeuronId = ledger->getOrCreateConnInnovation(randomConn->getID());
+    int newNeuronId = ledger->getNewNeuronId();
+//    int newNeuronId = ledger->getOrCreateConnInnovation(randomConn->getID());
     auto newNeuron = new Neuron(newNeuronId, Layer::Hidden);
     auto connInInnovation = ledger->getOrCreateConnInnovation({randomConn->source->getId(), newNeuronId});
     auto connOutInnovation = ledger->getOrCreateConnInnovation({newNeuronId, randomConn->destination->getId()});

@@ -22,11 +22,14 @@ int main() {
 
     std::cout << "Saving scores" << std::endl;
     auto path = std::filesystem::current_path() / save / dir;
+
+    if (fs::create_directories(path)) {
+        path = path / dir;
+    }
+
     generation->saveTheScores(path);
     std::cout << "Saving network" << std::endl;
     generation->saveTheNetwork(path.string());
-
-    // ledger->print();
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

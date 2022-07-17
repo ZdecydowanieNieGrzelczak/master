@@ -1,0 +1,1 @@
+same as Stan-6k-recombination, but with fixed one number in the Structure Mutator.

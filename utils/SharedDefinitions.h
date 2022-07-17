@@ -41,7 +41,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "relu-simp-true"
+#define FILENAME_BASE "inverse-relu-simp"
 
 #define PRUNE_EVERY_N 100
 

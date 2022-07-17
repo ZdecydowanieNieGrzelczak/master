@@ -30,7 +30,7 @@ void Neuron::passValue() {
     for (const auto  out : outgoing) {
         if (out->isEnabled()) {
             double weight = out->getWeight();
-            auto val = std::max((currentValue + bias) * weight, 0.0);
+            auto val = std::min((currentValue + bias) * weight, 0.0);
             out->destination->receiveValue(val);
         }
     }

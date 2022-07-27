@@ -24,7 +24,7 @@
 
 #define CROSS_BREED_POPULATION 0
 
-#define GENERATION_COUNT 3500
+#define GENERATION_COUNT 35
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
@@ -41,7 +41,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "no-relu-simp"
+#define FILENAME_BASE "no-relu-si2222mp"
 
 #define PRUNE_EVERY_N 100
 

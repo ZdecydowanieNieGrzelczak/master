@@ -324,4 +324,8 @@ Network::~Network() {
     }
 }
 
+int Network::getAdditionalSize() {
+    return connections.size() - originalConnectionsCount + hidden.size();
+}
+
 

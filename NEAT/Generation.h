@@ -41,6 +41,7 @@ private:
     std::vector<float> generationRawScoresAvg;
     std::vector<int> spieciesCounter;
     std::vector<std::pair<int, int>> generationSizes;
+    std::vector<float> generationSizesAvg;
 
 
     std::vector<Spiecie> spiecies;

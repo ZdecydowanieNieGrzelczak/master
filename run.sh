@@ -31,4 +31,4 @@
 
 
 # here follow the commands you want to execute 
-rel/master > rel/texts/fixed/no-relu-simp.txt
+rel/master > rel/texts/new-data/no-relu-simp.txt

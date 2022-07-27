@@ -43,6 +43,7 @@ public:
     double getSimilarity(const Network &network);
 
 
+    int getAdditionalSize();
 
 protected:
     void mutateWeights();

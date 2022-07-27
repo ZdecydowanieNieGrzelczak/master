@@ -38,9 +38,11 @@ void Generation::runThroughGeneration() {
     std::vector<float> _scores(THREAD_NUM, -999999999999999.0f);
     std::vector<float> _rawScores( THREAD_NUM, -999999999999.0f);
     std::vector<int> _bestIndex( THREAD_NUM, 0);
+    std::vector<float> scoreSums(THREAD_NUM, 0.0f);
+    std::vector<float> rawScoreSums(THREAD_NUM, 0.0f);
 
 
-    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex, members, spiecies)
+    #pragma omp parallel for default(none) shared(_scores, _rawScores, _bestIndex, members, spiecies, scoreSums, rawScoreSums)
     for(int x = 0; x < members.size(); ++x) {
         TicTacToe privateGame = TicTacToe();
         auto member = members[x];
@@ -57,7 +59,9 @@ void Generation::runThroughGeneration() {
         float rawScore = score;
 //        score = score > 0 ? score / spiecies.at(member->spiecieID).getCount()
 //                : score * spiecies.at(member->spiecieID).getCount();
-//        score = score * member->getScoreModifier();
+        score = score * member->getScoreModifier();
+        scoreSums[omp_get_thread_num()] += score;
+        rawScoreSums[omp_get_thread_num()] += rawScore;
         memberScores.at(x) = score;
         if (score > _scores[omp_get_thread_num()]) {
             _scores[omp_get_thread_num()] = score;
@@ -71,7 +75,12 @@ void Generation::runThroughGeneration() {
     float bestScore = -999999999.0f;
     float bestRawScore = -999999999.0f;
     int bestIndex = -999999999;
+    float scoreSum = 0;
+    float rawScoreSum = 0;
     for (int i = 0; i < THREAD_NUM; ++i) {
+        scoreSum += scoreSums[i];
+        rawScoreSum += rawScoreSums[i];
+
         if (bestScore < _scores[i]) {
             bestScore = _scores[i];
         }
@@ -81,10 +90,16 @@ void Generation::runThroughGeneration() {
         }
     }
 
+    scoreSum = scoreSum / members.size();
+    rawScoreSum = rawScoreSum / members.size();
+
     std::cout << "Iteration: " << ++generationCounter << " done. Best Score: " << bestScore << std::endl;
     std::cout << "Best Raw Score: " << bestRawScore << std::endl;
+    std::cout << "Average Raw Score: " << rawScoreSum << std::endl;
     generationScores.push_back(bestScore);
     generationRawScores.push_back(bestRawScore);
+    generationScoresAvg.push_back(scoreSum);
+    generationRawScoresAvg.push_back(rawScoreSum);
     generationSizes.emplace_back(members[bestIndex]->getHiddenSize(), members[bestIndex]->getConnectionsSize());
     members = createNewGeneration(bestIndex);
 

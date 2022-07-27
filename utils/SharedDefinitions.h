@@ -41,7 +41,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "no-relu-stand"
+#define FILENAME_BASE "relu-stand"
 
 #define PRUNE_EVERY_N 100
 

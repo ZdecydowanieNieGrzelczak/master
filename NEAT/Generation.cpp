@@ -18,7 +18,7 @@ Generation::Generation(int generationCount, Game* game): game{game} {
     memberScores = std::vector<float>(generationCount);
     ledger->neuronInnovationCounter = game->getStateSize() + game->getActionSize();
     for(int i = 0; i < generationCount; ++i) {
-        auto net = new SimplifiedNeat(game->getStateSize(), game->getActionSize(), i);
+        auto net = new StandardNeat(game->getStateSize(), game->getActionSize(), i);
         members.push_back(net);
         spiecies.emplace_back(i, net);
     }
@@ -124,7 +124,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 
     for (int x = 0; x < BEST_COPY_COUNT; ++x) {
 //        addToSpiecies(bestNetwork, newSpiecies);
-        newMembers.push_back(new SimplifiedNeat(*bestNetwork, x));
+        newMembers.push_back(new StandardNeat(*bestNetwork, x));
     }
 
     std::time_t end_time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
@@ -139,7 +139,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         int index1 = getTournamentIndex();
         int index2 = getTournamentIndex();
 
-        auto newMember = new SimplifiedNeat(*members.at(index1), *members.at(index2), i);
+        auto newMember = new StandardNeat(*members.at(index1), *members.at(index2), i);
 
         if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE_AFTER_RECOMBINATION) {
             newMember->mutate(generationCounter);
@@ -152,7 +152,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     for (int i = newMembers.size(); i < POPULATION_COUNT; ++i) {
         int index = getTournamentIndex();
 
-        auto newMember = new SimplifiedNeat(*members.at(index), i);
+        auto newMember = new StandardNeat(*members.at(index), i);
 //        addToSpiecies(newMember, newSpiecies);
 
         if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE) {

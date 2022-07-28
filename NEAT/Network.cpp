@@ -132,7 +132,7 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
     return highestIndex;
 }
 
-std::vector<std::pair<int, float>>&& Network::passThroughNetworkWithActions(const std::vector<float> &state) {
+std::vector<std::pair<int, float>> Network::passThroughNetworkWithActions(const std::vector<float> &state) {
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
     }
@@ -152,7 +152,7 @@ std::vector<std::pair<int, float>>&& Network::passThroughNetworkWithActions(cons
         auto val = outputs.at(x)->getFinalValue();
         returnVec.emplace_back(x, val);
     }
-    return std::move(returnVec);
+    return returnVec;
 }
 
 

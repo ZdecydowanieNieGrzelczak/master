@@ -26,7 +26,7 @@ public:
     ~Network();
 
     int passThroughNetwork(const std::vector<float>& state);
-    std::vector<std::pair<int, float>> &&passThroughNetworkWithActions(const std::vector<float> &state);
+    std::vector<std::pair<int, float>> passThroughNetworkWithActions(const std::vector<float> &state);
 
     virtual std::pair<bool, int> mutate(int generation) = 0;
     virtual void processBestNetwork(int generation) = 0;

@@ -41,7 +41,7 @@
 #define NOT_FOUND_CODE 404
 
 
-#define FILENAME_BASE "relaxed-stan-short"
+#define FILENAME_BASE "relaxed-simp-short"
 
 #define PRUNE_EVERY_N 100
 

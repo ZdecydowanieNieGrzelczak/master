@@ -25,6 +25,8 @@ public:
 
     [[nodiscard]] int getActionSize() const override { return TIC_TAC_TOE_ACTION_SIZE; };
 
+    GameEval doBestAction(const std::vector<std::pair<int, float>> &actionsVec);
+
 private:
     short counter{0};
     bool isWhiteMoving{true};
@@ -56,6 +58,8 @@ private:
     };
     std::vector<float> initialVector =  {0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0};
+
+    bool isLegal(int action);
 };
 
 

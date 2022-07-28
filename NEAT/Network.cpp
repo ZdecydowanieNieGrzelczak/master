@@ -132,6 +132,29 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
     return highestIndex;
 }
 
+std::vector<std::pair<int, float>>&& Network::passThroughNetworkWithActions(const std::vector<float> &state) {
+    for (int x = 0; x < state.size(); ++x) {
+        inputs.at(x)->receiveValue(state.at(x));
+    }
+
+
+    for (int x = 0; x < state.size(); ++x) {
+        inputs.at(x)->passValue();
+    }
+
+    for (auto neuron : hidden) {
+        neuron->passValue();
+    }
+
+    std::vector<std::pair<int, float>> returnVec;
+
+    for (int x = 0; x < outputs.size(); ++x) {
+        auto val = outputs.at(x)->getFinalValue();
+        returnVec.emplace_back(x, val);
+    }
+    return std::move(returnVec);
+}
+
 
 void Network::mutateWeights() {
     for (auto neuron : inputs) {

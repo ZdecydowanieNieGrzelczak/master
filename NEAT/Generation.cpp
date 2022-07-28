@@ -54,8 +54,10 @@ void Generation::runThroughGeneration() {
             auto res = privateGame.reset();
             while(!res.first) {
                 auto currentState = privateGame.getState();
-                auto bestAction = member->passThroughNetwork(currentState);
-                res = privateGame.doAction(bestAction);
+//                auto bestAction = member->passThroughNetwork(currentState);
+//                res = privateGame.doAction(bestAction);
+                auto actions = member->passThroughNetworkWithActions(currentState);
+                res = privateGame.doBestAction(actions);
             }
             score += res.second;
         }

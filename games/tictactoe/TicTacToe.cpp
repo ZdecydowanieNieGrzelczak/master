@@ -1,3 +1,4 @@
+#include <queue>
 #include "TicTacToe.h"
 
 
@@ -111,6 +112,21 @@ std::vector<float> TicTacToe::getState() {
     return state;
 }
 
+GameEval TicTacToe::doBestAction(const std::vector<std::pair<int, float>> &actionsVec) {
+    auto cmp = [](std::pair<int, float> left, std::pair<int, float> right) { return left.second < right.second; };
+    std::priority_queue<std::pair<int, float>, std::vector<std::pair<int, float>>, decltype(cmp)> q3(cmp);
+    for(const auto& [action, prob] : actionsVec) {
+        if (isLegal(action)) {
+            return doAction(action);
+        }
+    }
+    throw std::invalid_argument( "That was wrong" );
+}
 
+bool TicTacToe::isLegal(int action) {
+    int currState = whiteState | blackState;
+    int nextState = currState | actions[action];
+    return nextState == currState;
+}
 
 

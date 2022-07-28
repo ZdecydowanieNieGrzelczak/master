@@ -1,6 +1,7 @@
 #include <queue>
 #include "TicTacToe.h"
 
+typedef std::pair<int, float> act;
 
 GameEval TicTacToe::moveWhite(short actionCode) {
 //    assert(isWhiteMoving);
@@ -113,20 +114,31 @@ std::vector<float> TicTacToe::getState() {
 }
 
 GameEval TicTacToe::doBestAction(const std::vector<std::pair<int, float>> &actionsVec) {
-    auto cmp = [](std::pair<int, float> left, std::pair<int, float> right) { return left.second < right.second; };
-    std::priority_queue<std::pair<int, float>, std::vector<std::pair<int, float>>, decltype(cmp)> q3(cmp);
-    for(const auto& [action, prob] : actionsVec) {
+    auto cmp = [](act left, act right) { return left.second < right.second; };
+    std::priority_queue<act, std::vector<act>, decltype(cmp)> q3(actionsVec.begin(), actionsVec.end(), cmp);
+//    std::priority_queue<act, std::vector<act>, decltype(cmp)> q3(cmp);
+
+
+    while (!q3.empty()) {
+        const auto [action, prob] = q3.top();
+        q3.pop();
+//        std::cout << action << " " << prob << std::endl;
         if (isLegal(action)) {
             return doAction(action);
         }
     }
+    std::cout << "Invalid all actions!" << std::endl;
+
+    std::cout << blackState << std::endl;
+    std::cout << whiteState << std::endl;
+
     throw std::invalid_argument( "That was wrong" );
 }
 
 bool TicTacToe::isLegal(int action) {
     int currState = whiteState | blackState;
     int nextState = currState | actions[action];
-    return nextState == currState;
+    return nextState != currState;
 }
 
 

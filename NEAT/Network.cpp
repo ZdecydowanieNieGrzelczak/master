@@ -153,7 +153,6 @@ std::vector<std::pair<int, float>> Network::passThroughNetworkWithActions(const 
 
     for (int x = 0; x < outputs.size(); ++x) {
         auto val = outputs.at(x)->getFinalValue();
-        std::cout << x << " " << val << std::endl;
         returnVec.emplace_back(x, val);
     }
     return returnVec;
@@ -261,6 +260,9 @@ Neuron* Network::getRandomNeuron(Layer layer) {
         case Layer::Input:
             return inputs[HelperMethods::getRandomInt(0, inputs.size())];
         case Layer::Hidden:
+            if (hidden.empty()) {
+                return nullptr;
+            }
             return hidden[HelperMethods::getRandomInt(0, hidden.size())];
         case Layer::Output:
             return outputs[HelperMethods::getRandomInt(0, outputs.size())];

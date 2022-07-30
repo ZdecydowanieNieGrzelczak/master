@@ -77,7 +77,7 @@ GameEval TicTacToe::doAction(int i) {
         ret = moveBlack(actions[i]);
         if (!ret.first) {
             bool invalid = true;
-            int enemyAction = getSmartAction(false);
+            int enemyAction = getSmartAction(true);
             ret = moveWhite(actions[enemyAction]);
         }
     }
@@ -154,7 +154,7 @@ int TicTacToe::getSmartAction(bool forWhite) {
     int enemyBoard = forWhite ? blackState : whiteState;
 
     int currentBoard = playerBoard | enemyBoard;
-    auto &possibleActions = avalAction[currentBoard];
+    auto &possibleActions = avalAction.at(currentBoard);
     int goodAction = -1;
     for (auto win : winCombinations) {
         for (auto action : possibleActions) {

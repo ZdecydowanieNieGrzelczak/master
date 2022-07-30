@@ -14,6 +14,7 @@ public:
 
     SimplifiedNeat(const Network &other, int id);
     SimplifiedNeat(const Network &left, const Network &right, int id);
+    SimplifiedNeat(const std::string& filename);
     SimplifiedNeat(const SimplifiedNeat &other) = delete;
     SimplifiedNeat(const Network &other) = delete;
     ~SimplifiedNeat();

@@ -16,6 +16,10 @@ SimplifiedNeat::SimplifiedNeat(const Network &left, const Network &right, int id
 
 }
 
+SimplifiedNeat::SimplifiedNeat(const std::string& filename) : Network(filename) {
+
+}
+
 //TODO: Add neuron removal
 //TODO: Add prunning every nth iterations
 std::pair<bool, int> SimplifiedNeat::mutate(int generation) {

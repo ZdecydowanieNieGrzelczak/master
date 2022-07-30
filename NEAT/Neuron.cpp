@@ -83,5 +83,9 @@ void Neuron::mergeWithNeuron(Neuron *pNeuron) {
     }
 }
 
+Neuron::Neuron(const float bias, const int id, const Layer layer): id{id}, bias{bias}, layer{layer} {
+    currentValue = 0.0;
+}
+
 
 

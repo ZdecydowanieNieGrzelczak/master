@@ -2,6 +2,7 @@
 #include "Network.h"
 #include <ranges>
 #include <algorithm>
+#include <fstream>
 
 //Network::Network(int inputCount, int outputCount, StructureMutator* ledger): ledger{ledger} {
 Network::Network(int inputCount, int outputCount, int id): parentId{id}, id{id} {
@@ -102,7 +103,6 @@ Network::Network(const Network& left, const Network &right, int id): id{id}, ori
 
 int Network::passThroughNetwork(const std::vector<float> &state) {
 //    assert(state.size() == inputs.size());
-
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->receiveValue(state.at(x));
     }
@@ -111,6 +111,8 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
     for (int x = 0; x < state.size(); ++x) {
         inputs.at(x)->passValue();
     }
+
+
 
     for (auto neuron : hidden) {
         neuron->passValue();
@@ -127,6 +129,7 @@ int Network::passThroughNetwork(const std::vector<float> &state) {
             highestIndex = x;
         }
     }
+
 //    assert(highestIndex >= 0);
 //    assert(highestIndex < outputs.size());
     return highestIndex;
@@ -150,6 +153,7 @@ std::vector<std::pair<int, float>> Network::passThroughNetworkWithActions(const 
 
     for (int x = 0; x < outputs.size(); ++x) {
         auto val = outputs.at(x)->getFinalValue();
+        std::cout << x << " " << val << std::endl;
         returnVec.emplace_back(x, val);
     }
     return returnVec;
@@ -351,4 +355,121 @@ int Network::getAdditionalSize() {
     return connections.size() - originalConnectionsCount + hidden.size();
 }
 
+Network::Network(const std::string& filename) {
+    std::fstream newFile;
+    newFile.open(filename, std::ios::in);
+    if (newFile.is_open()){   //checking whether the file is open
 
+        std::string tp;
+        std::string token;
+        std::getline(newFile, tp);
+
+        getline(newFile, tp);
+
+        getline(newFile, tp);
+        while(getline(newFile, tp)){
+//            std::cout << tp << std::endl;
+
+            if (tp == "Hidden") {
+                break;
+            }
+            size_t pos = tp.find(';');
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+
+            float bias = std::stof(token);
+            int nid = std::stoi(tp);
+            auto neuron = new Neuron(bias, nid, Layer::Input);
+            inputs.push_back(neuron);
+            neuronMap[nid] = neuron;
+        }
+        while(getline(newFile, tp)){
+
+
+            size_t pos = tp.find(';');
+
+            if (pos == std::string::npos) {
+                break;
+            }
+
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+
+            float bias = std::stof(token);
+            int nid = std::stoi(tp);
+            auto neuron = new Neuron(bias, nid, Layer::Hidden);
+            hidden.push_back(neuron);
+            neuronMap[nid] = neuron;
+        }
+
+        while(getline(newFile, tp)){
+
+            size_t pos = tp.find(';');
+            if (pos == std::string::npos) {
+                break;
+            }
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+
+            float bias = std::stof(token);
+            int nid = std::stoi(tp);
+            auto neuron = new Neuron(bias, nid, Layer::Output);
+            outputs.push_back(neuron);
+            neuronMap[nid] = neuron;
+        }
+        while(getline(newFile, tp)){
+
+            size_t pos = tp.find(';');
+
+            if (pos == std::string::npos) {
+                break;
+            }
+
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+            float weight = std::stof(token);
+
+            pos = tp.find(';');
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+            int inputID = std::stoi(token);
+
+            pos = tp.find(';');
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+            int outputID = std::stoi(token);
+
+            pos = tp.find(';');
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+            int connID = std::stoi(token);
+
+            pos = tp.find(';');
+            token = tp.substr(0, pos);
+            tp.erase(0, pos + 1);
+            int enabled = std::stoi(token);
+            if (!enabled) {
+                continue;
+            }
+
+            auto inNeuron = neuronMap[inputID];
+            auto outNeuron = neuronMap[outputID];
+            auto conn = new Connection(inNeuron, outNeuron, connID, weight, false, true, 2000);
+
+            inNeuron->addOutgoing(conn);
+
+            connections[connID] = conn;
+        }
+        newFile.close(); //close the file object.
+    } else {
+        std::cout << "could not open the file" << std::endl;
+        exit(2137);
+    }
+}
+
+//size_t pos = 0;
+//while ((pos = s.find(delimiter)) != std::string::npos) {
+//token = s.substr(0, pos);
+//std::cout << token << std::endl;
+//s.erase(0, pos + delimiter.length());
+//}

@@ -22,6 +22,7 @@ public:
     Network(const Network &other, int id);
     Network(const Network& left, const Network& right, int id);
     Network(const Network &other) = delete;
+    Network(const std::string& filename);
 
     ~Network();
 
@@ -76,8 +77,8 @@ private:
     Neuron *getOrCreateNeuron(const Neuron &originalNeuron);
     void connectLayers(std::vector<Neuron *> &in, const std::vector<Neuron *> &out);
 
-    int parentId;
-    int id;
+    int parentId{};
+    int id{};
 
 
 };

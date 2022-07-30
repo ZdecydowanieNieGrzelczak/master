@@ -21,6 +21,8 @@ class Neuron {
 public:
     Neuron(int id, Layer layer);
     Neuron(const Neuron &other);
+    Neuron(const float bias, const int id, const Layer layer);
+
     ~Neuron();
 
     void addOutgoing(Connection *conn);

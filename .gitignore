@@ -10,6 +10,8 @@ cmake_install.cmake
 CMakeFiles
 
 savedData/
+newData/
+newData.zip
 data-mining/
 data.zip
 outfiles/

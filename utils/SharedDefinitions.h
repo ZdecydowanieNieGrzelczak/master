@@ -24,7 +24,7 @@
 
 #define CROSS_BREED_POPULATION 0
 
-#define GENERATION_COUNT 150
+#define GENERATION_COUNT 2500
 #define TEST_BATTLES_COUNT 1
 
 #define TIC_TAC_TOE_ACTION_SIZE 9
@@ -43,7 +43,7 @@
 #define RANDOM_ACTION_CHANCE 15
 
 
-#define FILENAME_BASE "relaxed-simp-very-smoll"
+#define FILENAME_BASE "relaxed-simp-very-long"
 
 #define PRUNE_EVERY_N 100
 

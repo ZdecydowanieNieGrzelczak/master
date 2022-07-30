@@ -163,7 +163,11 @@ bool SimplifiedNeat::pruneNeurons(int generation) {
 
 void SimplifiedNeat::processBestNetwork(int generation) {
     for(int i = 0; i < REMOVE_NEURONS_COUNT; ++i) {
-        deleteNeuron(getRandomNeuron(Layer::Hidden)->getId());
+        const auto neuron = getRandomNeuron(Layer::Hidden);
+        if (neuron) {
+            deleteNeuron(neuron->getId());
+
+        }
     }
 }
 

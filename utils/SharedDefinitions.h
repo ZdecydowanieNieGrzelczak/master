@@ -4,7 +4,7 @@
 #define CONN_MUTATION_FACTOR 0.5f
 #define NEURON_MUTATION_FACTOR 0.5f
 
-#define GAMES_PER_ITER 2000
+#define GAMES_PER_ITER 1000
 #define NETWORK_MUTATION_CHANCE 95
 #define NETWORK_MUTATION_CHANCE_AFTER_RECOMBINATION 20
 #define CONNECTION_MUTATION_RATE 0.30
@@ -20,7 +20,7 @@
 #define NEURON_CREATION_RATE 20
 
 // How many children we will have
-#define POPULATION_COUNT 2000
+#define POPULATION_COUNT 1500
 
 #define CROSS_BREED_POPULATION 0
 
@@ -35,10 +35,12 @@
 
 #define WIN 1.0
 #define DRAW 0.0
-#define LOSE -1
+#define LOSE -1.5
 #define INVALID_PENALTY -10
 
 #define NOT_FOUND_CODE 404
+
+#define RANDOM_ACTION_CHANCE 15
 
 
 #define FILENAME_BASE "relaxed-simp-short"

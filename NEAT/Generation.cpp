@@ -135,6 +135,12 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
     std::cout << "Timestamp: " << std::ctime(&end_time) << std::endl;
     std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++: " << std::endl;
 
+    for (int i = 0; i < BEST_COPY_WITH_PROCESSING; ++i) {
+        auto newMember = new SimplifiedNeat(*bestNetwork, i + BEST_COPY_COUNT);
+        newMember->processBestNetwork(0);
+        newMembers.push_back(newMember);
+    }
+
     for (int i = newMembers.size(); i < CROSS_BREED_POPULATION; ++i) {
         int index1 = getTournamentIndex();
         int index2 = getTournamentIndex();

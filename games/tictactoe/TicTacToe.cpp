@@ -1,4 +1,5 @@
 #include <queue>
+#include <bitset>
 #include "TicTacToe.h"
 
 typedef std::pair<int, float> act;
@@ -6,13 +7,34 @@ typedef std::pair<int, float> act;
 GameEval TicTacToe::moveWhite(int actionCode) {
 //    assert(isWhiteMoving);
 //    assert((whiteState | actionCode) != whiteState);
+    std::bitset<16> y(actionCode);
+
+    std::cout << "Moving White with action: " << actionCode << std::endl;
+    std::cout << y << std::endl;
+    std::cout << "before" << std::endl;
+    printState();
+
+
     whiteState = whiteState | actionCode;
+
+    std::cout << "After" << std::endl;
+    printState();
+
     for(const short winCombination : winCombinations) {
         if ((whiteState & winCombination) == winCombination) {
+            std::bitset<16> x(winCombination);
+            std::cout << "Won" << std::endl;
+            std::cout << x << std::endl;
+//            std::cout << whiteState << std::endl;
+//            std::cout << y << std::endl;
+//            std::cout << winCombination << std::endl;
+//            std::cout << x << std::endl;
             return std::pair<bool, float>{true, isPlayerWhite ? WIN : LOSE};
         }
     }
     if (++counter == 9) {
+        std::cout << "Draw" << std::endl;
+
         return std::pair<bool, float>{true, DRAW};
     }
 //    isWhiteMoving = false;
@@ -24,10 +46,23 @@ GameEval TicTacToe::moveWhite(int actionCode) {
 GameEval TicTacToe::moveBlack(int actionCode) {
 //    assert(!isWhiteMoving);
 //    assert((blackState | actionCode) != blackState);
+    std::bitset<16> y(actionCode);
+
+
+    std::cout << "Moving Black with action: " << actionCode << std::endl;
+    std::cout << y << std::endl;
+    std::cout << "before" << std::endl;
+    printState();
+
     blackState = blackState | actionCode;
+
+    std::cout << "After" << std::endl;
+    printState();
+
+
     for(const short winCombination : winCombinations) {
         if ((blackState & winCombination) == winCombination) {
-            return std::pair<bool, float>{true, !isPlayerWhite ? WIN : LOSE};
+            return std::pair<bool, float>{true, isPlayerWhite ? LOSE : WIN};
 
         }
     }
@@ -154,7 +189,7 @@ int TicTacToe::getSmartAction(bool forWhite) {
     int enemyBoard = forWhite ? blackState : whiteState;
 
     int currentBoard = playerBoard | enemyBoard;
-    auto &possibleActions = avalAction.at(currentBoard);
+    auto &possibleActions = avalAction2.at(currentBoard);
     int goodAction = -1;
     for (auto win : winCombinations) {
         for (auto action : possibleActions) {
@@ -173,4 +208,23 @@ int TicTacToe::getSmartAction(bool forWhite) {
 
 }
 
+
+void TicTacToe::printState() {
+    auto state = getState();
+    for (int i = 0; i < 3; ++i) {
+        std::cout << "| ";
+        for (int x = 0; x < 3; ++x) {
+            std::string val = " ";
+            if (state[x + i * 3]) {
+                val = "x";
+            }
+            if (state[x + i * 3 + 9] ) {
+                val = "o";
+            }
+            std::cout << val << " | ";
+        }
+        std::cout << std::endl;
+    }
+
+}
 

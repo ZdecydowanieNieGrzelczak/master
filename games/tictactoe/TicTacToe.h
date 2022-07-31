@@ -106,6 +106,7 @@ private:
 //    };
 
     static const std::vector<std::vector<int>> avalAction;
+    static const std::vector<std::vector<int>> avalAction2;
 
     std::vector<float> initialVector =  {0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -115,6 +116,8 @@ private:
     int getRandomAction();
 
     int getSmartAction(bool forWhite);
+
+    void printState();
 };
 
 

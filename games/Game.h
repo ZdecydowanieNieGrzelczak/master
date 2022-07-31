@@ -28,6 +28,8 @@ public:
 
     virtual GameEval reset() = 0;
 
+    bool getWhite() {return isPlayerWhite; }
+
 
 private:
     int stateSize{0};

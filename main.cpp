@@ -79,7 +79,7 @@ void test() {
     srand (time(nullptr));
 
 //    auto net = new SimplifiedNeat("../newData/relu-simp/relu-simp_network.csv");
-    auto net = new SimplifiedNeat("../newerData/relaxed-simp-very-short/relaxed-simp-very-short_network.csv");
+    auto net = new SimplifiedNeat("../newerData/smart-opp-small/smart-opp-small_network.csv");
 
 
 //    auto state = std::vector<float> {1, 0, 0,

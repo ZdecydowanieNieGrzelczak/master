@@ -31,7 +31,7 @@
 #define TIC_TAC_TOE_STATE_SIZE 18
 
 #define BEST_COPY_COUNT 3
-#define BEST_COPY_WITH_PROCESSING 10
+#define BEST_COPY_WITH_PROCESSING 0
 
 #define WIN 1.0
 #define DRAW 0.0
@@ -43,7 +43,7 @@
 #define RANDOM_ACTION_CHANCE 15
 
 
-#define FILENAME_BASE "smart-opp-long"
+#define FILENAME_BASE "smart-opp-long-stan"
 
 #define PRUNE_EVERY_N 100
 

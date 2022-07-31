@@ -3,7 +3,7 @@
 ### -- specify queue -- 
 #BSUB -q hpc
 ### -- set the job Name -- 
-#BSUB -J relaxed-simp-very-short
+#BSUB -J smart-opp-small
 ### -- ask for number of cores (default: 1) -- 
 #BSUB -n 4
 ### -- specify that the cores must be on the same host -- 
@@ -29,4 +29,4 @@
 
 
 # here follow the commands you want to execute 
-rel/master > rel/texts/new-data/relaxed-simp-very-shart.txt
+rel/master > rel/texts/new-data/smart-opp-small.txt

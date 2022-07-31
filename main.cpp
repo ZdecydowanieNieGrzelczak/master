@@ -9,6 +9,30 @@
 
 namespace fs = std::filesystem;
 
+void learn() {
+    omp_set_dynamic(0);     // Explicitly disable dynamic teams
+    omp_set_num_threads(THREAD_NUM);
+
+    auto game = new TicTacToe();
+    srand (time(nullptr));
+    auto generation = new Generation(POPULATION_COUNT, game);
+
+    auto bestRes = generation->iterateFor(GENERATION_COUNT);
+    fs::path save("newerData");
+    fs::path dir(FILENAME_BASE);
+
+    std::cout << "Saving scores" << std::endl;
+    auto path = std::filesystem::current_path() / save / dir;
+
+    if (fs::create_directories(path)) {
+        path = path / dir;
+    }
+
+    generation->saveTheScores(path);
+    std::cout << "Saving network" << std::endl;
+    generation->saveTheNetwork(path.string());
+}
+
 template <typename T>
 void printVector(const std::vector<T>& vec) {
     for (T item : vec) {
@@ -46,70 +70,60 @@ void printState(const std::vector<float> & state) {
 
 }
 
-int main() {
+
+void test() {
     omp_set_dynamic(0);     // Explicitly disable dynamic teams
-    omp_set_num_threads(THREAD_NUM);
+    omp_set_num_threads(1);
 
     auto game = new TicTacToe();
     srand (time(nullptr));
-    auto generation = new Generation(POPULATION_COUNT, game);
 
-    auto bestRes = generation->iterateFor(GENERATION_COUNT);
-    fs::path save("newerData");
-    fs::path dir(FILENAME_BASE);
-
-    std::cout << "Saving scores" << std::endl;
-    auto path = std::filesystem::current_path() / save / dir;
-
-    if (fs::create_directories(path)) {
-        path = path / dir;
-    }
-
-    generation->saveTheScores(path);
-    std::cout << "Saving network" << std::endl;
-    generation->saveTheNetwork(path.string());
-
-//    omp_set_dynamic(0);     // Explicitly disable dynamic teams
-//    omp_set_num_threads(1);
-//
-//    auto game = new TicTacToe();
-//    srand (time(nullptr));
-//
-////    auto net = new SimplifiedNeat("../newData/relu-simp/relu-simp_network.csv");
-//    auto net = new SimplifiedNeat("../newerData/relaxed-simp-very-long/relaxed-simp-very-long_network.csv");
+//    auto net = new SimplifiedNeat("../newData/relu-simp/relu-simp_network.csv");
+    auto net = new SimplifiedNeat("../newerData/relaxed-simp-very-short/relaxed-simp-very-short_network.csv");
 
 
 //    auto state = std::vector<float> {1, 0, 0,
 //                                     0, 0, 0,
 //                                     1, 0, 0,
-//                                     ///////////
+//            ///////////
 //                                     0, 1, 0,
 //                                     0, 0, 0,
 //                                     0, 1, 0};
-//    auto gameEval = game->reset();
-//    auto white = game->getWhite();
-//    if (white) {
-//        std::cout<< "Player is white" << std::endl;
-//    } else {
-//        std::cout<< "Player is black" << std::endl;
-//    }
-//    while(!gameEval.first) {
-//        auto state = game->getState();
-//        printState(state);
+    auto gameEval = game->reset();
+    auto white = game->getWhite();
+    if (white) {
+        std::cout<< "Player is white" << std::endl;
+    } else {
+        std::cout<< "Player is black" << std::endl;
+    }
+    while(!gameEval.first) {
+        auto state = game->getState();
+        printState(state);
 //        printVector(state);
-//        auto res = net->passThroughNetwork(state);
-//
-//        std::cout << "Action: " << res << std::endl;
-//
-//
-//        auto actions = net->passThroughNetworkWithActions(state);
-//
-//        printActions(actions);
-//        gameEval = game->doBestAction(actions);
-//        std::cout << " " << std::endl;
-//    }
-//
-//    std::cout << "Final result is: " << gameEval.second << std::endl;
+        auto res = net->passThroughNetwork(state);
+
+        std::cout << "Action: " << res << std::endl;
+
+
+        auto actions = net->passThroughNetworkWithActions(state);
+
+        printActions(actions);
+        gameEval = game->doBestAction(actions);
+        std::cout << " " << std::endl;
+    }
+
+    auto state = game->getState();
+    printState(state);
+
+    std::cout << "Final result is: " << gameEval.second << std::endl;
+}
+
+int main() {
+    learn();
+
+//    test();
+
+
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

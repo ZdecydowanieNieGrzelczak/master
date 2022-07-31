@@ -28,6 +28,8 @@ public:
 
     GameEval doBestAction(const std::vector<std::pair<int, float>> &actionsVec);
 
+    std::vector<int> getAvalActions(int state) {return avalAction2[state]; }
+
 private:
     short counter{0};
     bool isWhiteMoving{true};
@@ -115,7 +117,7 @@ private:
 
     int getRandomAction();
 
-    int getSmartAction(bool forWhite);
+    int getSmartAction();
 
     void printState();
 };

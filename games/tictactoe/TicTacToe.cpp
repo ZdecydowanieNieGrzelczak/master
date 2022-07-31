@@ -93,17 +93,10 @@ GameEval TicTacToe::doAction(int i) {
     GameEval ret;
     ret = movePlayer(actions[i]);
     if (!ret.first) {
-        int enemyAction = getSmartAction(false);
+        int enemyAction = getSmartAction();
         ret = moveEnemy(actions[enemyAction]);
     }
 
-//        ret = moveEnemy(actions[i]);
-//        if (!ret.first) {
-//            bool invalid = true;
-//            int enemyAction = getSmartAction(true);
-//            ret = movePlayer(actions[enemyAction]);
-//        }
-//    }
     return ret;
 }
 
@@ -126,21 +119,13 @@ std::vector<float> TicTacToe::getInitialState() {
 
 std::vector<float> TicTacToe::getState() {
     std::vector<float> state;
-    if (isPlayerWhite) {
-        for (auto action : actions) {
-            state.push_back((action & playerState) == action);
-        }
-        for (auto action : actions) {
-            state.push_back((action & enemyState) == action);
-        }
-    } else {
-        for (auto action : actions) {
-            state.push_back((action & enemyState) == action);
-        }
-        for (auto action : actions) {
-            state.push_back((action & playerState) == action);
-        }
+    for (auto action : actions) {
+        state.push_back((action & playerState) == action);
     }
+    for (auto action : actions) {
+        state.push_back((action & enemyState) == action);
+    }
+
     return state;
 }
 
@@ -172,20 +157,22 @@ bool TicTacToe::isLegal(int action) {
     return nextState != currState;
 }
 
-int TicTacToe::getSmartAction(bool forWhite) {
+int TicTacToe::getSmartAction() {
+
 
     int currentBoard = playerState | enemyState;
 
     auto &possibleActions = avalAction2.at(currentBoard);
-    int goodAction = -1;
     for (auto win : winCombinations) {
-        for (auto action : possibleActions) {
-            if (((playerState | actions[action]) & win) == win) {
+        for (auto action: possibleActions) {
+            if (((enemyState | actions[action]) & win) == win) {
                 return action;
             }
         }
+    }
+    for (auto win : winCombinations) {
         for (auto action : possibleActions) {
-            if (((enemyState | actions[action]) & win) == win) {
+            if (((playerState | actions[action]) & win) == win) {
                 return action;
             }
         }

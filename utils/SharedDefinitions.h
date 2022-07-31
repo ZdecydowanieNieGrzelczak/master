@@ -43,7 +43,7 @@
 #define RANDOM_ACTION_CHANCE 15
 
 
-#define FILENAME_BASE "relaxed-simp-very-short"
+#define FILENAME_BASE "smart-opp-small"
 
 #define PRUNE_EVERY_N 100
 

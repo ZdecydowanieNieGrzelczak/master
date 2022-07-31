@@ -13,8 +13,8 @@
 
 class TicTacToe : public Game {
 public:
-    GameEval moveWhite(int actionCode);
-    GameEval moveBlack(int actionCode);
+    GameEval movePlayer(int actionCode);
+    GameEval moveEnemy(int actionCode);
 
     GameEval reset() override;
     GameEval doAction(int i) override;
@@ -31,8 +31,8 @@ public:
 private:
     short counter{0};
     bool isWhiteMoving{true};
-    short whiteState{0};
-    short blackState{0};
+    short playerState{0};
+    short enemyState{0};
     constexpr const static int winCombinations[8] = {
             // each row
             0b000000111,

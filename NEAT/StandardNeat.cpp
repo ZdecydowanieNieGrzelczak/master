@@ -14,7 +14,7 @@ StandardNeat::StandardNeat(const Network &left, const Network &right, int id) : 
 
 
 
-std::pair<bool, int> StandardNeat::mutate(int generation) {
+std::pair<bool, int> StandardNeat::mutate(int generation, bool isStructureMutationPermited) {
     int roll = HelperMethods::getRandomChance();
     if ( roll < WEIGHTS_MUTATION_RATE ) {
         mutateWeights();

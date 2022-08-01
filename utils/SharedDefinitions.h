@@ -40,8 +40,12 @@
 
 #define NOT_FOUND_CODE 404
 
-#define RANDOM_ACTION_CHANCE 15
 
+// Simplified neuron things
+#define SCORE_PENALTY_BASE 0.995
+#define GENERATION_MUTATION_PERC 0.15
+#define NO_EXPANSION_INTERVAL 100
+#define EXPANSION_INTERVAL 50
 
 #define FILENAME_BASE "opp-vol3-stan"
 
@@ -52,5 +56,6 @@
 #define SIMILARITY_THRESHOLD 5
 
 #define THREAD_NUM 8
+
 
 #endif //MASTER_SHAREDDEFINITIONS_H

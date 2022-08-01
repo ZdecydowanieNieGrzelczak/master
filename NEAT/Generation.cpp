@@ -28,6 +28,10 @@ Network * Generation::iterateFor(int iterationCount) {
     std::cout << "Beginning iteration!" << std::endl;
 
     for(int i = 0; i < iterationCount; ++i) {
+        if (i > changeAt) {
+            isStructureMutationPermitted = !isStructureMutationPermitted;
+            changeAt += isStructureMutationPermitted ? EXPANSION_INTERVAL : NO_EXPANSION_INTERVAL;
+        }
         runThroughGeneration();
     }
     return members.at(0);
@@ -148,7 +152,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
         auto newMember = new StandardNeat(*members.at(index1), *members.at(index2), i);
 
         if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE_AFTER_RECOMBINATION) {
-            newMember->mutate(generationCounter);
+            newMember->mutate(generationCounter, false);
         }
 
         newMembers.push_back(newMember);
@@ -162,7 +166,7 @@ std::vector<Network *> Generation::createNewGeneration(int bestIndex) {
 //        addToSpiecies(newMember, newSpiecies);
 
         if (HelperMethods::getRandomChance() <= NETWORK_MUTATION_CHANCE) {
-            newMember->mutate(generationCounter);
+            newMember->mutate(generationCounter, isStructureMutationPermitted);
         }
         newMembers.push_back(newMember);
     }

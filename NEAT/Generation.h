@@ -53,6 +53,9 @@ private:
     void saveTheSpiecies(const std::string& filename) const;
 
     int getTournamentIndex();
+
+    int changeAt{(int)std::floor(GENERATION_MUTATION_PERC * GENERATION_COUNT)};
+    bool isStructureMutationPermitted{false};
 };
 
 #endif //MASTER_GENERATION_H

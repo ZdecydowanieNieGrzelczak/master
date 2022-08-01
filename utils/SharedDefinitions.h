@@ -31,7 +31,7 @@
 #define TIC_TAC_TOE_STATE_SIZE 18
 
 #define BEST_COPY_COUNT 3
-#define BEST_COPY_WITH_PROCESSING 0
+#define BEST_COPY_WITH_PROCESSING 10
 
 #define WIN 1.0
 #define DRAW 0.0
@@ -47,7 +47,7 @@
 #define NO_EXPANSION_INTERVAL 100
 #define EXPANSION_INTERVAL 50
 
-#define FILENAME_BASE "opp-vol3-simp-centre"
+#define FILENAME_BASE "opp-vol3-stan-centre"
 
 #define PRUNE_EVERY_N 100
 

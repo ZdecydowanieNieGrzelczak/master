@@ -47,7 +47,7 @@
 #define NO_EXPANSION_INTERVAL 100
 #define EXPANSION_INTERVAL 50
 
-#define FILENAME_BASE "opp-vol3-simp"
+#define FILENAME_BASE "opp-vol3-simp-centre"
 
 #define PRUNE_EVERY_N 100
 

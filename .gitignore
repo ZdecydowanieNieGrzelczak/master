@@ -10,6 +10,7 @@ cmake_install.cmake
 CMakeFiles
 
 savedData/
+pics/
 newData/
 newerData/
 newData.zip

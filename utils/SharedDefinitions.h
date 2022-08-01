@@ -1,8 +1,8 @@
 #ifndef MASTER_SHAREDDEFINITIONS_H
 #define MASTER_SHAREDDEFINITIONS_H
 
-#define CONN_MUTATION_FACTOR 0.5f
-#define NEURON_MUTATION_FACTOR 0.5f
+#define CONN_MUTATION_FACTOR 1.5f
+#define NEURON_MUTATION_FACTOR 1.5f
 
 #define GAMES_PER_ITER 1000
 #define NETWORK_MUTATION_CHANCE 95
@@ -35,7 +35,7 @@
 
 #define WIN 1.0
 #define DRAW 0.0
-#define LOSE -1.5
+#define LOSE -2
 #define INVALID_PENALTY -10
 
 #define NOT_FOUND_CODE 404
@@ -43,7 +43,7 @@
 #define RANDOM_ACTION_CHANCE 15
 
 
-#define FILENAME_BASE "smart-opp-long-stan"
+#define FILENAME_BASE "opp-vol3-stan"
 
 #define PRUNE_EVERY_N 100
 

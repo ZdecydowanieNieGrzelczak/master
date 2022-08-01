@@ -20,12 +20,11 @@ SimplifiedNeat::SimplifiedNeat(const std::string& filename) : Network(filename) 
 
 }
 
-//TODO: Add neuron removal
-//TODO: Add prunning every nth iterations
-std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
+std::pair<bool, int> SimplifiedNeat::mutate(int generation, bool isStructureMutationPermited) {
     if (generation % PRUNE_EVERY_N == 0) {
         pruneTheNetwork(generation);
     }
+
 
     int roll = HelperMethods::getRandomChance();
     if ( roll < WEIGHTS_MUTATION_RATE ) {
@@ -33,7 +32,7 @@ std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
         toggleConnection(generation);
     }
-    if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE && generation > GENERATION_COUNT * GENERATION_MUTATION_PERC ) {
+    if (isStructureMutationPermited && HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE) {
         return {true, mutateStructure(generation)};
     }
     return {false, 0};

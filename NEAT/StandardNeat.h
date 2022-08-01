@@ -15,7 +15,7 @@ public:
     StandardNeat(const Network &other) = delete;
     ~StandardNeat();
 
-    std::pair<bool, int> mutate(int generation) override;
+    std::pair<bool, int> mutate(int generation, bool isStructureMutationPermited) override;
     void processBestNetwork(int generation) override;
     float getScoreModifier() override;
 

@@ -1,11 +1,6 @@
 #ifndef MASTER_SIMPLIFIEDNEAT_H
 #define MASTER_SIMPLIFIEDNEAT_H
 
-#define SCORE_PENALTY_BASE 0.98
-//#define GENERATION_MUTATION_PERC 0.01
-#define GENERATION_MUTATION_PERC 0.25
-
-
 #include "Network.h"
 
 class SimplifiedNeat : public Network {
@@ -19,7 +14,7 @@ public:
     SimplifiedNeat(const Network &other) = delete;
     ~SimplifiedNeat();
 
-    std::pair<bool, int> mutate(int generation) override;
+    std::pair<bool, int> mutate(int generation, bool isStructureMutationPermited) override;
     void processBestNetwork(int generation) override;
     float getScoreModifier() override;
 

@@ -1,9 +1,11 @@
 #ifndef MASTER_SIMPLIFIEDNEAT_H
 #define MASTER_SIMPLIFIEDNEAT_H
 
-#define SCORE_PENALTY_BASE 0.98
+#define SCORE_PENALTY_BASE 0.995
 //#define GENERATION_MUTATION_PERC 0.01
-#define GENERATION_MUTATION_PERC 0.25
+#define GENERATION_MUTATION_PERC 0.15
+#define NO_EXPANSION_INTERVAL 100
+#define EXPANSION_INTERVAL 50
 
 
 #include "Network.h"
@@ -34,5 +36,7 @@ private:
 
 };
 
+int changeAt{(int)std::floor(GENERATION_MUTATION_PERC * GENERATION_COUNT)};
+bool isStructureMutationPermitted{false};
 
 #endif //MASTER_SIMPLIFIEDNEAT_H

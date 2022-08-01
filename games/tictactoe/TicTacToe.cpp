@@ -76,8 +76,10 @@ GameEval TicTacToe::reset() {
 //    isWhiteMoving = true;
     isPlayerWhite = HelperMethods::getCoinFlip();
     if (!isPlayerWhite) {
-        int enemyAction = rand() % 9;
+        int enemyAction = rand() % 8;
+        enemyAction = enemyAction + enemyAction > 3;
         auto actionCode = actions[enemyAction];
+        initAction = actionCode;
         moveEnemy(actionCode);
     }
     return std::pair<bool, float>{false, 0};
@@ -101,16 +103,11 @@ GameEval TicTacToe::doAction(int i) {
 }
 
 
-int TicTacToe::getRandomAction() {
-    int nextState = enemyState | playerState;
-    bool invalid = true;
-    int enemyAction;
-    while(invalid) {
-        enemyAction = rand() % 9;
-        auto actionCode = actions[enemyAction];
-        invalid = (actionCode | nextState) == nextState;
-    }
-    return enemyAction;
+int TicTacToe::getRandomAction() const {
+    int currentBoard = playerState | enemyState;
+
+    auto &possibleActions = avalAction2.at(currentBoard);
+    return possibleActions.at(HelperMethods::getRandomInt(0, (int)possibleActions.size()));
 }
 
 std::vector<float> TicTacToe::getInitialState() {
@@ -175,6 +172,12 @@ int TicTacToe::getSmartAction() {
             if (((playerState | actions[action]) & win) == win) {
                 return action;
             }
+        }
+    }
+
+    if (!isPlayerWhite && counter == 2) {
+        if(playerState != 0b000010000) {
+            return 0b000010000;
         }
     }
 

@@ -33,8 +33,8 @@ public:
 private:
     short counter{0};
     bool isWhiteMoving{true};
-    short playerState{0};
-    short enemyState{0};
+    int playerState{0};
+    int enemyState{0};
     constexpr const static int winCombinations[8] = {
             // each row
             0b000000111,
@@ -115,11 +115,13 @@ private:
 
     bool isLegal(int action);
 
-    int getRandomAction();
+    int getRandomAction() const;
 
     int getSmartAction();
 
     void printState();
+
+    int initAction;
 };
 
 

@@ -26,6 +26,10 @@ std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
     if (generation % PRUNE_EVERY_N == 0) {
         pruneTheNetwork(generation);
     }
+    if (generation > changeAt) {
+        isStructureMutationPermitted = !isStructureMutationPermitted;
+        changeAt += isStructureMutationPermitted ? EXPANSION_INTERVAL : NO_EXPANSION_INTERVAL;
+    }
 
     int roll = HelperMethods::getRandomChance();
     if ( roll < WEIGHTS_MUTATION_RATE ) {
@@ -33,7 +37,7 @@ std::pair<bool, int> SimplifiedNeat::mutate(int generation) {
     } else if (roll < CONN_TOGGLING_RATE + WEIGHTS_MUTATION_RATE ) {
         toggleConnection(generation);
     }
-    if (HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE && generation > GENERATION_COUNT * GENERATION_MUTATION_PERC ) {
+    if (isStructureMutationPermitted && HelperMethods::getRandomChance() < STRUCTURE_MUTATION_RATE) {
         return {true, mutateStructure(generation)};
     }
     return {false, 0};

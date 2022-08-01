@@ -3,7 +3,7 @@
 ### -- specify queue -- 
 #BSUB -q hpc
 ### -- set the job Name -- 
-#BSUB -J opp-vol3-stan
+#BSUB -J opp-vol3-simp
 ### -- ask for number of cores (default: 1) -- 
 #BSUB -n 4
 ### -- specify that the cores must be on the same host -- 
@@ -29,4 +29,4 @@
 
 
 # here follow the commands you want to execute 
-rel/master > rel/texts/new-data/opp-vol3-stan.txt
+rel/master > rel/texts/new-data/opp-vol3-simp.txt

@@ -45,12 +45,12 @@
 
 
 // Simplified neuron things
-#define SCORE_PENALTY_BASE 0.995
+#define SCORE_PENALTY_BASE 0.9995
 #define GENERATION_MUTATION_PERC 0.15
 #define NO_EXPANSION_INTERVAL 50
 #define EXPANSION_INTERVAL 250
 
-#define FILENAME_BASE "opp-vol3-stan-centre"
+#define FILENAME_BASE "newer-mut-simp"
 
 #define PRUNE_EVERY_N 100
 

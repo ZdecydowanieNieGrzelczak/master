@@ -176,19 +176,11 @@ int TicTacToe::getSmartAction() {
         }
     }
 
-//    if (!isPlayerWhite && counter == 2) {
-//        switch(playerState) {
-//            case 0b100000000:
-//                return 0b001000000;
-//            case 0b010000000:
-//                return 0b001000000;
-//            case 0b001000000:
-//                return 0b000100000;
-//            case 0b000100000:
-//                return 0b001000000;
-//
-//        }
-//    }
+    if (isPlayerWhite && counter == 1) {
+        if (playerState != 0b000010000) {
+            return 0b000010000;
+        }
+    }
 
     return getRandomAction();
 

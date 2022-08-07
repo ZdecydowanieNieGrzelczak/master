@@ -71,6 +71,23 @@ void printState(const std::vector<float> & state) {
 }
 
 
+void test_score() {
+    omp_set_dynamic(0);     // Explicitly disable dynamic teams
+    omp_set_num_threads(1);
+
+    auto game = new TicTacToe();
+    srand (time(nullptr));
+
+//    auto net = new SimplifiedNeat("../newData/relu-simp/relu-simp_network.csv");
+//    auto net = new SimplifiedNeat("../newerData/opp-vol3-simp-centre/opp-vol3-simp-centre_network.csv");
+    auto net = new SimplifiedNeat("../newerData/opp-vol3-simp/opp-vol3-simp_network.csv");
+
+    auto gen = new Generation(1, game);
+
+
+    std::cout << gen->testForWithoutConstrains(200000, *net) / 100.0 << std::endl;
+}
+
 void test() {
     omp_set_dynamic(0);     // Explicitly disable dynamic teams
     omp_set_num_threads(1);
@@ -122,6 +139,8 @@ int main() {
     learn();
 
 //    test();
+
+//    test_score();
 
 
 

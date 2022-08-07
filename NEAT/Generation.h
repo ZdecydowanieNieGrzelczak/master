@@ -22,6 +22,7 @@ public:
 
 
     void saveTheScores(const std::filesystem::__cxx11::path& string);
+    double testForWithoutConstrains(int iterationCount, Network &network);
 
 private:
 
@@ -56,6 +57,7 @@ private:
 
     int changeAt{(int)std::floor(GENERATION_MUTATION_PERC * GENERATION_COUNT)};
     bool isStructureMutationPermitted{false};
+
 };
 
 #endif //MASTER_GENERATION_H

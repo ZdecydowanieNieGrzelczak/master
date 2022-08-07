@@ -212,6 +212,22 @@ double Generation::testFor(int iterationCount, Network &network) {
     return score;
 }
 
+double Generation::testForWithoutConstrains(int iterationCount, Network &network) {
+    double score = 0.0;
+    auto game = new TicTacToe();
+    for(int x = 0; x < iterationCount; ++x) {
+        auto res = game->reset();
+        while(!res.first) {
+            auto currentState = game->getState();
+            auto actions = network.passThroughNetworkWithActions(currentState);
+            res = game->doBestAction(actions);
+        }
+
+        score += res.second;
+    }
+    return score;
+}
+
 void Generation::saveTheScore(const std::string& filename, std::vector<float> &scoreVec) {
     std::ofstream scoreFile;
     const auto originalName = filename + "_scores";

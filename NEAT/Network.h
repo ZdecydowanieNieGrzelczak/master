@@ -81,6 +81,7 @@ private:
     int id{};
 
 
+    void mutateWeightsAccordingly(double neuronMutationRate, double connectionMutationRate);
 };
 
 #endif //MASTER_NETWORK_H

@@ -160,26 +160,38 @@ std::vector<std::pair<int, float>> Network::passThroughNetworkWithActions(const 
 
 
 void Network::mutateWeights() {
+    if (HelperMethods::getRandomChance() < DRASTIC_NETWORK_MUTATION) {
+        mutateWeightsAccordingly(0.20, 0.5);
+        return;
+    }
+    if (HelperMethods::getRandomChance() < SMALL_NETWORK_MUTATION) {
+        mutateWeightsAccordingly(0.01, 0.02);
+        return;
+    }
+    mutateWeightsAccordingly(NEURON_MUTATION_RATE, CONNECTION_MUTATION_RATE);
+}
+
+void Network::mutateWeightsAccordingly(double neuronMutationRate, double connectionMutationRate) {
     for (auto neuron : inputs) {
-        if (rand() % 100 <= NEURON_MUTATION_RATE * 100) {
+        if (rand() % 100 <= neuronMutationRate * 100) {
             neuron->mutate();
         }
     }
 
     for (auto neuron : hidden) {
-        if (rand() % 100 <= 100 * NEURON_MUTATION_RATE) {
+        if (rand() % 100 <= 100 * neuronMutationRate) {
             neuron->mutate();
         }
     }
 
     for (auto neuron : outputs) {
-        if (rand() % 100 <= 100 * NEURON_MUTATION_RATE) {
+        if (rand() % 100 <= 100 * neuronMutationRate) {
             neuron->mutate();
         }
     }
 
     for (auto & [ID, conn] : connections) {
-        if (rand() % 100 <= 100 * CONNECTION_MUTATION_RATE) {
+        if (rand() % 100 <= 100 * connectionMutationRate) {
             conn->mutate();
         }
     }

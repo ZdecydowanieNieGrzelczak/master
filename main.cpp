@@ -79,8 +79,10 @@ void test_score() {
     srand (time(nullptr));
 
 //    auto net = new SimplifiedNeat("../newData/relu-simp/relu-simp_network.csv");
+//    auto net = new SimplifiedNeat("../newData/relaxed-simp/relaxed-simp_network.csv");
+    auto net = new SimplifiedNeat("../newerData/smart-opp-long/smart-opp-long_network.csv");
 //    auto net = new SimplifiedNeat("../newerData/opp-vol3-simp-centre/opp-vol3-simp-centre_network.csv");
-    auto net = new SimplifiedNeat("../newerData/opp-vol3-simp/opp-vol3-simp_network.csv");
+//    auto net = new SimplifiedNeat("../newerData/opp-vol3-simp/opp-vol3-simp_network.csv");
 
     auto gen = new Generation(1, game);
 
@@ -137,9 +139,9 @@ void test() {
 
 int main() {
     learn();
-
+//
 //    test();
-
+//
 //    test_score();
 
 

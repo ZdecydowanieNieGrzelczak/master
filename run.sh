@@ -29,4 +29,4 @@
 
 
 # here follow the commands you want to execute 
-rel/master > rel/texts/new-data/newer-mut-simp.txt
+rel/master > rel/texts/new-data/newer-mut-stan.txt

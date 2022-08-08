@@ -50,7 +50,7 @@
 #define NO_EXPANSION_INTERVAL 50
 #define EXPANSION_INTERVAL 250
 
-#define FILENAME_BASE "newer-mut-simp"
+#define FILENAME_BASE "newer-mut-stan"
 
 #define PRUNE_EVERY_N 100
 

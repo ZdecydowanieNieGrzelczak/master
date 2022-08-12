@@ -70,6 +70,22 @@ void printState(const std::vector<float> & state) {
 
 }
 
+double testFor(int iterationCount, Network &network) {
+    double score = 0.0;
+    auto game = new TicTacToe();
+    for(int x = 0; x < iterationCount; ++x) {
+        auto res = game->reset();
+        while(!res.first) {
+            auto currentState = game->getState();
+            auto bestAction = network.passThroughNetwork(currentState);
+            res = game->doAction(bestAction);
+        }
+
+        score += res.second;
+    }
+    return score;
+}
+
 
 void test() {
     omp_set_dynamic(0);     // Explicitly disable dynamic teams
@@ -79,9 +95,10 @@ void test() {
     srand (time(nullptr));
 
 //    auto net = new SimplifiedNeat("../newData/relu-simp/relu-simp_network.csv");
-    auto net = new SimplifiedNeat("../newerData/smart-opp-small/smart-opp-small_network.csv");
+    auto net = new SimplifiedNeat("../newData/no-relu-simp/no-relu-simp_network.csv");
 
-
+    auto score = testFor(2000, *net);
+    std::cout << "Result is: " << score << std::endl;
 //    auto state = std::vector<float> {1, 0, 0,
 //                                     0, 0, 0,
 //                                     1, 0, 0,
@@ -119,9 +136,9 @@ void test() {
 }
 
 int main() {
-    learn();
+//    learn();
 
-//    test();
+    test();
 
 
 

@@ -5,7 +5,6 @@
 #include "NEAT/SimplifiedNeat.h"
 #include <omp.h>
 #include <filesystem>
-#include <unistd.h>
 
 namespace fs = std::filesystem;
 
@@ -136,17 +135,11 @@ void test() {
 }
 
 int main() {
-//    learn();
-
-    test();
-
-
-
-    std::cout << "Hello, World!" << std::endl;
+    learn();
     return 0;
 }
 
-
+// Generated programmatically to increase the efficiency of enemy AI.
 const std::vector<std::vector<int>> TicTacToe::avalAction = {
         {0, 1, 2, 3, 4, 5, 6, 7, 8 },
         {1, 2, 3, 4, 5, 6, 7, 8 },

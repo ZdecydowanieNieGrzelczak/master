@@ -212,7 +212,7 @@ Neuron* Network::getOrCreateNeuron(const Neuron& originalNeuron) {
                 outputs.push_back(neuron);
                 break;
             default:
-                std::cout << "This is fuckeeed" << std::endl;
+                throw std::invalid_argument("Received a neuron with an invalid Layer value!");
         }
         return neuron;
     } else {
@@ -370,7 +370,6 @@ Network::Network(const std::string& filename) {
 
         getline(newFile, tp);
         while(getline(newFile, tp)){
-//            std::cout << tp << std::endl;
 
             if (tp == "Hidden") {
                 break;
@@ -468,10 +467,3 @@ Network::Network(const std::string& filename) {
         exit(2137);
     }
 }
-
-//size_t pos = 0;
-//while ((pos = s.find(delimiter)) != std::string::npos) {
-//token = s.substr(0, pos);
-//std::cout << token << std::endl;
-//s.erase(0, pos + delimiter.length());
-//}
